@@ -13,10 +13,6 @@ $(
   });
 });
 
-$(".header__more").click(function (e) {
-  $("nav").show();
-});
-
-$(".nav__menu-close").click(function (e) {
-  $("nav").hide();
+$(".list-button").click(function (e) {
+  $("nav").toggle();
 });
