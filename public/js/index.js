@@ -17,11 +17,7 @@ $(".list-button").click(function (e) {
   $("nav").toggle();
 });
 
-$(".button").click(function (e) {
-  axios({
-    method: "get",
-    url: "/search",
-  }).then(function (response) {
-    console.log(response);
-  });
+$(".header__address-change").click(function (e) {
+  fetch("http://localhost:8080/address?query=true");
+  window.location.reload();
 });

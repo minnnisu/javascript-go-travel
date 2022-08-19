@@ -19,11 +19,12 @@ header .list-button {
   left: 10px;
 }
 
-.header__location {
+.header__address {
   position: absolute;
   top: 51px;
   left: 350px;
   width: 800px;
+  height: 100px;
   text-align: center;
   font-size: 40px;
 }
