@@ -18,6 +18,18 @@ $(".list-button").click(function (e) {
 });
 
 $(".header__address-change").click(function (e) {
-  fetch("http://localhost:8080/address?query=true");
-  window.location.reload();
+  fetch("http://localhost:8080/address?query=true")
+    .then((result) => {
+      window.location.reload();
+    })
+    .catch((err) => {});
+});
+
+$(".section__page-item").click(function (e) {
+  const page = $(this).attr("id");
+  fetch("http://localhost:8080/place?page=" + page)
+    .then((result) => {
+      window.location.reload();
+    })
+    .catch((err) => {});
 });

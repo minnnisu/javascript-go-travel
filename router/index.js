@@ -2,41 +2,50 @@ const axios = require("axios");
 const express = require("express");
 const router = express.Router();
 
-let json = null;
+let placeList = null;
+let placeQuery = null;
 
 router.get("/", (req, res) => {
   if (req.cookies["isSetDestination"] == undefined) {
-    res.render("index", { isSet: true, place_list: json });
+    res.render("index", { isSet: true, place_list: placeList });
   } else {
     res.render("index", {
       isSet: false,
       address: req.cookies["DestinationName"],
-      place_list: json,
+      place_list: placeList,
     });
   }
 });
 
-router.get("/place", (req, res) => {
+router.get("/place", (req, res, next) => {
+  const page = req.query.page;
   const keyword = req.query.query;
+  //쿼리로 page만 보내는 경우
+  if (keyword != undefined) {
+    placeQuery = req.query.query;
+  }
   const params = {
-    query: keyword,
-    page: 3,
+    query: placeQuery,
+    page: page,
   };
   const headers = {
     Authorization: "KakaoAK " + process.env.KAKAO_REST_API,
   };
   axios
     .get(
-      "https://dapi.kakao.com/v2/local/search/keyword.json?y=37.514322572335935&x=127.06283102249932&radius=20000",
+      "https://dapi.kakao.com/v2/local/search/keyword.json?y=" +
+        req.cookies["DestinationY"] +
+        "&x=" +
+        req.cookies["DestinationX"],
       { params, headers }
     )
     .then((result) => {
-      json = result.data["documents"];
-      console.log(json);
+      placeList = result.data["documents"];
+      console.log(placeList);
       res.redirect("/");
     })
     .catch((err) => {
-      console.error(err);
+      next(err);
     });
 });
 

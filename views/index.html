@@ -22,7 +22,7 @@
         </form>
         {% else %}
         <div class="header__address-set">
-          <span>{{address}}</span>
+          <span id="address">{{address}}</span>
           <input
             type="submit"
             value="위치변경"
@@ -109,6 +109,13 @@
           </div>
         </div>
         {% endfor %}
+      </div>
+      <div class="section__page">
+        <div class="section__page-container">
+          <button class="section__page-item" id="1">1</button>
+          <button class="section__page-item" id="2">2</button>
+          <button class="section__page-item" id="3">3</button>
+        </div>
       </div>
     </section>
   </body>

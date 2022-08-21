@@ -2,7 +2,6 @@ html,
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   height: 100%;
 }
 
@@ -79,7 +78,6 @@ section {
   position: relative;
   background-color: dodgerblue;
   width: 1500px;
-  height: 1000px;
   margin: 0 auto;
 }
 
@@ -153,4 +151,20 @@ section {
   position: relative;
   top: 25px;
   text-align: center;
+}
+
+.section__page {
+  background-color: darkseagreen;
+}
+
+.section__page-container {
+  width: 80px;
+  margin: 0 auto;
+}
+
+.section__page-item {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+  border: 1px solid black;
 }
