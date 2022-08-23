@@ -14,19 +14,19 @@
         src="image/baseline_menu_black_48dp.png"
         width="50px"
       />
-      <div class="header__address">
+      <div class="header__destination">
         {% set is_set = isSet %} {% if is_set %}
-        <form action="/address" method="get">
-          <input type="text" name="query" class="address-input" />
-          <button type="submit" class="address-submit">검색</button>
+        <form action="/destination" method="get">
+          <input type="text" name="query" class="destination-input" />
+          <button type="submit" class="destination-submit">검색</button>
         </form>
         {% else %}
-        <div class="header__address-set">
-          <span id="address">{{address}}</span>
+        <div class="header__destination-set">
+          <span id="destination">{{destination}}</span>
           <input
             type="submit"
             value="위치변경"
-            class="header__address-change"
+            class="header__destination-change"
           />
         </div>
         {% endif %}
@@ -58,66 +58,7 @@
         </div>
       </div>
     </nav>
-    <section>
-      <div class="section__tag">
-        <div class="section__tag-big">
-          <span class="meal">식사</span>
-          <span class="tourism">관광</span>
-          <span class="sleep">수면</span>
-          <div class="section__tag-search">
-            <form action="/place" method="get">
-              <input type="text" name="query" class="search-word" />
-              <input type="submit" value="검색" class="search-button" />
-            </form>
-          </div>
-        </div>
-        <ul class="section__tag-middle meal">
-          <li>한식</li>
-          <li>중식</li>
-          <li>양식</li>
-          <li>일식</li>
-          <li>고기</li>
-          <li>면</li>
-          <li>탕/찜</li>
-          <li>회</li>
-          <li>빵</li>
-          <li>카페</li>
-          <li>디저트</li>
-        </ul>
-        <ul class="section__tag-middle tourism">
-          <li>테마파크</li>
-          <li>유적지</li>
-          <li>레저/체험활동</li>
-          <li>박물관</li>
-          <li>등산</li>
-        </ul>
-        <ul class="section__tag-middle sleep">
-          <li>호텔</li>
-          <li>모텔</li>
-          <li>팬션</li>
-          <li>게스트하우스</li>
-          <li>캠핑</li>
-        </ul>
-      </div>
-      <div class="section__container">
-        {% set place_list = place_list %} {% for place in place_list %}
-        <div class="section__item" id="{{loop.index}}">
-          <img id="img" src="" alt="미리보기 없음" />
-          <div id="info">
-            <div id="name">{{place.place_name}}</div>
-            <div id="address">{{place.road_address_name}}</div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="section__page">
-        <div class="section__page-container">
-          <button class="section__page-item" id="1">1</button>
-          <button class="section__page-item" id="2">2</button>
-          <button class="section__page-item" id="3">3</button>
-        </div>
-      </div>
-    </section>
+    {% block place %} {% endblock %}
   </body>
   <script src="/js/jquery_v3.6.0.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

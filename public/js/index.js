@@ -17,8 +17,8 @@ $(".list-button").click(function (e) {
   $("nav").toggle();
 });
 
-$(".header__address-change").click(function (e) {
-  fetch("http://localhost:8080/address?query=true")
+$(".header__destination-change").click(function (e) {
+  fetch("http://localhost:8080/destination?query=true")
     .then((result) => {
       window.location.reload();
     })
@@ -28,6 +28,15 @@ $(".header__address-change").click(function (e) {
 $(".section__page-item").click(function (e) {
   const page = $(this).attr("id");
   fetch("http://localhost:8080/place?page=" + page)
+    .then((result) => {
+      window.location.reload();
+    })
+    .catch((err) => {});
+});
+
+$(".section__item").click(function () {
+  const id = $(this).children(".section__item-info").children("#id").html();
+  fetch("http://localhost:8080/place/info?id=" + id)
     .then((result) => {
       window.location.reload();
     })

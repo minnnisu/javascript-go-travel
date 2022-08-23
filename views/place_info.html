@@ -1,0 +1,17 @@
+{% extends "index.html" %} {% block place_info %}
+<section>
+  <div class="section__place">
+    <div class="place-info">
+      <div class="img-part">
+        <img src="" alt="" />
+      </div>
+      <div class="info-part">
+        <div class="place-name">{{place.place_name}}</div>
+        <div class="place-road-address">{{place.road_address_name}}</div>
+        <div class="place-address">{{place.address_name}}</div>
+        <div class="place-phone-">{{phone}}</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

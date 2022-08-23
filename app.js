@@ -4,6 +4,7 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const indexRouter = require("./router/index");
+const placeRouter = require("./router/place");
 require("dotenv").config();
 
 const app = express();
@@ -24,5 +25,6 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 app.use("/", indexRouter);
+app.use("/", placeRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

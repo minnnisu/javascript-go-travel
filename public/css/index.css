@@ -18,7 +18,7 @@ header .list-button {
   left: 10px;
 }
 
-.header__address {
+.header__destination {
   position: absolute;
   top: 51px;
   left: 350px;
@@ -127,27 +127,27 @@ section {
   margin: 30px;
 }
 
-.section__item #img {
+.section__item-img {
   display: block;
   width: 300px;
   height: 200px;
   background-color: darkseagreen;
 }
 
-.section__item #info {
+.section__item-info {
   width: 300px;
   height: 100px;
   background-color: darkorchid;
   text-align: center;
 }
 
-.section__item #info #name {
+.section__item-info #name {
   position: relative;
   top: 15px;
   font-size: 25px;
 }
 
-.section__item #info #address {
+.section__item-info #address {
   position: relative;
   top: 25px;
   text-align: center;
