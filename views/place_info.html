@@ -7,13 +7,17 @@
     <title>Document</title>
   </head>
   <section>
+    <h1>Place Info</h1>
     <div class="section__place">
+      <img src="" alt="place_image" />
       <div class="place-info">
         <div class="img-part">
           <img src="" alt="" />
         </div>
         <div class="info-part">
-          <div class="place-name">{{place.place_name}}</div>
+          <a href="{{place.place_url}}" class="place-name"
+            >{{place.place_name}}</a
+          >
           <div class="place-road-address">{{place.road_address_name}}</div>
           <div class="place-y">{{place.y}}</div>
           <div class="place-x">{{place.x}}</div>
@@ -22,14 +26,21 @@
         </div>
       </div>
     </div>
+    <h1>Blog</h1>
     <div class="blog__container">
-      <div class="blog__item">
-        <div class="blog__item-subject">subject</div>
-        <div class="blog__item-date">date</div>
-        <div class="blog__item-name">blogName</div>
-        <div class="blog__item-summary">summary</div>
+      {% for blog in blog_list %}
+      <div class="blog__item" id="{{loop.index}}">
+        <a href="{{blog.url}}" class="blog__item-subject"
+          >제목 - {{blog.title}}</a
+        >
+        <div class="blog__item-summary">요약 - {{blog.contents}}</div>
+        <div class="blog__item-date">업로드일 - {{blog.datetime}}</div>
+        <div class="blog__item-name">블로그 이름 - {{blog.blogname}}</div>
+        <br />
       </div>
+      {% endfor %}
     </div>
+    <h1>Map</h1>
     <div id="map" style="width: 100%; height: 350px"></div>
     <script
       type="text/javascript"
