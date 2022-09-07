@@ -8,9 +8,9 @@ let placeQuery = null;
 //index페이지
 router.get("/", (req, res) => {
   if (req.cookies["isSetDestination"] == undefined) {
-    res.render("place", { isSet: true, place_list: placeList });
+    res.render("index", { isSet: true, place_list: placeList });
   } else {
-    res.render("place", {
+    res.render("index", {
       isSet: false,
       destination: req.cookies["DestinationName"],
       place_list: placeList,
@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 });
 
 //여행 목적지 설정
-router.get("/destination", (req, res) => {
+router.get("/destination", (req, res, next) => {
   const keyword = req.query.query;
 
   if (keyword == "true") {
@@ -57,6 +57,7 @@ router.get("/destination", (req, res) => {
       })
       .catch((err) => {
         console.error(err);
+        next(err);
       });
   }
 });

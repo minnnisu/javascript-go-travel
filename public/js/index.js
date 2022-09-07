@@ -33,12 +33,3 @@ $(".section__page-item").click(function (e) {
     })
     .catch((err) => {});
 });
-
-$(".section__item").click(function () {
-  const id = $(this).children(".section__item-info").children("#id").html();
-  fetch("http://localhost:8080/place/info?id=" + id)
-    .then((result) => {
-      window.location.reload();
-    })
-    .catch((err) => {});
-});
