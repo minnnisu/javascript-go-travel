@@ -30,6 +30,7 @@
     <div class="blog__container">
       {% for blog in blog_list %}
       <div class="blog__item" id="{{loop.index}}">
+        <img src="{{blog.thumbnail}}" alt="블로그 이미지" />
         <a href="{{blog.url}}" class="blog__item-subject"
           >제목 - {{blog.title}}</a
         >
