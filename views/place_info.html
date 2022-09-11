@@ -9,21 +9,27 @@
   <section>
     <h1>Place Info</h1>
     <div class="section__place">
-      <img src="" alt="place_image" />
-      <div class="place-info">
-        <div class="img-part">
-          <img src="" alt="" />
+      <img src="" alt="section__place-image" />
+      <div class="section__place-info">
+        <a href="{{place.place_url}}" class="section__place-name"
+          >{{place.place_name}}</a
+        >
+        <div class="section__place-road-address">
+          {{place.road_address_name}}
         </div>
-        <div class="info-part">
-          <a href="{{place.place_url}}" class="place-name"
-            >{{place.place_name}}</a
-          >
-          <div class="place-road-address">{{place.road_address_name}}</div>
-          <div class="place-y">{{place.y}}</div>
-          <div class="place-x">{{place.x}}</div>
-          <div class="place-address">{{place.address_name}}</div>
-          <div class="place-phone-">{{phone}}</div>
-        </div>
+        <div class="section__place-y">{{place.y}}</div>
+        <div class="section__place-x">{{place.x}}</div>
+        <div class="section__place-address">{{place.address_name}}</div>
+        <div class="section__place-phone">{{place.phone}}</div>
+        <div class="section__place-category">{{place.category_name}}</div>
+      </div>
+      <div class="section__place-submit-form">
+        <form action="javascript:addList()">
+          <input type="date" name="date" />
+          <input type="time" name="time" />
+          <textarea name="memo" cols="30" rows="10"></textarea>
+          <input type="submit" value="리스트에 추가" />
+        </form>
       </div>
     </div>
     <h1>Blog</h1>

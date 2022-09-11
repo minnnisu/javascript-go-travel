@@ -4,22 +4,28 @@ const router = express.Router();
 
 let placeList = null;
 let placeQuery = null;
+let travelList = null;
 
 //index페이지
 router.get("/", (req, res) => {
   if (req.cookies["isSetDestination"] == undefined) {
-    res.render("index", { isSet: true, place_list: placeList });
+    res.render("index", {
+      isSet: true,
+      place_list: placeList,
+      travel_list: travelList,
+    });
   } else {
     res.render("index", {
       isSet: false,
       destination: req.cookies["DestinationName"],
       place_list: placeList,
+      travel_list: travelList,
     });
   }
 });
 
 //여행 목적지 설정
-router.get("/destination", (req, res, next) => {
+router.get("/search/destination", (req, res, next) => {
   const keyword = req.query.query;
 
   if (keyword == "true") {
@@ -63,7 +69,7 @@ router.get("/destination", (req, res, next) => {
 });
 
 //키워드를 통한 특정 장소 검색
-router.get("/place", (req, res, next) => {
+router.get("/search/place", (req, res, next) => {
   const page = req.query.page;
   const keyword = req.query.query;
   //쿼리로 page만 보내는 경우
@@ -95,6 +101,10 @@ router.get("/place", (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+});
+
+router.post("/list", (req, res, next) => {
+  travelList = req.body;
 });
 
 module.exports = router;

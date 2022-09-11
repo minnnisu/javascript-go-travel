@@ -18,7 +18,7 @@ $(".list-button").click(function (e) {
 });
 
 $(".header__destination-change").click(function (e) {
-  fetch("http://localhost:8080/destination?query=true")
+  fetch("http://localhost:8080/search/destination?query=true")
     .then((result) => {
       window.location.reload();
     })
@@ -26,10 +26,40 @@ $(".header__destination-change").click(function (e) {
 });
 
 $(".section__page-item").click(function (e) {
-  const page = $(this).attr("id");
+  const page = $(this).html();
   fetch("http://localhost:8080/place?page=" + page)
     .then((result) => {
       window.location.reload();
     })
     .catch((err) => {});
 });
+
+window.onload = function () {
+  const travelList = [];
+
+  for (let i = 0; i < window.localStorage.length; i++) {
+    const key = window.localStorage.key(i);
+    const value = JSON.parse(window.localStorage.getItem(key)); //자바스크립트 객체 형태로 변환
+
+    travelList[i] = {
+      id: key,
+      name: value["name"],
+      address: value["address"],
+      category: value["category"],
+      date: value["date"],
+      time: value["time"],
+      memo: value["memo"],
+      link: value["link"],
+    };
+  }
+
+  console.log(travelList);
+
+  fetch("http://localhost:8080/list", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(travelList),
+  });
+};

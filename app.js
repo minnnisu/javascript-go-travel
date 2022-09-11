@@ -25,7 +25,7 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 app.use("/", indexRouter);
-app.use("/", placeRouter);
+app.use("/place", placeRouter);
 
 app.use(function (err, req, res, next) {
   res.status(404).send("Sorry cant find that!");

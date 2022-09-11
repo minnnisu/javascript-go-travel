@@ -21,5 +21,29 @@ var marker = new kakao.maps.Marker({
 // 마커가 지도 위에 표시되도록 설정합니다
 marker.setMap(map);
 
-// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-// marker.setMap(null);
+//현재 장소를 리스트에 추가하는 함수
+async function addList() {
+  const targetLink = location.href; //현재 페이지 url
+  const requestLink = targetLink.slice(0, 27) + "/info" + targetLink.slice(27);
+  const placeInfo = await fetch(requestLink).then(async (result) => {
+    //현재 장소의 정보를 받아옴
+    return await result.json();
+  });
+
+  const data = {
+    //localStorage에 저장할 데이터
+    name: placeInfo["place_name"],
+    address: placeInfo["road_address_name"],
+    category: placeInfo["category_name"],
+    date: $("input[name=date]").val(),
+    time: $("input[name=time]").val(),
+    memo: $("textarea[name=memo]").val(),
+    link: targetLink,
+  };
+  console.log(data);
+  if (localStorage.getItem(placeInfo["id"])) {
+    alert("이미 여행리스트에 추가되어있습니다.");
+  } else {
+    localStorage.setItem(placeInfo["id"], JSON.stringify(data));
+  }
+}

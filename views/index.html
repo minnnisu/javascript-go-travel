@@ -16,7 +16,7 @@
       />
       <div class="header__destination">
         {% set is_set = isSet %} {% if is_set %}
-        <form action="/destination" method="get">
+        <form action="/search/destination" method="get">
           <input type="text" name="query" class="destination-input" />
           <button type="submit" class="destination-submit">검색</button>
         </form>
@@ -40,21 +40,23 @@
         width="50px"
       />
       <div class="nav__list">
-        <div class="list__header">
+        <div class="nav__list-header">
           <span>여행 리스트</span>
           <div class="list__header-button">
             <button class="list__header-button-add">직접추가</button>
-            <button class="list__header-button-delete">삭제</button>
+            <button class="list__header-button-delete">전체삭제</button>
           </div>
         </div>
-        <div class="list__section">
-          <div id="section-container">
-            <div id="item-info">
-              <div id="item-name">여행지 A</div>
-              <div id="item-date">7-22(월) 09:00</div>
-            </div>
-            <button id="item-memo">메모</button>
+        <div class="nav__list-container">
+          {% for item in travel_list %}
+          <div class="nav__list-item">
+            <a class="name" href="{{item.link}}">{{item.name}}</a>
+            <div class="date">{{item.date}} {{item.time}}</div>
+            <div class="address">{{item.address}}</div>
+            <button class="memo-button">메모</button>
+            <button class="delete-button">삭제</button>
           </div>
+          {% endfor %}
         </div>
       </div>
     </nav>
@@ -65,7 +67,7 @@
           <span class="tourism">관광</span>
           <span class="sleep">수면</span>
           <div class="section__tag-search">
-            <form action="/place" method="get">
+            <form action="/search/place" method="get">
               <input type="text" name="query" class="search-word" />
               <input type="submit" value="검색" class="search-button" />
             </form>
@@ -100,26 +102,27 @@
         </ul>
       </div>
       <div class="section__container">
-        {% set place_list = place_list %} {% for place in place_list %}
-        <a
-          class="section__item"
-          id="{{loop.index}}"
-          href="place/info?id={{place.id}}&name={{place.place_name}}&y={{place.y}}&x={{place.x}}"
-        >
-          <img class="section__item-img" src="" alt="미리보기 없음" />
-          <div class="section__item-info">
-            <div id="id">{{place.id}}</div>
-            <div id="name">{{place.place_name}}</div>
-            <div id="address">{{place.road_address_name}}</div>
+        {% for place in place_list %}
+        <div class="section__place">
+          <img class="section__place-img" src="" alt="미리보기 없음" />
+          <div class="section__place-info">
+            <a
+              class="section__place-name"
+              href="/place?id={{place.id}}&name={{place.place_name}}&y={{place.y}}&x={{place.x}}"
+              >{{place.place_name}}</a
+            >
+            <div class="section__place-address">
+              {{place.road_address_name}}
+            </div>
           </div>
-        </a>
+        </div>
         {% endfor %}
       </div>
       <div class="section__page">
         <div class="section__page-container">
-          <button class="section__page-item" id="1">1</button>
-          <button class="section__page-item" id="2">2</button>
-          <button class="section__page-item" id="3">3</button>
+          <button class="section__page-item">1</button>
+          <button class="section__page-item">2</button>
+          <button class="section__page-item">3</button>
         </div>
       </div>
     </section>
