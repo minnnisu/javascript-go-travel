@@ -4,33 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="css/place_info.css" />
+    <title>{{place.place_name}}</title>
   </head>
   <section>
     <h1>Place Info</h1>
     <div class="section__place">
-      <img src="" alt="section__place-image" />
+      <img src="" alt="section__place-image" width="500" height="500" />
       <div class="section__place-info">
         <a href="{{place.place_url}}" class="section__place-name"
-          >{{place.place_name}}</a
+          >이름 - {{place.place_name}}</a
         >
         <div class="section__place-road-address">
-          {{place.road_address_name}}
+          주소 - {{place.road_address_name}}
         </div>
-        <div class="section__place-y">{{place.y}}</div>
-        <div class="section__place-x">{{place.x}}</div>
-        <div class="section__place-address">{{place.address_name}}</div>
-        <div class="section__place-phone">{{place.phone}}</div>
-        <div class="section__place-category">{{place.category_name}}</div>
+        <div class="section__place-address">
+          주소(지번) - {{place.address_name}}
+        </div>
+        <div class="section__place-phone">전화번호 - {{place.phone}}</div>
+        <div class="section__place-category">
+          카테고리 - {{place.category_name}}
+        </div>
       </div>
-      <div class="section__place-submit-form">
-        <form action="javascript:addList()">
-          <input type="date" name="date" />
-          <input type="time" name="time" />
-          <textarea name="memo" cols="30" rows="10"></textarea>
-          <input type="submit" value="리스트에 추가" />
-        </form>
-      </div>
+      <h1>리스트에 추가하기</h1>
+      <form action="javascript:addList()" class="section__place-submit-form">
+        <p>여행 기간</p>
+        <input type="date" name="date" />
+        <input type="time" name="time" />
+        <p>메모</p>
+        <textarea name="memo" cols="30" rows="10"></textarea><br />
+        <input type="submit" value="리스트에 추가" />
+      </form>
     </div>
     <h1>Blog</h1>
     <div class="blog__container">

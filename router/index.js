@@ -103,8 +103,24 @@ router.get("/search/place", (req, res, next) => {
     });
 });
 
+//여행리스트에 장소 추가
 router.post("/list", (req, res, next) => {
   travelList = req.body;
+  res.redirect("/");
 });
+
+// router.delete("/list", (req, res, next) => {
+//   try {
+//     const targetId = req.query.id;
+//     for (let i = 0; i < travelList.length; i++) {
+//       if (travelList[i]["id"] == targetId) {
+//         delete travelList[i];
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   res.redirect("/");
+// });
 
 module.exports = router;

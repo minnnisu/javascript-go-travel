@@ -1,5 +1,5 @@
-LatLng_y = $(".place-y").html();
-LatLng_x = $(".place-x").html();
+let LatLng_y = null;
+let LatLng_x = null;
 
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
   mapOption = {
@@ -29,12 +29,15 @@ async function addList() {
     //현재 장소의 정보를 받아옴
     return await result.json();
   });
-
+  LatLng_x = placeInfo["x"];
+  LatLng_y = placeInfo["y"];
   const data = {
     //localStorage에 저장할 데이터
     name: placeInfo["place_name"],
     address: placeInfo["road_address_name"],
     category: placeInfo["category_name"],
+    y: placeInfo["y"],
+    x: placeInfo["x"],
     date: $("input[name=date]").val(),
     time: $("input[name=time]").val(),
     memo: $("textarea[name=memo]").val(),
@@ -45,5 +48,6 @@ async function addList() {
     alert("이미 여행리스트에 추가되어있습니다.");
   } else {
     localStorage.setItem(placeInfo["id"], JSON.stringify(data));
+    alert("여행리스트에 추가하였습니다.");
   }
 }

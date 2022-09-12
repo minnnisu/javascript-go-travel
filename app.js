@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const path = require("path");
 const indexRouter = require("./router/index");
 const placeRouter = require("./router/place");
+const listRouter = require("./router/list");
 require("dotenv").config();
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(cookieParser());
 
 app.use("/", indexRouter);
 app.use("/place", placeRouter);
+app.use("/list", listRouter);
 
 app.use(function (err, req, res, next) {
   res.status(404).send("Sorry cant find that!");

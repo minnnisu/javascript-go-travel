@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/index.css" />
-    <title>어디서 먹지?</title>
+    <title>GO_TRAVEL</title>
   </head>
   <body>
     <header>
@@ -50,11 +50,20 @@
         <div class="nav__list-container">
           {% for item in travel_list %}
           <div class="nav__list-item">
-            <a class="name" href="{{item.link}}">{{item.name}}</a>
+            <a
+              class="name"
+              href="/place?id={{item.id}}&name={{item.name}}&y={{item.y}}&x={{item.x}}"
+              >{{item.name}}</a
+            >
             <div class="date">{{item.date}} {{item.time}}</div>
             <div class="address">{{item.address}}</div>
-            <button class="memo-button">메모</button>
-            <button class="delete-button">삭제</button>
+            <a
+              class="more-button"
+              href="/list/info?id={{item.id}}&name={{item.name}}&y={{item.y}}&x={{item.x}}"
+              >자세히보기</a
+            >
+            <button class="modify-button">수정</button>
+            <button class="delete-button" id="{{item.id}}">삭제</button>
           </div>
           {% endfor %}
         </div>
