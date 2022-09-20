@@ -1,45 +1,3 @@
-//localStorage에 저장된 여행리스트 정보를 서버로 보냄
-function refreshList() {
-  const travelList = [];
-
-  for (let i = 0; i < window.localStorage.length; i++) {
-    const key = window.localStorage.key(i);
-    const value = JSON.parse(window.localStorage.getItem(key)); //자바스크립트 객체 형태로 변환
-
-    travelList[i] = {
-      id: key,
-      name: value["name"],
-      address: value["address"],
-      category: value["category"],
-      y: value["y"],
-      x: value["x"],
-      date: value["date"],
-      time: value["time"],
-      memo: value["memo"],
-    };
-  }
-
-  console.log(travelList);
-
-  fetch("http://localhost:8080/list", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(travelList),
-  })
-    .then((res) => {
-      // if (res.status == "200") {
-      //   //list 반영에 성공하였다면, 페이지 reload
-      //   // window.location.reload();
-      // }
-      console.log(res.status);
-    })
-    .catch((err) => console.log(err));
-}
-
-window.onload = refreshList();
-
 // 태그(식사, 관광, 수면) 선택 시 관련 세부 태그 출력
 $(
   ".section__tag-big .meal, .section__tag-big .tourism, .section__tag-big .sleep"
@@ -79,14 +37,71 @@ $(".section__page-item").click(function (e) {
     .catch((err) => {});
 });
 
-//여행 리스트 일부 삭제
-$(".nav__list-item .delete-button").click(function (e) {
-  const targetID = $(this).attr("id");
-  localStorage.removeItem(targetID);
-  refreshList();
-  window.location.reload();
-});
+// $(".nav__list-item .delete-button").click(function (e) {
+//   const targetID = $(this).attr("id");
+//   localStorage.removeItem(targetID);
+//   refreshList();
+//   window.location.reload();
+// });
 
 $(".nav__list-item .more-button").click(function (e) {});
 
-//리스트 추가 후 뒤로가기를 할 경우 reload가 안되므로 결과가 반영이 안됨
+//여행리스트 노드 생성
+window.onload = function () {
+  for (let i = 0; i < window.localStorage.length; i++) {
+    // key 찾기
+    const key = window.localStorage.key(i);
+    // value 찾기
+    const value = JSON.parse(window.localStorage.getItem(key));
+
+    const listItemTag = $("<div></div>");
+    listItemTag.attr("class", "nav__list-item");
+
+    $(".nav__list-container").append(listItemTag);
+
+    const placeNameTag = $("<a>" + value["name"] + "</a>");
+    placeNameTag.attr("class", "name");
+    placeNameTag.attr("href", "/place" + value["link"].slice(27));
+
+    const dateTimeTag = $(
+      "<div>" + value["date"] + " " + value["time"] + "</div>"
+    );
+    dateTimeTag.attr("class", "date-time");
+
+    const addressTag = $("<div>" + value["address"] + "</div>");
+    addressTag.attr("class", "address");
+
+    const moreButton = $("<button>" + "자세히보기" + "</button>");
+    moreButton.attr("class", "more-button");
+    moreButton.attr("href", "/list/info" + value["link"].slice(27));
+
+    const modifyButton = $("<button>" + "수정" + "</button>");
+    modifyButton.attr("class", "modify-button");
+
+    const deleteButton = $("<button>" + "삭제" + "</button>");
+    deleteButton.attr("class", "delete-button");
+    deleteButton.attr("id", value["id"]);
+    // deleteButton.attr("onclick", "deleteListElement");
+
+    listItemTag.append(placeNameTag);
+    listItemTag.append(dateTimeTag);
+    listItemTag.append(addressTag);
+    listItemTag.append(moreButton);
+    listItemTag.append(modifyButton);
+    listItemTag.append(deleteButton);
+  }
+};
+
+//여행 리스트 일부 삭제
+$(".delete-button").click(function (e) {
+  $(this).attr("id");
+  // console.log(1);
+  // const targetID = $(this).attr("id");
+  // localStorage.removeItem(targetID);
+});
+
+// function deleteListElement() {
+//   console.log(e.target);
+//   const targetID = $(this).attr("id");
+//   localStorage.removeItem(targetID);
+// }

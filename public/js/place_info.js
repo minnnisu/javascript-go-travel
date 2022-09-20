@@ -25,14 +25,19 @@ marker.setMap(map);
 async function addList() {
   const targetLink = location.href; //현재 페이지 url
   const requestLink = targetLink.slice(0, 27) + "/info" + targetLink.slice(27);
+
+  //현재 장소의 정보를 받아옴
   const placeInfo = await fetch(requestLink).then(async (result) => {
-    //현재 장소의 정보를 받아옴
     return await result.json();
   });
+
+  //위도경도 설정
   LatLng_x = placeInfo["x"];
   LatLng_y = placeInfo["y"];
+
+  //localStorage에 저장할 데이터
   const data = {
-    //localStorage에 저장할 데이터
+    id: placeInfo["id"],
     name: placeInfo["place_name"],
     address: placeInfo["road_address_name"],
     category: placeInfo["category_name"],
@@ -43,7 +48,7 @@ async function addList() {
     memo: $("textarea[name=memo]").val(),
     link: targetLink,
   };
-  console.log(data);
+
   if (localStorage.getItem(placeInfo["id"])) {
     alert("이미 여행리스트에 추가되어있습니다.");
   } else {

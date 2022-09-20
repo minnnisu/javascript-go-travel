@@ -1,5 +1,6 @@
 const axios = require("axios");
 const express = require("express");
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const router = express.Router();
 
 let placeList = null;
@@ -12,14 +13,14 @@ router.get("/", (req, res) => {
     res.render("index", {
       isSet: true,
       place_list: placeList,
-      travel_list: travelList,
+      // travel_list: travelList,
     });
   } else {
     res.render("index", {
       isSet: false,
       destination: req.cookies["DestinationName"],
       place_list: placeList,
-      travel_list: travelList,
+      // travel_list: travelList,
     });
   }
 });
@@ -103,11 +104,15 @@ router.get("/search/place", (req, res, next) => {
     });
 });
 
-//여행리스트에 장소 추가
-router.post("/list", (req, res, next) => {
-  travelList = req.body;
-  res.redirect("/");
+router.get("/join", isNotLoggedIn, (req, res) => {
+  res.render("join", { title: "회원가입 - NodeBird" });
 });
+
+// //여행리스트에 장소 추가
+// router.post("/list", (req, res, next) => {
+//   travelList = req.body;
+//   res.redirect("/");
+// });
 
 // router.delete("/list", (req, res, next) => {
 //   try {

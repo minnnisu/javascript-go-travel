@@ -31,6 +31,25 @@
         </div>
         {% endif %}
       </div>
+      {% if user and user.id %}
+      <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
+      <input id="my-id" type="hidden" value="{{user.id}}" />
+      <a id="my-profile" href="/profile" class="btn">내 프로필</a>
+      <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+      {% else %}
+      <form id="login-form" action="/auth/login" method="post">
+        <div class="input-group">
+          <label for="email">이메일</label>
+          <input id="email" type="email" name="email" required autofocus />
+        </div>
+        <div class="input-group">
+          <label for="password">비밀번호</label>
+          <input id="password" type="password" name="password" required />
+        </div>
+        <a id="join" href="/join" class="btn">회원가입</a>
+        <button id="login" type="submit" class="btn">로그인</button>
+      </form>
+      {% endif %}
     </header>
     <nav>
       <img
@@ -47,26 +66,7 @@
             <button class="list__header-button-delete">전체삭제</button>
           </div>
         </div>
-        <div class="nav__list-container">
-          {% for item in travel_list %}
-          <div class="nav__list-item">
-            <a
-              class="name"
-              href="/place?id={{item.id}}&name={{item.name}}&y={{item.y}}&x={{item.x}}"
-              >{{item.name}}</a
-            >
-            <div class="date">{{item.date}} {{item.time}}</div>
-            <div class="address">{{item.address}}</div>
-            <a
-              class="more-button"
-              href="/list/info?id={{item.id}}&name={{item.name}}&y={{item.y}}&x={{item.x}}"
-              >자세히보기</a
-            >
-            <button class="modify-button">수정</button>
-            <button class="delete-button" id="{{item.id}}">삭제</button>
-          </div>
-          {% endfor %}
-        </div>
+        <div class="nav__list-container"></div>
       </div>
     </nav>
     <section>
@@ -139,4 +139,12 @@
   <script src="/js/jquery_v3.6.0.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/index.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    window.onload = () => {
+      if (new URL(location.href).searchParams.get("loginError")) {
+        alert(new URL(location.href).searchParams.get("loginError"));
+      }
+    };
+  </script>
 </html>
