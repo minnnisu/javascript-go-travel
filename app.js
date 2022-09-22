@@ -3,9 +3,10 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
-const indexRouter = require("./router/index");
-const placeRouter = require("./router/place");
-const listRouter = require("./router/list");
+const indexRouter = require("./routes/index");
+const placeRouter = require("./routes/place");
+const listRouter = require("./routes/list");
+const authRouter = require("./routes/auth");
 const passport = require("passport");
 
 require("dotenv").config();
@@ -58,6 +59,7 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/place", placeRouter);
 app.use("/list", listRouter);
+app.use("/auth", authRouter);
 
 //에러처리 미들웨어
 app.use((req, res, next) => {

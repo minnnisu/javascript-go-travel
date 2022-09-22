@@ -31,8 +31,8 @@
         </div>
         {% endif %}
       </div>
-      {% if user and user.id %}
-      <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
+      {% if user_nick %}
+      <div class="user-name">{{'안녕하세요! ' + user_nick + '님'}}</div>
       <input id="my-id" type="hidden" value="{{user.id}}" />
       <a id="my-profile" href="/profile" class="btn">내 프로필</a>
       <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
