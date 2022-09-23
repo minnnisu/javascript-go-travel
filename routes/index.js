@@ -113,7 +113,7 @@ router.get("/search/place", (req, res, next) => {
 });
 
 router.get("/join", isNotLoggedIn, (req, res) => {
-  res.render("join", { title: "회원가입 - NodeBird" });
+  res.render("join");
 });
 
 // //여행리스트에 장소 추가

@@ -23,36 +23,56 @@ marker.setMap(map);
 
 //현재 장소를 리스트에 추가하는 함수
 async function addList() {
-  const targetLink = location.href; //현재 페이지 url
-  const requestLink = targetLink.slice(0, 27) + "/info" + targetLink.slice(27);
+  if ($("input[name=date]").val() == "" || $("input[name=time]").val() == "") {
+    return alert("여행기간이 선택하세요");
+  }
+
+  const url = new URL(location.href).searchParams;
 
   //현재 장소의 정보를 받아옴
-  const placeInfo = await fetch(requestLink).then(async (result) => {
-    return await result.json();
-  });
+  // const placeInfo = await fetch(requestLink).then(async (result) => {
+  //   return await result.json();
+  // });
 
-  //위도경도 설정
-  LatLng_x = placeInfo["x"];
-  LatLng_y = placeInfo["y"];
+  // 데이터베이스에 사용자의 여행리스트 추가
+  fetch("http://localhost:8080/list", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: url.get("id"),
+      name: url.get("name"),
+      y: url.get("y"),
+      x: url.get("x"),
+      date: $("input[name=date]").val(),
+      time: $("input[name=time]").val(),
+      memo: $("textarea[name=memo]").val(),
+    }),
+  }).then((response) => console.log(response));
 
-  //localStorage에 저장할 데이터
-  const data = {
-    id: placeInfo["id"],
-    name: placeInfo["place_name"],
-    address: placeInfo["road_address_name"],
-    category: placeInfo["category_name"],
-    y: placeInfo["y"],
-    x: placeInfo["x"],
-    date: $("input[name=date]").val(),
-    time: $("input[name=time]").val(),
-    memo: $("textarea[name=memo]").val(),
-    link: targetLink,
-  };
+  // //위도경도 설정
+  // LatLng_x = placeInfo["x"];
+  // LatLng_y = placeInfo["y"];
 
-  if (localStorage.getItem(placeInfo["id"])) {
-    alert("이미 여행리스트에 추가되어있습니다.");
-  } else {
-    localStorage.setItem(placeInfo["id"], JSON.stringify(data));
-    alert("여행리스트에 추가하였습니다.");
-  }
+  // //localStorage에 저장할 데이터
+  // const data = {
+  //   id: placeInfo["id"],
+  //   name: placeInfo["place_name"],
+  //   address: placeInfo["road_address_name"],
+  //   category: placeInfo["category_name"],
+  //   y: placeInfo["y"],
+  //   x: placeInfo["x"],
+  //   date: $("input[name=date]").val(),
+  //   time: $("input[name=time]").val(),
+  //   memo: $("textarea[name=memo]").val(),
+  //   link: targetLink,
+  // };
+
+  // if (localStorage.getItem(placeInfo["id"])) {
+  //   alert("이미 여행리스트에 추가되어있습니다.");
+  // } else {
+  //   localStorage.setItem(placeInfo["id"], JSON.stringify(data));
+  //   alert("여행리스트에 추가하였습니다.");
+  // }
 }

@@ -6,13 +6,14 @@ const api = require("../module/api");
 router.get("/", async (req, res, next) => {
   try {
     const location_info = await api.getInfoByLocation(
+      //여행지이름, 카테고리, 전화번호, 주소등의 정보를 받아옴
       req.query.id,
       req.query.name,
       req.query.y,
       req.query.x
     );
 
-    const blog = await api.getBlog(req.query.name, req.query.y, req.query.x);
+    const blog = await api.getBlog(req.query.name, req.query.y, req.query.x); //여행지와 관련된 블로그 정보를 가져옴
 
     res.render("place_info", {
       place: location_info,
