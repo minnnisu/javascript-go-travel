@@ -1,26 +1,32 @@
 const axios = require("axios");
 const express = require("express");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
+const listCurd = require("../module/list_curd");
+const List = require("../models/list");
 const router = express.Router();
 
 let placeList = null;
 let placeQuery = null;
-let travelList = null;
 
 //index페이지
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   let nick = null;
+  let travelList = null;
   try {
-    nick = req.user["dataValues"]["nick"];
+    const loginData = req.user["dataValues"];
+    nick = loginData["nick"]; //로그인한 상태일 경우 닉네임을 가져옴
+    travelList = await listCurd.getTravelList(loginData["id"]);
   } catch (error) {
     console.log("로그인 전 입니다.");
   }
+  console.log(travelList);
+
   if (req.cookies["isSetDestination"] == undefined) {
     res.render("index", {
       isSet: true,
       place_list: placeList,
       user_nick: nick,
-      // travel_list: travelList,
+      travel_list: travelList,
     });
   } else {
     res.render("index", {
@@ -28,7 +34,7 @@ router.get("/", (req, res) => {
       destination: req.cookies["DestinationName"],
       place_list: placeList,
       user_nick: nick,
-      // travel_list: travelList,
+      travel_list: travelList,
     });
   }
 });
@@ -71,8 +77,7 @@ router.get("/search/destination", (req, res, next) => {
         console.log(req.cookies["DestinationName"]);
       })
       .catch((err) => {
-        console.error(err);
-        next(err);
+        res.status(404).send("잘못된 주소입니다.");
       });
   }
 });
@@ -114,6 +119,10 @@ router.get("/search/place", (req, res, next) => {
 
 router.get("/join", isNotLoggedIn, (req, res) => {
   res.render("join");
+});
+
+router.get("/login", isNotLoggedIn, (req, res) => {
+  res.render("login");
 });
 
 // //여행리스트에 장소 추가

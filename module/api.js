@@ -21,7 +21,7 @@ async function getAddressByLatLng(y, x) {
     );
     return result.data["documents"][0];
   } catch (error) {
-    console.log(error);
+    throw new Error("잘못된 주소입니다.");
   }
 }
 
@@ -50,8 +50,13 @@ async function getInfoByLocation(placeID, query, y, x) {
         }
       });
     }
+
+    if (placeInfo == null)
+      throw new Error(
+        "요청한 페이지를 찾을 수 없습니다. 사이트 관리자에게 문의해 주세요"
+      );
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 }
 //장소와 관련된 블로그 정보를 반환하는 함수
@@ -92,7 +97,7 @@ async function getBlog(query, y, x) {
     }
     return blog_arr;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 }
 

@@ -49,7 +49,11 @@ async function addList() {
       time: $("input[name=time]").val(),
       memo: $("textarea[name=memo]").val(),
     }),
-  }).then((response) => console.log(response));
+  }).then(async (response) => {
+    if (!response.ok) {
+      response.text().then((msg) => alert(msg));
+    }
+  });
 
   // //위도경도 설정
   // LatLng_x = placeInfo["x"];

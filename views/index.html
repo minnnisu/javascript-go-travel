@@ -37,18 +37,7 @@
       <a id="my-profile" href="/profile" class="btn">내 프로필</a>
       <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
       {% else %}
-      <form id="login-form" action="/auth/login" method="post">
-        <div class="input-group">
-          <label for="email">이메일</label>
-          <input id="email" type="email" name="email" required autofocus />
-        </div>
-        <div class="input-group">
-          <label for="password">비밀번호</label>
-          <input id="password" type="password" name="password" required />
-        </div>
-        <a id="join" href="/join" class="btn">회원가입</a>
-        <button id="login" type="submit" class="btn">로그인</button>
-      </form>
+      <a id="login" href="/login" class="btn">로그인</a>
       {% endif %}
     </header>
     <nav>
@@ -66,7 +55,14 @@
             <button class="list__header-button-delete">전체삭제</button>
           </div>
         </div>
-        <div class="nav__list-container"></div>
+        {% for item in travel_list %}
+        <div class="nav__list-item">
+          <a class="name" href="{{item.link}}">{{item.name}}</a>
+          <div class="date">{{item.date}}</div>
+          <button class="memo-button">메모</button>
+          <button class="delete-button">삭제</button>
+        </div>
+        {% endfor %}
       </div>
     </nav>
     <section>

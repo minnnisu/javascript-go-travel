@@ -20,7 +20,8 @@ router.get("/", async (req, res, next) => {
       blog_list: blog,
     });
   } catch (err) {
-    next(err);
+    // next(err);
+    next(new Error(err.message));
   }
 });
 

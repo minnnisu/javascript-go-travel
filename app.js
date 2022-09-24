@@ -24,10 +24,8 @@ nunjucks.configure("views", {
   watch: true,
 });
 
-//sync()를 통해 데이터베이스와 서버 연결
-//{force:true}로 할 경우 서버 실행 시 마다 테이블을 재생성한다.
-sequelize
-  .sync({ force: false })
+sequelize //sync()를 통해 데이터베이스와 서버 연결
+  .sync({ force: false }) //{force:true}로 할 경우 서버 실행 시 마다 테이블을 재생성한다.
   .then(() => {
     console.log("데이터베이스 연결 성공");
   })
@@ -52,6 +50,7 @@ app.use(
     },
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -67,10 +66,10 @@ app.use((req, res, next) => {
   error.status = 404;
   next(error);
 });
+
 app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
-  res.status(err.status || 500);
+  console.log(err);
+  res.status(500).send(err.message);
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

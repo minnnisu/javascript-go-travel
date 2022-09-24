@@ -22,6 +22,9 @@ $(".list-button").click(function (e) {
 $(".header__destination-change").click(function (e) {
   fetch("http://localhost:8080/search/destination?query=true")
     .then((result) => {
+      if (!response.ok) {
+        response.text().then((msg) => alert(msg));
+      }
       window.location.reload();
     })
     .catch((err) => {});
@@ -37,6 +40,8 @@ $(".section__page-item").click(function (e) {
     .catch((err) => {});
 });
 
+$(".nav__list-item .more-button").click(function (e) {});
+
 // $(".nav__list-item .delete-button").click(function (e) {
 //   const targetID = $(this).attr("id");
 //   localStorage.removeItem(targetID);
@@ -44,61 +49,59 @@ $(".section__page-item").click(function (e) {
 //   window.location.reload();
 // });
 
-$(".nav__list-item .more-button").click(function (e) {});
+// //여행리스트 노드 생성
+// window.onload = function () {
+//   for (let i = 0; i < window.localStorage.length; i++) {
+//     // key 찾기
+//     const key = window.localStorage.key(i);
+//     // value 찾기
+//     const value = JSON.parse(window.localStorage.getItem(key));
 
-//여행리스트 노드 생성
-window.onload = function () {
-  for (let i = 0; i < window.localStorage.length; i++) {
-    // key 찾기
-    const key = window.localStorage.key(i);
-    // value 찾기
-    const value = JSON.parse(window.localStorage.getItem(key));
+//     const listItemTag = $("<div></div>");
+//     listItemTag.attr("class", "nav__list-item");
 
-    const listItemTag = $("<div></div>");
-    listItemTag.attr("class", "nav__list-item");
+//     $(".nav__list-container").append(listItemTag);
 
-    $(".nav__list-container").append(listItemTag);
+//     const placeNameTag = $("<a>" + value["name"] + "</a>");
+//     placeNameTag.attr("class", "name");
+//     placeNameTag.attr("href", "/place" + value["link"].slice(27));
 
-    const placeNameTag = $("<a>" + value["name"] + "</a>");
-    placeNameTag.attr("class", "name");
-    placeNameTag.attr("href", "/place" + value["link"].slice(27));
+//     const dateTimeTag = $(
+//       "<div>" + value["date"] + " " + value["time"] + "</div>"
+//     );
+//     dateTimeTag.attr("class", "date-time");
 
-    const dateTimeTag = $(
-      "<div>" + value["date"] + " " + value["time"] + "</div>"
-    );
-    dateTimeTag.attr("class", "date-time");
+//     const addressTag = $("<div>" + value["address"] + "</div>");
+//     addressTag.attr("class", "address");
 
-    const addressTag = $("<div>" + value["address"] + "</div>");
-    addressTag.attr("class", "address");
+//     const moreButton = $("<button>" + "자세히보기" + "</button>");
+//     moreButton.attr("class", "more-button");
+//     moreButton.attr("href", "/list/info" + value["link"].slice(27));
 
-    const moreButton = $("<button>" + "자세히보기" + "</button>");
-    moreButton.attr("class", "more-button");
-    moreButton.attr("href", "/list/info" + value["link"].slice(27));
+//     const modifyButton = $("<button>" + "수정" + "</button>");
+//     modifyButton.attr("class", "modify-button");
 
-    const modifyButton = $("<button>" + "수정" + "</button>");
-    modifyButton.attr("class", "modify-button");
+//     const deleteButton = $("<button>" + "삭제" + "</button>");
+//     deleteButton.attr("class", "delete-button");
+//     deleteButton.attr("id", value["id"]);
+//     // deleteButton.attr("onclick", "deleteListElement");
 
-    const deleteButton = $("<button>" + "삭제" + "</button>");
-    deleteButton.attr("class", "delete-button");
-    deleteButton.attr("id", value["id"]);
-    // deleteButton.attr("onclick", "deleteListElement");
-
-    listItemTag.append(placeNameTag);
-    listItemTag.append(dateTimeTag);
-    listItemTag.append(addressTag);
-    listItemTag.append(moreButton);
-    listItemTag.append(modifyButton);
-    listItemTag.append(deleteButton);
-  }
-};
+//     listItemTag.append(placeNameTag);
+//     listItemTag.append(dateTimeTag);
+//     listItemTag.append(addressTag);
+//     listItemTag.append(moreButton);
+//     listItemTag.append(modifyButton);
+//     listItemTag.append(deleteButton);
+//   }
+// };
 
 //여행 리스트 일부 삭제
-$(".delete-button").click(function (e) {
-  $(this).attr("id");
-  // console.log(1);
-  // const targetID = $(this).attr("id");
-  // localStorage.removeItem(targetID);
-});
+// $(".delete-button").click(function (e) {
+//   $(this).attr("id");
+// console.log(1);
+// const targetID = $(this).attr("id");
+// localStorage.removeItem(targetID);
+// });
 
 // function deleteListElement() {
 //   console.log(e.target);
