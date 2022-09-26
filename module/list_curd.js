@@ -21,4 +21,20 @@ async function getTravelList(id) {
   }
 }
 
-module.exports = { getTravelList };
+async function getOneTravelPlace(userId, placeId) {
+  try {
+    const data = await List.findAll({
+      //DB로부터 사용자의 여행리스트목록을 가져옴
+      where: {
+        userId: userId,
+        placeId: placeId,
+      },
+    });
+
+    return data[0]["dataValues"];
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+module.exports = { getTravelList, getOneTravelPlace };

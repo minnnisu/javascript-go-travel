@@ -48,7 +48,7 @@ async function addList() {
     if (!response.ok) {
       response.text().then((msg) => alert(msg));
     } else {
-      alert("리스트에 추가하였습니다.");
+      alert("리스트에 추가하였습니다");
     }
   });
 }

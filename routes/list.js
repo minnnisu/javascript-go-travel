@@ -3,15 +3,21 @@ const router = express.Router();
 const api = require("../module/api");
 const List = require("../models/list");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
+const listCurd = require("../module/list_curd");
 
-router.get("/info", async (req, res, next) => {
+router.get("/info", isLoggedIn, async (req, res, next) => {
   const location_info = await api.getInfoByLocation(
     req.query.id,
     req.query.name,
     req.query.y,
     req.query.x
   );
-
+  const data = await listCurd.getOneTravelPlace(
+    req.user["dataValues"]["id"],
+    req.query.id
+  );
+  location_info["date"] = data["date"];
+  location_info["memo"] = data["memo"];
   res.render("list_info", { place: location_info });
 });
 

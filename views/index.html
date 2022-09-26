@@ -59,9 +59,17 @@
         </div>
         {% for item in travel_list %}
         <div class="nav__list-item">
-          <a class="name" href="{{item.link}}">{{item.name}}</a>
+          <a
+            class="name"
+            href="place?id={{item.placeId}}&name={{item.name}}&y={{item.y}}&x={{item.x}}"
+            >{{item.name}}</a
+          >
           <div class="date">{{item.date}}</div>
-          <button id="{{item.placeId}}" class="more-button">자세히보기</button>
+          <a
+            href="list/info?id={{item.placeId}}&name={{item.name}}&y={{item.y}}&x={{item.x}}"
+            class="more-button"
+            >자세히보기</a
+          >
           <button id="{{item.placeId}}" class="delete-button">삭제</button>
         </div>
         {% endfor %}
