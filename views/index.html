@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="#" />
     <link rel="stylesheet" href="css/index.css" />
     <title>GO_TRAVEL</title>
   </head>
@@ -50,6 +51,7 @@
       <div class="nav__list">
         <div class="nav__list-header">
           <span>여행 리스트</span>
+          <p>리스트가 보이지 않을 시 새로고침 해주세요</p>
           <div class="list__header-button">
             <button class="list__header-button-add">직접추가</button>
             <button class="list__header-button-delete">전체삭제</button>
@@ -59,8 +61,8 @@
         <div class="nav__list-item">
           <a class="name" href="{{item.link}}">{{item.name}}</a>
           <div class="date">{{item.date}}</div>
-          <button class="memo-button">메모</button>
-          <button class="delete-button">삭제</button>
+          <button id="{{item.placeId}}" class="more-button">자세히보기</button>
+          <button id="{{item.placeId}}" class="delete-button">삭제</button>
         </div>
         {% endfor %}
       </div>

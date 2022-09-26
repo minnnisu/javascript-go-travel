@@ -19,7 +19,6 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.log("로그인 전 입니다.");
   }
-  console.log(travelList);
 
   if (req.cookies["isSetDestination"] == undefined) {
     res.render("index", {
@@ -124,25 +123,5 @@ router.get("/join", isNotLoggedIn, (req, res) => {
 router.get("/login", isNotLoggedIn, (req, res) => {
   res.render("login");
 });
-
-// //여행리스트에 장소 추가
-// router.post("/list", (req, res, next) => {
-//   travelList = req.body;
-//   res.redirect("/");
-// });
-
-// router.delete("/list", (req, res, next) => {
-//   try {
-//     const targetId = req.query.id;
-//     for (let i = 0; i < travelList.length; i++) {
-//       if (travelList[i]["id"] == targetId) {
-//         delete travelList[i];
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   res.redirect("/");
-// });
 
 module.exports = router;

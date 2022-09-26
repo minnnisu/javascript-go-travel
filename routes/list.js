@@ -35,11 +35,27 @@ router.post("/", isLoggedIn, (req, res) => {
     //여행리스트에 해당 여행지가 이미 존재할 경우
     if (!created) {
       res.status(403).send("리스트에 이미 저장되어있습니다");
+    } else {
+      res.send("ok");
     }
   });
 });
 
 // DB내 List 테이블에서 특정 여행지 삭제
-router.delete("/", isLoggedIn, (req, res) => {});
+router.delete("/", isLoggedIn, (req, res) => {
+  List.destroy({
+    where: { userId: req.user["dataValues"]["id"], placeId: req.query.id },
+  }).then(() => {
+    res.send("Delete Success");
+  });
+});
+
+router.delete("/all", isLoggedIn, (req, res) => {
+  List.destroy({
+    where: { userId: req.user["dataValues"]["id"] },
+  }).then(() => {
+    res.send("Delete Success");
+  });
+});
 
 module.exports = router;

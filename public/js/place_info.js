@@ -29,11 +29,6 @@ async function addList() {
 
   const url = new URL(location.href).searchParams;
 
-  //현재 장소의 정보를 받아옴
-  // const placeInfo = await fetch(requestLink).then(async (result) => {
-  //   return await result.json();
-  // });
-
   // 데이터베이스에 사용자의 여행리스트 추가
   fetch("http://localhost:8080/list", {
     method: "POST",
@@ -52,31 +47,8 @@ async function addList() {
   }).then(async (response) => {
     if (!response.ok) {
       response.text().then((msg) => alert(msg));
+    } else {
+      alert("리스트에 추가하였습니다.");
     }
   });
-
-  // //위도경도 설정
-  // LatLng_x = placeInfo["x"];
-  // LatLng_y = placeInfo["y"];
-
-  // //localStorage에 저장할 데이터
-  // const data = {
-  //   id: placeInfo["id"],
-  //   name: placeInfo["place_name"],
-  //   address: placeInfo["road_address_name"],
-  //   category: placeInfo["category_name"],
-  //   y: placeInfo["y"],
-  //   x: placeInfo["x"],
-  //   date: $("input[name=date]").val(),
-  //   time: $("input[name=time]").val(),
-  //   memo: $("textarea[name=memo]").val(),
-  //   link: targetLink,
-  // };
-
-  // if (localStorage.getItem(placeInfo["id"])) {
-  //   alert("이미 여행리스트에 추가되어있습니다.");
-  // } else {
-  //   localStorage.setItem(placeInfo["id"], JSON.stringify(data));
-  //   alert("여행리스트에 추가하였습니다.");
-  // }
 }
