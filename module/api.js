@@ -1,4 +1,6 @@
 const axios = require("axios");
+const cheerio = require("cheerio");
+const { get } = require("request");
 
 //좌표로 주소 찾는 함수
 const headers = {
@@ -101,4 +103,30 @@ async function getBlog(query, y, x) {
   }
 }
 
-module.exports = { getInfoByLocation, getBlog };
+async function getPlaceImage() {
+  const getHtml = async () => {
+    try {
+      return await axios.get("https://www.siksinhot.com/P/269853");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const parsing = async () => {
+    try {
+      const html = await getHtml();
+      console.log(html);
+      // const $ = cheerio.load(html.data);
+      // $image.each((idx, node) => {
+      //   const title = $(node).text();
+      //   console.log(title);
+      // });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  await parsing();
+}
+
+module.exports = { getInfoByLocation, getBlog, getPlaceImage };

@@ -4,6 +4,7 @@ const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const listCurd = require("../module/list_curd");
 const List = require("../models/list");
 const router = express.Router();
+const api = require("../module/api");
 
 let placeList = null;
 let placeQuery = null;
