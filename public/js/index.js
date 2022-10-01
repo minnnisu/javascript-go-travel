@@ -18,17 +18,30 @@ $(".list-button").click(function (e) {
   $("nav").toggle();
 });
 
+//여행 목적지 설정
+$(".fas.fa-search.header__search-btn").click(function (e) {
+  fetch(
+    "http://localhost:8080/search/destination?query=" +
+      $(".header__search-txt").val()
+  ).then((response) => {
+    if (!response.ok) {
+      response.text().then((msg) => alert(msg));
+    }
+    window.location.reload();
+  });
+});
+
 //여행 목적지 변경
-$(".header__destination-change").click(function (e) {
-  fetch("http://localhost:8080/search/destination?query=true")
-    .then((result) => {
+function changeDestination() {
+  fetch("http://localhost:8080/search/destination?query=true").then(
+    (response) => {
       if (!response.ok) {
         response.text().then((msg) => alert(msg));
       }
       window.location.reload();
-    })
-    .catch((err) => {});
-});
+    }
+  );
+}
 
 //페이지 전환
 $(".section__page-item").click(function (e) {

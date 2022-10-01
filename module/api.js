@@ -87,7 +87,7 @@ async function getBlog(query, y, x) {
       blog_arr = blog_arr.concat(result.data["documents"]); //기존의 검색결과와 합치기
     }
 
-    //정규표현식을 이용하여 html태그 제거
+    //정규표현식을 이용하여 블로그 내용 내 html태그 제거
     for (let idx = 0; idx < blog_arr.length; idx++) {
       const reg = /<[^>]*>?/g; //모든 html태그들을 찾는 정규표현식
       blog_arr[idx]["blogname"] = blog_arr[idx]["blogname"].replace(reg, "");

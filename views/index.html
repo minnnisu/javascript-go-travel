@@ -5,43 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="#" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    />
     <link rel="stylesheet" href="css/index.css" />
+
     <title>GO_TRAVEL</title>
   </head>
   <body>
     <header>
-      <img
-        class="list-button"
-        src="image/baseline_menu_black_48dp.png"
-        width="50px"
-      />
-      <div class="header__destination">
-        {% set is_set = isSet %} {% if is_set %}
-        <form action="/search/destination" method="get">
-          <input type="text" name="query" class="destination-input" />
-          <button type="submit" class="destination-submit">검색</button>
-        </form>
-        {% else %}
-        <div class="header__destination-set">
-          <span id="destination">{{destination}}</span>
-          <input
-            type="submit"
-            value="위치변경"
-            class="header__destination-change"
-          />
+      <div class="header__inner">
+        <div class="inner__left">
+          <div class="header__destination">
+            {% set is_set = isSet %} {% if is_set %}
+            <div class="header__search-box">
+              <input
+                type="text"
+                class="header__search-txt"
+                placeholder="여행 목적지를 입력하세요"
+              />
+              <i class="fas fa-search header__search-btn"></i>
+            </div>
+            {% else %}
+            <div class="my-destination">
+              <span class="material-icons"> my_location </span>
+              <span id="destination" onclick="changeDestination()"
+                >여행 목적지 - {{destination}}</span
+              >
+            </div>
+            {% endif %}
+          </div>
         </div>
-        {% endif %}
+        <div class="inner__center">
+          <div class="logo">Go Travel</div>
+        </div>
+        <div class="inner__right">
+          <a href="">리스트</a>
+          <div class="login-form">
+            {% if user_nick %}
+            <div class="user-name">{{'안녕하세요! ' + user_nick + '님'}}</div>
+            <input id="my-id" type="hidden" value="{{user.id}}" />
+            <a id="my-profile" href="/profile">내 프로필</a>
+            <a id="logout" href="/auth/logout">로그아웃</a>
+            {% else %}
+            <a id="login" href="/login">로그인</a>
+            <a id="get-started" href="/join">시작하기</a>
+            {% endif %}
+          </div>
+        </div>
       </div>
-      {% if user_nick %}
-      <div class="user-name">{{'안녕하세요! ' + user_nick + '님'}}</div>
-      <input id="my-id" type="hidden" value="{{user.id}}" />
-      <a id="my-profile" href="/profile" class="btn">내 프로필</a>
-      <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
-      {% else %}
-      <a id="login" href="/login" class="btn">로그인</a>
-      {% endif %}
     </header>
-    <nav>
+    <section>
+      <div class="nav"></div>
+      <div class="content"></div>
+    </section>
+    <!-- <nav>
       <img
         src="./image/baseline_close_black_48dp.png"
         alt="매뉴닫기"
@@ -75,6 +104,23 @@
       </div>
     </nav>
     <section>
+      <div class="header__destination">
+        {% set is_set = isSet %} {% if is_set %}
+        <form action="/search/destination" method="get">
+          <input type="text" name="query" class="destination-input" />
+          <button type="submit" class="destination-submit">검색</button>
+        </form>
+        {% else %}
+        <div class="header__destination-set">
+          <span id="destination">{{destination}}</span>
+          <input
+            type="submit"
+            value="위치변경"
+            class="header__destination-change"
+          />
+        </div>
+        {% endif %}
+      </div>
       <div class="section__tag">
         <div class="section__tag-big">
           <span class="meal">식사</span>
@@ -141,7 +187,7 @@
           <button class="section__page-item">3</button>
         </div>
       </div>
-    </section>
+    </section> -->
   </body>
   <script src="/js/jquery_v3.6.0.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
