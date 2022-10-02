@@ -9,6 +9,20 @@ const api = require("../module/api");
 let placeList = null;
 let placeQuery = null;
 
+const divideCategory = (category) => {
+  const splited_category = category.split(" > ");
+  if (splited_category.length < 3) {
+    return splited_category[1];
+  } else {
+    return splited_category[1] + " > " + splited_category[2];
+  }
+};
+
+const isDestinationNull = () => {
+  if (placeQuery == null) {
+  }
+};
+
 //index페이지
 router.get("/", async (req, res) => {
   let nick = null;
@@ -110,11 +124,18 @@ router.get("/search/place", (req, res, next) => {
     )
     .then((result) => {
       placeList = result.data["documents"];
+      placeList.forEach((element) => {
+        element["category_name"] = divideCategory(element["category_name"]);
+      });
       res.redirect("/");
     })
     .catch((err) => {
       next(err);
     });
+});
+
+router.get("/search/place/prev", (req, res) => {
+  res.json(placeList);
 });
 
 router.get("/join", isNotLoggedIn, (req, res) => {

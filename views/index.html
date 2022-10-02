@@ -27,20 +27,29 @@
     <header>
       <div class="header__inner">
         <div class="inner__left">
-          <div class="header__destination">
+          <div class="destination-input">
             {% set is_set = isSet %} {% if is_set %}
-            <div class="header__search-box">
-              <input
-                type="text"
-                class="header__search-txt"
-                placeholder="여행 목적지를 입력하세요"
-              />
-              <i class="fas fa-search header__search-btn"></i>
-            </div>
+            <form
+              action="/search/destination"
+              method="get"
+              class="destination-input-form"
+            >
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="search-txt"
+                  name="query"
+                  placeholder="여행 목적지를 입력하세요"
+                />
+                <button type="submit" class="search-btn">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
             {% else %}
             <div class="my-destination">
               <span class="material-icons"> my_location </span>
-              <span id="destination" onclick="changeDestination()"
+              <span class="value" onclick="changeDestination()"
                 >여행 목적지 - {{destination}}</span
               >
             </div>
@@ -51,7 +60,7 @@
           <div class="logo">Go Travel</div>
         </div>
         <div class="inner__right">
-          <a href="">리스트</a>
+          <a class="list" href="">리스트</a>
           <div class="login-form">
             {% if user_nick %}
             <div class="user-name">{{'안녕하세요! ' + user_nick + '님'}}</div>
@@ -66,129 +75,101 @@
         </div>
       </div>
     </header>
-    <section>
-      <div class="nav"></div>
-      <div class="content"></div>
-    </section>
-    <!-- <nav>
-      <img
-        src="./image/baseline_close_black_48dp.png"
-        alt="매뉴닫기"
-        class="list-button"
-        width="50px"
-      />
-      <div class="nav__list">
-        <div class="nav__list-header">
-          <span>여행 리스트</span>
-          <p>리스트가 보이지 않을 시 새로고침 해주세요</p>
-          <div class="list__header-button">
-            <button class="list__header-button-delete">전체삭제</button>
+    <nav>
+      <div class="nav__search-container">
+        <div class="place-input">
+          <span class="subject">장소검색</span>
+          <div class="place-input-container">
+            <form action="/search/place" method="get" class="place-input-form">
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="search-txt"
+                  name="query"
+                  placeholder="식당, 호텔, 관광 검색"
+                />
+                <button type="submit" class="search-btn">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
+            <div class="tag-show">
+              <span>태그보기</span
+              ><span class="material-icons"> expand_more </span>
+            </div>
           </div>
         </div>
-        {% for item in travel_list %}
-        <div class="nav__list-item">
-          <a
-            class="name"
-            href="place?id={{item.placeId}}&name={{item.name}}&y={{item.y}}&x={{item.x}}"
-            >{{item.name}}</a
+        <div class="place-tag hide">
+          <div class="meal">
+            <span class="subject">식사</span>
+            <ul class="tag-set">
+              <li>한식</li>
+              <li>중식</li>
+              <li>양식</li>
+              <li>일식</li>
+              <li>고기</li>
+              <li>면</li>
+              <li>탕/찜</li>
+              <li>회</li>
+              <li>빵</li>
+              <li>카페</li>
+              <li>디저트</li>
+            </ul>
+          </div>
+          <span class="subject">관광</span>
+          <ul class="tag-set">
+            <li>테마파크</li>
+            <li>유적지</li>
+            <li>박물관</li>
+            <li>등산</li>
+          </ul>
+          <span class="subject">수면</span>
+          <ul class="tag-set">
+            <li>호텔</li>
+            <li>모텔</li>
+            <li>팬션</li>
+            <li>게스트하우스</li>
+            <li>캠핑</li>
+          </ul>
+        </div>
+      </div>
+      <div class="nav__search-result-container">
+        {% for place in place_list %}
+        <div class="search-result-card" id="{{loop.index}}">
+          <a class="card-name" href="https://place.map.kakao.com/{{place.id}}"
+            >{{place.place_name}}</a
           >
-          <div class="date">{{item.date}}</div>
-          <a
-            href="list/info?id={{item.placeId}}&name={{item.name}}&y={{item.y}}&x={{item.x}}"
-            class="more-button"
-            >자세히보기</a
-          >
-          <button id="{{item.placeId}}" class="delete-button">삭제</button>
+          <div class="card-address">
+            <span class="material-icons"> place </span>
+            <span class="value">{{place.road_address_name}}</span>
+          </div>
+          <div class="card-category">
+            <span class="material-icons"> restaurant </span>
+            <span class="value">{{place.category_name}}</span>
+          </div>
+          <div class="card-xy">
+            <span class="x">{{place.x}}</span>
+            <span class="y">{{place.y}}</span>
+          </div>
         </div>
         {% endfor %}
+        <div class="search-result-page">
+          <div class="page-container">
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+          </div>
+        </div>
       </div>
     </nav>
     <section>
-      <div class="header__destination">
-        {% set is_set = isSet %} {% if is_set %}
-        <form action="/search/destination" method="get">
-          <input type="text" name="query" class="destination-input" />
-          <button type="submit" class="destination-submit">검색</button>
-        </form>
-        {% else %}
-        <div class="header__destination-set">
-          <span id="destination">{{destination}}</span>
-          <input
-            type="submit"
-            value="위치변경"
-            class="header__destination-change"
-          />
-        </div>
-        {% endif %}
-      </div>
-      <div class="section__tag">
-        <div class="section__tag-big">
-          <span class="meal">식사</span>
-          <span class="tourism">관광</span>
-          <span class="sleep">수면</span>
-          <div class="section__tag-search">
-            <form action="/search/place" method="get">
-              <input type="text" name="query" class="search-word" />
-              <input type="submit" value="검색" class="search-button" />
-            </form>
-          </div>
-        </div>
-        <ul class="section__tag-middle meal">
-          <li>한식</li>
-          <li>중식</li>
-          <li>양식</li>
-          <li>일식</li>
-          <li>고기</li>
-          <li>면</li>
-          <li>탕/찜</li>
-          <li>회</li>
-          <li>빵</li>
-          <li>카페</li>
-          <li>디저트</li>
-        </ul>
-        <ul class="section__tag-middle tourism">
-          <li>테마파크</li>
-          <li>유적지</li>
-          <li>레저/체험활동</li>
-          <li>박물관</li>
-          <li>등산</li>
-        </ul>
-        <ul class="section__tag-middle sleep">
-          <li>호텔</li>
-          <li>모텔</li>
-          <li>팬션</li>
-          <li>게스트하우스</li>
-          <li>캠핑</li>
-        </ul>
-      </div>
-      <div class="section__container">
-        {% for place in place_list %}
-        <div class="section__place">
-          <img class="section__place-img" src="" alt="미리보기 없음" />
-          <div class="section__place-info">
-            <a
-              class="section__place-name"
-              href="/place?id={{place.id}}&name={{place.place_name}}&y={{place.y}}&x={{place.x}}"
-              >{{place.place_name}}</a
-            >
-            <div class="section__place-address">
-              {{place.road_address_name}}
-            </div>
-            <div>{{place.y}}</div>
-            <div>{{place.x}}</div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="section__page">
-        <div class="section__page-container">
-          <button class="section__page-item">1</button>
-          <button class="section__page-item">2</button>
-          <button class="section__page-item">3</button>
-        </div>
-      </div>
-    </section> -->
+      <div id="map" style="width: 1520px; height: 1500px"></div>
+    </section>
   </body>
+  <script
+    type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5876e9e1e3262449c9f8c3f4b4ae3161"
+  ></script>
   <script src="/js/jquery_v3.6.0.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/index.js"></script>
