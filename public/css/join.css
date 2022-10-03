@@ -1,0 +1,110 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #e2e5e2;
+}
+
+.section {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.section .inner {
+  display: flex;
+  width: 1100px;
+  height: 700px;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+.section .inner .left {
+  display: flex;
+  width: 550px;
+  height: inherit;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.section .inner .left .container {
+  margin: 0 auto;
+  width: 300px;
+}
+
+.section .inner .left .container .welcome-message {
+  margin-bottom: 30px;
+}
+
+.section .inner .left .container .welcome-message h1 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.section .inner .left .container .welcome-message p {
+  color: #959595;
+  margin: 0;
+}
+
+.section .inner .left .container .input-group label {
+  color: #615f5f;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.section .inner .left .container .input-group input {
+  width: 292px;
+  height: 30px;
+  margin-bottom: 20px;
+  padding-left: 5px;
+  border: 1px solid #bdbebd;
+  border-radius: 7px;
+}
+
+.section .inner .left .container button {
+  width: 300px;
+  height: 34px;
+  margin-bottom: 20px;
+  border: 0;
+  border-radius: 7px;
+}
+
+.section .inner .right .img-box {
+  position: relative;
+  width: 550px;
+  height: 700px;
+  background-image: url("../image/soeul_namsan_tower.jpg");
+  background-repeat: no-repeat;
+  background-position: -295px -69px;
+}
+
+.section .inner .right .img-box .info {
+  color: #fff;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+}
+
+.section .inner .right .img-box .info .name {
+  font-size: 40px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+}
+
+.section .inner .right .img-box .info .copyright {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.section .inner .left .container .login-form {
+  width: 168px;
+  margin: 0 auto;
+}

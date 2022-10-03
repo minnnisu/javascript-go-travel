@@ -3,25 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="#" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/join.css" />
     <title>회원가입</title>
   </head>
   <body>
-    <form id="join-form" action="/auth/join" method="post">
-      <div class="input-group">
-        <label for="join-email">이메일</label>
-        <input id="join-email" type="email" name="email" required />
+    <div class="section">
+      <div class="inner">
+        <div class="left">
+          <div class="container">
+            <div class="welcome-message">
+              <h1>회원가입</h1>
+              <p>회원가입을 통해 더 많은 기능을 체험해 보세요.</p>
+            </div>
+            <form id="join-form" action="/auth/join" method="post">
+              <div class="input-group">
+                <label for="join-email">이메일</label>
+                <input
+                  id="join-email"
+                  type="email"
+                  name="email"
+                  placeholder="이메일을 입력하세요."
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label for="join-nick">닉네임</label>
+                <input
+                  id="join-nick"
+                  type="text"
+                  name="nick"
+                  placeholder="닉네임을 입력하세요."
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label for="join-password">비밀번호</label>
+                <input
+                  id="join-password"
+                  type="password"
+                  name="password"
+                  placeholder="비밀번호를 입력하세요."
+                  required
+                />
+              </div>
+              <button id="join-btn" type="submit" class="btn">회원가입</button>
+            </form>
+            <div class="login-form">
+              <span>이미 가입하셨나요?</span>
+              <a id="login" href="/login" class="btn">로그인</a>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="img-box">
+            <div class="info">
+              <div class="name">서울남산타워</div>
+              <div class="copyright">IR스튜디오 -한국관광공사</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="input-group">
-        <label for="join-nick">닉네임</label>
-        <input id="join-nick" type="text" name="nick" required />
-      </div>
-      <div class="input-group">
-        <label for="join-password">비밀번호</label>
-        <input id="join-password" type="password" name="password" required />
-      </div>
-      <button id="join-btn" type="submit" class="btn">회원가입</button>
-    </form>
+    </div>
+
     <script>
       window.onload = () => {
         if (new URL(location.href).searchParams.get("error")) {
