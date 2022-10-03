@@ -4,20 +4,57 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/login.css" />
     <title>Document</title>
   </head>
   <body>
-    <form id="login-form" action="/auth/login" method="post">
-      <div class="input-group">
-        <label for="email">이메일</label>
-        <input id="email" type="email" name="email" required autofocus />
+    <div class="section">
+      <div class="inner">
+        <div class="left">
+          <div class="container">
+            <div class="welcome-message">
+              <h1>환영합니다</h1>
+              <p>로그인을 통해 더 많은 경험을 누리세요.</p>
+            </div>
+            <form id="login-form" action="/auth/login" method="post">
+              <div class="input-group">
+                <label for="email">이메일</label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="이메일을 입력하세요."
+                  required
+                  autofocus
+                />
+              </div>
+              <div class="input-group">
+                <label for="password">비밀번호</label>
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="비밀번호를 입력하세요."
+                  required
+                />
+              </div>
+              <button id="login" type="submit" class="btn">로그인</button>
+            </form>
+            <div class="join-form">
+              <span>아직 가입하시지 않으셨나요?</span>
+              <a id="join" href="/join" class="btn">회원가입</a>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="img-box">
+            <div class="info">
+              <div class="name">서울 경복궁</div>
+              <div class="copyright">이성우 -한국관광공사</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="input-group">
-        <label for="password">비밀번호</label>
-        <input id="password" type="password" name="password" required />
-      </div>
-      <a id="join" href="/join" class="btn">회원가입</a>
-      <button id="login" type="submit" class="btn">로그인</button>
-    </form>
+    </div>
   </body>
 </html>

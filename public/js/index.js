@@ -1,7 +1,12 @@
 //nav태그와 카카오지도 크기를 모니터 해상도로 맞게 설정
-$("nav").css("height", screen.availHeight);
-$("#map").css("height", screen.availHeight);
-$("#map").css("width", screen.availWidth - 400);
+$(".nav__search-result-container").css("height", window.innerHeight - 228);
+$("#map").css("width", window.innerWidth - 400);
+$("#map").css("height", window.innerHeight - 100);
+
+window.onresize = function () {
+  console.log(1);
+  window.location.reload();
+};
 
 const IsSearchResultNull = () => {
   if ($(".nav__search-result-container").children().length == 1) {
@@ -16,6 +21,8 @@ const IsSearchResultNull = () => {
     );
   }
 };
+
+IsSearchResultNull();
 
 //여행 목적지 변경
 const changeDestination = () => {
@@ -149,8 +156,6 @@ $(".search-result-card").click(function (e) {
 
   infowindow.open(map, marker);
 });
-
-IsSearchResultNull();
 
 // //여행 리스트 일부 삭제
 // $(".nav__list-item .delete-button").click(function (e) {

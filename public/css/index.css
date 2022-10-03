@@ -3,7 +3,6 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  max-width: 1920px;
 }
 
 header {
@@ -96,23 +95,20 @@ header a {
 }
 
 .inner__right #get-started {
-  background-color: black;
+  background-color: #86a8e7;
   padding: 10px 10px 9px 10px;
-  border: 1px solid black;
   border-radius: 10px;
   color: white;
 }
 
 nav {
-  width: 420px;
-  background-color: gray;
+  width: 400px;
+  background-color: #86a8e7;
   z-index: 1;
-  overflow: scroll;
 }
 
 .nav__search-container {
   width: 100%;
-  background-color: lightsteelblue;
   font-size: 15px;
   padding: 10px;
   box-sizing: border-box;
@@ -206,6 +202,11 @@ nav {
 .nav__search-result-container {
   padding: 10px;
   box-sizing: border-box;
+  overflow: scroll;
+}
+
+.nav__search-result-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 
 .nav__search-result-container .search-result-card {
@@ -239,12 +240,10 @@ nav {
 
 .nav__search-result-container .search-result-page {
   width: 100%;
-  background-color: darkkhaki;
 }
 
 .nav__search-result-container .search-result-page .page-container {
-  width: 100px;
-  background-color: blueviolet;
+  width: 84px;
   margin: 0 auto;
 }
 
@@ -269,5 +268,8 @@ section {
   position: absolute;
   top: 100px;
   left: 400px;
+}
+
+#map {
   overflow: hidden;
 }
