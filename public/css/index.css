@@ -5,6 +5,35 @@ body {
   height: 100%;
 }
 
+.modal-overlay {
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.modal-window {
+  background: #fff;
+  width: 1000px;
+  height: 800px;
+  position: relative;
+}
+
+.close-area {
+  display: inline;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
 header {
   font-size: 20px;
   font-weight: 700;
@@ -110,7 +139,7 @@ nav {
 .nav__search-container {
   width: 100%;
   font-size: 15px;
-  padding: 10px;
+  padding: 10px 10px 0 10px;
   box-sizing: border-box;
 }
 
@@ -211,7 +240,7 @@ nav {
 
 .nav__search-result-container .search-result-card {
   width: 380px;
-  height: 120px;
+  height: 130px;
   padding: 10px;
   margin-bottom: 10px;
   background-color: #fff;
@@ -238,6 +267,8 @@ nav {
   top: -5px;
 }
 
+/* .nav__search-result-container .search-result-card . */
+
 .nav__search-result-container .search-result-page {
   width: 100%;
 }
@@ -259,10 +290,6 @@ nav {
   cursor: pointer;
 }
 
-.card-xy {
-  display: none;
-}
-
 section {
   position: relative;
   position: absolute;
@@ -272,4 +299,8 @@ section {
 
 #map {
   overflow: hidden;
+}
+
+.hidden-data {
+  display: none;
 }

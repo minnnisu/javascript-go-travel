@@ -5,25 +5,41 @@ const List = require("../models/list");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const listCurd = require("../module/list_curd");
 
-router.get("/info", isLoggedIn, async (req, res, next) => {
-  const location_info = await api.getInfoByLocation(
-    req.query.id,
-    req.query.name,
-    req.query.y,
-    req.query.x
-  );
-  const data = await listCurd.getOneTravelPlace(
-    req.user["dataValues"]["id"],
-    req.query.id
-  );
-  location_info["date"] = data["date"];
-  location_info["memo"] = data["memo"];
-  res.render("list_info", { place: location_info });
+const testData = [
+  {
+    day: 1,
+    name: "a",
+  },
+  {
+    day: 1,
+    name: "b",
+  },
+  {
+    day: 1,
+    name: "c",
+  },
+  {
+    day: 2,
+    name: "d",
+  },
+  {
+    day: 2,
+    name: "e",
+  },
+  {
+    day: 2,
+    name: "",
+  },
+];
+
+//여행지 관리 페이지
+router.get("/", (req, res) => {
+  res.render("my_list", { data: testData });
 });
 
-// DB내 List 테이블에 특정 여행지 추가
+// DB내 List 테이블에 데이터 추가
 router.post("/", isLoggedIn, (req, res) => {
-  const data = req.body; //요청 받은 데이터
+  const data = req.body; //DB 내 저장할 데이터
 
   List.findOrCreate({
     where: { placeId: data["id"] }, //DB 내 같은 placeId가 존재하는지 확인
@@ -38,8 +54,8 @@ router.post("/", isLoggedIn, (req, res) => {
       memo: data["memo"],
     },
   }).then(([row, created]) => {
-    //여행리스트에 해당 여행지가 이미 존재할 경우
     if (!created) {
+      //여행리스트에 해당 데이터가 이미 존재할 경우
       res.status(403).send("리스트에 이미 저장되어있습니다");
     } else {
       res.send("ok");
@@ -47,7 +63,7 @@ router.post("/", isLoggedIn, (req, res) => {
   });
 });
 
-// DB내 List 테이블에서 특정 여행지 삭제
+// DB내 List 테이블에서 특정 데이터 삭제
 router.delete("/", isLoggedIn, (req, res) => {
   List.destroy({
     where: { userId: req.user["dataValues"]["id"], placeId: req.query.id },
@@ -56,6 +72,7 @@ router.delete("/", isLoggedIn, (req, res) => {
   });
 });
 
+// DB내 List 테이블의 모든 데이터 삭제
 router.delete("/all", isLoggedIn, (req, res) => {
   List.destroy({
     where: { userId: req.user["dataValues"]["id"] },
@@ -63,5 +80,22 @@ router.delete("/all", isLoggedIn, (req, res) => {
     res.send("Delete Success");
   });
 });
+
+//여행지 정보를 가져옴
+// router.get("/info", isLoggedIn, async (req, res, next) => {
+//   const location_info = await api.getInfoByLocation(
+//     req.query.id,
+//     req.query.name,
+//     req.query.y,
+//     req.query.x
+//   );
+//   const data = await listCurd.getOneTravelPlace(
+//     req.user["dataValues"]["id"],
+//     req.query.id
+//   );
+//   location_info["date"] = data["date"];
+//   location_info["memo"] = data["memo"];
+//   res.render("list_info", { place: location_info });
+// });
 
 module.exports = router;

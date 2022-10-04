@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>여행지 목록</title>
+    <div class="section">
+      <div class="left">
+        <div class="travel-data-card">
+          {% set day = 1 %} {% for item in data %} {% if day != item.day %} {%
+          set day = item.day %}
+          <div>day {{item.day}}</div>
+          {% endif %}
+          <div>
+            <span>{{item.day}}</span>
+            <span>{{item.name}}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="right"></div>
+    </div>
+  </head>
+  <body></body>
+</html>

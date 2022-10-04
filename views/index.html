@@ -19,12 +19,61 @@
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
     />
-
     <link rel="stylesheet" href="css/index.css" />
 
     <title>GO TRAVEL</title>
   </head>
   <body>
+    <div id="list-add-modal" class="modal-overlay" style="display: none">
+      <div class="modal-window">
+        <div class="close-area">X</div>
+        <div class="content">
+          <div class="place-info">
+            <h1>여행지 정보</h1>
+            <a class="name"></a>
+            <div class="address">
+              <span class="material-icons"> place </span>
+              <span class="value"></span>
+            </div>
+            <div class="category">
+              <span class="material-icons"> restaurant </span>
+              <span class="value"></span>
+            </div>
+            <div class="phone">
+              <span class="material-icons"> restaurant </span>
+              <span class="value"></span>
+            </div>
+            <div class="hidden-data">
+              <div class="card-xy">
+                <span class="x">{{place.x}}</span>
+                <span class="y">{{place.y}}</span>
+              </div>
+              <span class="card-place-id">{{place.id}}</span>
+            </div>
+          </div>
+          <h1>리스트에 추가하기</h1>
+          <div id="list-add-form">
+            <h2>여행 기간</h2>
+            <input type="date" name="date" />
+            <input type="time" name="time" />
+            <h2>메모</h2>
+            <textarea name="memo" cols="30" rows="10"></textarea><br />
+            <button class="submit">리스트에 추가</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="destination-input-modal"
+      class="modal-overlay"
+      style="display: none"
+    >
+      <div class="modal-window">
+        <div class="close-area">X</div>
+        <div class="content">1234</div>
+      </div>
+    </div>
+    <!-- <button class="destination-input">목적지변경</button> -->
     <header>
       <div class="header__inner">
         <div class="inner__left">
@@ -61,7 +110,7 @@
           <div class="logo">Go Travel</div>
         </div>
         <div class="inner__right">
-          <a class="list" href="">리스트</a>
+          <a class="list" href="/list">리스트</a>
           <div class="login-form">
             {% if user_nick %}
             <div class="user-name">{{'안녕하세요! ' + user_nick + '님'}}</div>
@@ -137,7 +186,7 @@
       <div class="nav__search-result-container">
         {% for place in place_list %}
         <div class="search-result-card" id="{{loop.index}}">
-          <a class="card-name" href="https://place.map.kakao.com/{{place.id}}"
+          <a class="card-name" href="{{place.place_url}}"
             >{{place.place_name}}</a
           >
           <div class="card-address">
@@ -148,9 +197,17 @@
             <span class="material-icons"> restaurant </span>
             <span class="value">{{place.category_name}}</span>
           </div>
-          <div class="card-xy">
-            <span class="x">{{place.x}}</span>
-            <span class="y">{{place.y}}</span>
+          <div class="hidden-data">
+            <div class="card-xy">
+              <span class="x">{{place.x}}</span>
+              <span class="y">{{place.y}}</span>
+            </div>
+            <span class="card-phone">{{place.phone}}</span>
+            <span class="card-place-id">{{place.id}}</span>
+          </div>
+          <div class="card-button">
+            <button class="list-add">여행목록에 추가</button>
+            <button class="loc-show">위치보기</button>
           </div>
         </div>
         {% endfor %}
