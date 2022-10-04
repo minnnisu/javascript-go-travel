@@ -4,37 +4,48 @@ const api = require("../module/api");
 const List = require("../models/list");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const listCurd = require("../module/list_curd");
+const moment = require("moment");
 
-const testData = [
-  {
-    day: 1,
-    name: "a",
-  },
-  {
-    day: 1,
-    name: "b",
-  },
-  {
-    day: 1,
-    name: "c",
-  },
-  {
-    day: 2,
-    name: "d",
-  },
-  {
-    day: 2,
-    name: "e",
-  },
-  {
-    day: 2,
-    name: "",
-  },
-];
+const divideCategory = (category) => {
+  const splited_category = category.split(" > ");
+  if (splited_category.length < 3) {
+    return splited_category[1];
+  } else {
+    return splited_category[1] + " > " + splited_category[2];
+  }
+};
 
 //여행지 관리 페이지
-router.get("/", (req, res) => {
-  res.render("my_list", { data: testData });
+router.get("/", async (req, res) => {
+  const data = await listCurd.getTravelList(req.user["dataValues"]["id"]);
+  for (let idx = 0; idx < data.length; idx++) {
+    const element = data[idx];
+    const location_info = await api.getInfoByLocation(
+      element["placeId"],
+      element["name"],
+      Number(element["y"]),
+      Number(element["x"])
+    );
+    element["road_address_name"] = location_info["road_address_name"];
+    element["category_name"] = divideCategory(location_info["category_name"]);
+    element["phone"] = location_info["phone"];
+  }
+  console.log(data);
+  const orderedDate = data.sort((a, b) => moment(a.date) - moment(b.date));
+  let day = 1;
+  let targetDate = moment(data[0]["date"]).format("YY-MM-DD");
+
+  for (let idx = 0; idx < data.length; idx++) {
+    const element = data[idx];
+    if (targetDate < moment(element["date"]).format("YY-MM-DD")) {
+      targetDate = moment(element["date"]).format("YY-MM-DD");
+      day++;
+    }
+    element["day"] = day;
+  }
+
+  console.log(orderedDate);
+  res.render("my_list", { data: orderedDate });
 });
 
 // DB내 List 테이블에 데이터 추가

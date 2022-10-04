@@ -1,16 +1,38 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
+const moment = require("moment");
+const data = [
+  {
+    date: "2022-09-28 12:37",
+  },
+  {
+    date: "2022-09-27 14:27",
+  },
+  {
+    date: "2022-10-05 02:34",
+  },
+  {
+    date: "2022-10-05 15:34",
+  },
+  {
+    date: "2022-10-05 15:35",
+  },
+];
 
-const getHtml = async () => {
-  try {
-    return await axios.get("https://place.map.kakao.com/8249354");
-  } catch (error) {
-    console.error(error);
+// data.forEach((element) => {
+//   var date = moment(element["date"]);
+//   console.log(date.format("YY-MM-DD"));
+// });
+
+const orderedDate = data.sort((a, b) => moment(a.date) - moment(b.date));
+
+let day = 1;
+let targetDate = moment(data[0]["date"]).format("YY-MM-DD");
+for (let idx = 0; idx < data.length; idx++) {
+  const element = data[idx];
+  if (targetDate < moment(element["date"]).format("YY-MM-DD")) {
+    targetDate = moment(element["date"]).format("YY-MM-DD");
+    day++;
   }
-};
+  element["day"] = day;
+}
 
-getHtml().then((html) => {
-  let ulList = [];
-  const $ = cheerio.load(html.data);
-  console.log(html.data);
-});
+console.log(orderedDate);

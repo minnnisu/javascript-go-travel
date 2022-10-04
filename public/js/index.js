@@ -1,5 +1,5 @@
 //nav태그와 카카오지도 크기를 모니터 해상도로 맞게 설정
-$(".nav__search-result-container").css("height", window.innerHeight - 228);
+$(".nav__search-result-container").css("height", window.innerHeight - 218);
 $("#map").css("width", window.innerWidth - 400);
 $("#map").css("height", window.innerHeight - 100);
 
