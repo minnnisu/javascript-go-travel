@@ -24,3 +24,9 @@ nav .left .travel-data-card {
   border-radius: 10px;
   box-sizing: border-box;
 }
+
+nav .right {
+  width: 500px;
+  height: 100%;
+  background-color: darkseagreen;
+}
