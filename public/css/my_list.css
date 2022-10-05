@@ -26,6 +26,7 @@ nav .left .travel-data-card {
 }
 
 nav .right {
+  /* display: none; */
   width: 500px;
   height: 100%;
   background-color: darkseagreen;

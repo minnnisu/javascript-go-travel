@@ -88,7 +88,6 @@ router.get("/search/destination", (req, res, next) => {
           maxAge: 60000 * 60,
         });
         res.redirect("/");
-        console.log(req.cookies["DestinationName"]);
       })
       .catch((err) => {
         res.status(404).send("잘못된 주소입니다.");

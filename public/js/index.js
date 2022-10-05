@@ -157,44 +157,10 @@ $(".card-button .loc-show").click(function (e) {
   infowindow.open(map, marker);
 });
 
-// //여행 리스트 일부 삭제
-// $(".nav__list-item .delete-button").click(function (e) {
-//   fetch("http://localhost:8080/list?id=" + $(this).attr("id"), {
-//     method: "DELETE",
-//   }).then(() => {
-//     window.location.reload();
-//   });
-// });
-
-// $(".nav__list-item .more-button").click(function (e) {
-//   const aTag = $(this).siblings()[0];
-//   const url = new URL(aTag.href).searchParams;
-//   fetch("http://localhost:8080/list/info", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       id: url.get("id"),
-//       name: url.get("name"),
-//       y: url.get("y"),
-//       x: url.get("x"),
-//     }),
-//   });
-// });
-
-// $(".list__header-button-delete").click(function (e) {
-//   fetch("http://localhost:8080/list/all", {
-//     method: "DELETE",
-//   }).then(() => {
-//     window.location.reload();
-//   });
-// });
-
 //모달 켜기
-function modalOn(modal) {
-  modal.css("display", "flex");
-}
+// function modalOn(modal) {
+//   modal.css("display", "flex");
+// }
 
 //모달 켜짐 여부
 function isModalOn() {
@@ -207,7 +173,7 @@ function modalOff() {
 }
 
 //닫기 버튼 클릭시 모달 종료
-const closeBtn = $(".close-area");
+const closeBtn = $(".material-icons.close-area");
 closeBtn.click((e) => {
   modalOff();
 });
@@ -285,7 +251,7 @@ $(".list-add").click(function () {
 });
 
 //여행 목적지 변경 모달 켜짐
-$(".destination-input").click(function () {
+$(".destination-change").click(function () {
   modalOn($("#destination-input-modal")); //모달 켜기
 });
 

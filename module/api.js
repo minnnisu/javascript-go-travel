@@ -103,30 +103,4 @@ async function getBlog(query, y, x) {
   }
 }
 
-async function getPlaceImage() {
-  const getHtml = async () => {
-    try {
-      return await axios.get("https://www.siksinhot.com/P/269853");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const parsing = async () => {
-    try {
-      const html = await getHtml();
-      console.log(html);
-      // const $ = cheerio.load(html.data);
-      // $image.each((idx, node) => {
-      //   const title = $(node).text();
-      //   console.log(title);
-      // });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  await parsing();
-}
-
-module.exports = { getInfoByLocation, getBlog, getPlaceImage };
+module.exports = { getInfoByLocation, getBlog };

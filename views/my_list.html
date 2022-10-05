@@ -11,6 +11,8 @@
     />
     <link rel="stylesheet" href="/css/my_list.css" />
     <title>여행지 목록</title>
+  </head>
+  <body>
     <nav>
       <div class="left">
         <h1 class="title">여행 일정</h1>
@@ -20,22 +22,28 @@
         {% endif %}
         <div>
           <div class="travel-data-card" id="{{loop.index}}">
-            <span class="card-name">{{place.name}}</span>
-            <div class="card-address">
-              <span class="material-icons"> place </span>
-              <span class="value">{{place.road_address_name}}</span>
-            </div>
-            <div class="card-category">
-              <span class="material-icons"> restaurant </span>
-              <span class="value">{{place.category_name}}</span>
-            </div>
-            <div class="hidden-data">
-              <div class="card-xy">
-                <span class="x">{{place.x}}</span>
-                <span class="y">{{place.y}}</span>
+            <div class="place-info">
+              <a
+                href="https://place.map.kakao.com/{{place.placeId}}"
+                class="card-name"
+                >{{place.name}}</a
+              >
+              <div class="card-address">
+                <span class="material-icons"> place </span>
+                <span class="value">{{place.road_address_name}}</span>
               </div>
-              <span class="card-phone">{{place.phone}}</span>
-              <span class="card-place-id">{{place.id}}</span>
+              <div class="card-category">
+                <span class="material-icons"> restaurant </span>
+                <span class="value">{{place.category_name}}</span>
+              </div>
+              <div class="hidden-data">
+                <div class="card-xy">
+                  <span class="x">{{place.x}}</span>
+                  <span class="y">{{place.y}}</span>
+                </div>
+                <span class="card-phone">{{place.phone}}</span>
+                <span class="card-place-id">{{place.placeId}}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -43,6 +51,7 @@
       </div>
       <div class="right">
         <div class="place-info">
+          <span class="material-icons close-button"> close </span>
           <h1>여행지 정보</h1>
           <span class="card-name"></span>
           <div class="card-address">
@@ -53,7 +62,7 @@
             <span class="material-icons"> restaurant </span>
             <span class="value"></span>
           </div>
-          <div class="phone">
+          <div class="card-phone">
             <span class="material-icons"> call </span>
             <span class="value"></span>
           </div>
@@ -71,19 +80,14 @@
           <h2>메모</h2>
           <span class="memo"></span>
         </div>
+        <div class="data-control">
+          <button class="list-delete">삭제</button>
+          <button class="list-modify">수정</button>
+        </div>
       </div>
     </nav>
     <section></section>
-  </head>
-  <body></body>
+  </body>
+  <script src="/js/jquery_v3.6.0.js"></script>
+  <script src="/js/my_list.js"></script>
 </html>
-
-<!-- {% set day = 1 %} {% for item in data %} {% if day != item.day %} {%
-          set day = item.day %}
-          <div>day {{item.day}}</div>
-          {% endif %}
-          <div>
-            <span>{{item.day}}</span>
-            <span>{{item.name}}</span>
-          </div>
-          {% endfor %} -->
