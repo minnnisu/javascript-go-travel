@@ -1,5 +1,7 @@
-$(".travel-data-card").click(async function () {
-  const element = $(this).children(".place-info");
+$("nav").css("height", window.innerHeight);
+
+$(".travel-data-card .card-button .list-more").click(async function () {
+  const element = $(this).parent().parent(".place-info");
   const placeId = element
     .children(".hidden-data")
     .children(".card-place-id")

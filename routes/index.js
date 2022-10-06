@@ -10,16 +10,12 @@ let placeList = null;
 let placeQuery = null;
 
 const divideCategory = (category) => {
+  //카테고리에서 필요한 부분만 추출
   const splited_category = category.split(" > ");
   if (splited_category.length < 3) {
     return splited_category[1];
   } else {
     return splited_category[1] + " > " + splited_category[2];
-  }
-};
-
-const isDestinationNull = () => {
-  if (placeQuery == null) {
   }
 };
 
@@ -88,6 +84,7 @@ router.get("/search/destination", (req, res, next) => {
           maxAge: 60000 * 60,
         });
         res.redirect("/");
+        console.log(req.cookies["DestinationName"]);
       })
       .catch((err) => {
         res.status(404).send("잘못된 주소입니다.");
@@ -123,7 +120,7 @@ router.get("/search/place", (req, res, next) => {
     )
     .then((result) => {
       placeList = result.data["documents"];
-      placeList.forEach((element) => {
+      placeList.forEach(async (element) => {
         element["category_name"] = divideCategory(element["category_name"]);
       });
       res.redirect("/");

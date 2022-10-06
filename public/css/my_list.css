@@ -5,24 +5,49 @@ body {
   height: 100%;
 }
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
 nav {
   display: flex;
 }
 
 nav .left {
+  padding: 10px;
   width: 400px;
-  height: 100%;
   background-color: aquamarine;
 }
 
+nav .left .day {
+  margin-bottom: 10px;
+}
+
 nav .left .travel-data-card {
+  position: relative;
   width: 380px;
-  height: 130px;
+  height: 120px;
   padding: 10px;
   margin-bottom: 10px;
   background-color: #fff;
   border-radius: 10px;
-  box-sizing: border-box;
+}
+
+nav .left .travel-data-card .place-info .material-icons {
+  position: relative;
+  font-size: 20px;
+  top: 5px;
+}
+
+nav .left .travel-data-card .place-info .card-name {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+nav .left .travel-data-card .place-info .card-button {
+  position: absolute;
+  bottom: 10px;
 }
 
 nav .right {
@@ -30,4 +55,12 @@ nav .right {
   width: 500px;
   height: 100%;
   background-color: darkseagreen;
+}
+
+nav .right .material-icons.close-button {
+  cursor: pointer;
+}
+
+.hidden-data {
+  display: none;
 }

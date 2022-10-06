@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
 const indexRouter = require("./routes/index");
 const placeRouter = require("./routes/place");
 const listRouter = require("./routes/list");
@@ -44,9 +45,11 @@ app.use(
     resave: false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
+    store: new MemoryStore({ checkPeriod: 1000 * 60 * 20 }),
     cookie: {
       httpOnly: true,
       secure: false,
+      maxAge: 1000 * 60 * 20,
     },
   })
 );

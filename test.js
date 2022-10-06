@@ -1,38 +1,23 @@
-const moment = require("moment");
-const data = [
-  {
-    date: "2022-09-28 12:37",
-  },
-  {
-    date: "2022-09-27 14:27",
-  },
-  {
-    date: "2022-10-05 02:34",
-  },
-  {
-    date: "2022-10-05 15:34",
-  },
-  {
-    date: "2022-10-05 15:35",
-  },
-];
+const axios = require("axios");
 
-// data.forEach((element) => {
-//   var date = moment(element["date"]);
-//   console.log(date.format("YY-MM-DD"));
-// });
+const headers = {
+  Authorization: "KakaoAK " + process.env.KAKAO_REST_API,
+};
 
-const orderedDate = data.sort((a, b) => moment(a.date) - moment(b.date));
+async function getImage() {
+  try {
+    const params = {
+      query: "동아식당",
+    };
 
-let day = 1;
-let targetDate = moment(data[0]["date"]).format("YY-MM-DD");
-for (let idx = 0; idx < data.length; idx++) {
-  const element = data[idx];
-  if (targetDate < moment(element["date"]).format("YY-MM-DD")) {
-    targetDate = moment(element["date"]).format("YY-MM-DD");
-    day++;
+    const result = await axios.get("https://dapi.kakao.com/v2/search/image", {
+      params,
+      headers,
+    });
+    console.log(result.data["documents"][0]["image_url"]);
+  } catch (error) {
+    console.log(error);
   }
-  element["day"] = day;
 }
 
-console.log(orderedDate);
+console.log(getImage());

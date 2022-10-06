@@ -18,40 +18,42 @@
         <h1 class="title">여행 일정</h1>
         {% set day = 0 %} {% for place in data %} {% if day != place.day %} {%
         set day = place.day %}
-        <div class="day">day {{place.day}}</div>
+        <h2 class="day">Day {{place.day}}</h2>
         {% endif %}
-        <div>
-          <div class="travel-data-card" id="{{loop.index}}">
-            <div class="place-info">
-              <a
-                href="https://place.map.kakao.com/{{place.placeId}}"
-                class="card-name"
-                >{{place.name}}</a
-              >
-              <div class="card-address">
-                <span class="material-icons"> place </span>
-                <span class="value">{{place.road_address_name}}</span>
+        <div class="travel-data-card" id="{{loop.index}}">
+          <div class="place-info">
+            <a
+              href="https://place.map.kakao.com/{{place.placeId}}"
+              class="card-name"
+              >{{place.name}}</a
+            >
+            <div class="card-address">
+              <span class="material-icons"> place </span>
+              <span class="value">{{place.road_address_name}}</span>
+            </div>
+            <div class="card-category">
+              <span class="material-icons"> restaurant </span>
+              <span class="value">{{place.category_name}}</span>
+            </div>
+            <div class="hidden-data">
+              <div class="card-xy">
+                <span class="x">{{place.x}}</span>
+                <span class="y">{{place.y}}</span>
               </div>
-              <div class="card-category">
-                <span class="material-icons"> restaurant </span>
-                <span class="value">{{place.category_name}}</span>
-              </div>
-              <div class="hidden-data">
-                <div class="card-xy">
-                  <span class="x">{{place.x}}</span>
-                  <span class="y">{{place.y}}</span>
-                </div>
-                <span class="card-phone">{{place.phone}}</span>
-                <span class="card-place-id">{{place.placeId}}</span>
-              </div>
+              <span class="card-phone">{{place.phone}}</span>
+              <span class="card-place-id">{{place.placeId}}</span>
+            </div>
+            <div class="card-button">
+              <button class="list-more">자세히보기</button>
+              <button class="loc-show">위치보기</button>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
       <div class="right">
+        <span class="material-icons close-button"> close </span>
         <div class="place-info">
-          <span class="material-icons close-button"> close </span>
           <h1>여행지 정보</h1>
           <span class="card-name"></span>
           <div class="card-address">

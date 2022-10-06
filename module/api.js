@@ -1,6 +1,4 @@
 const axios = require("axios");
-const cheerio = require("cheerio");
-const { get } = require("request");
 
 //좌표로 주소 찾는 함수
 const headers = {
@@ -103,4 +101,20 @@ async function getBlog(query, y, x) {
   }
 }
 
-module.exports = { getInfoByLocation, getBlog };
+async function getImage(query) {
+  try {
+    const params = {
+      query: query,
+    };
+
+    const result = await axios.get("https://dapi.kakao.com/v2/search/image", {
+      params,
+      headers,
+    });
+    return result.data["documents"];
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+module.exports = { getInfoByLocation, getBlog, getImage };

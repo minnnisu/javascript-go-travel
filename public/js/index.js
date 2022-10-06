@@ -21,8 +21,6 @@ const IsSearchResultNull = () => {
   }
 };
 
-IsSearchResultNull();
-
 //여행 목적지 변경
 const changeDestination = () => {
   fetch("http://localhost:8080/search/destination?query=true").then(
@@ -157,10 +155,10 @@ $(".card-button .loc-show").click(function (e) {
   infowindow.open(map, marker);
 });
 
-//모달 켜기
-// function modalOn(modal) {
-//   modal.css("display", "flex");
-// }
+// 모달 켜기
+function modalOn(modal) {
+  modal.css("display", "flex");
+}
 
 //모달 켜짐 여부
 function isModalOn() {
@@ -291,6 +289,7 @@ $("#list-add-form .submit").click(function () {
       response.text().then((msg) => alert(msg));
     } else {
       alert("리스트에 추가하였습니다");
+      window.location.reload();
     }
   });
 });
