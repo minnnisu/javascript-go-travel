@@ -1,6 +1,65 @@
 $("nav").css("height", window.innerHeight);
 
+//리스트에서 데이터 삭제
+$("#modal .data-control .list-delete").click(function () {
+  const id = $("#modal .place-info .hidden-data .card-place-id").html();
+  fetch("http://localhost:8080/list?id=" + id, {
+    method: "DELETE",
+  }).then((response) => {
+    if (!response.ok) {
+      response.text().then((msg) => alert(msg));
+    } else {
+      response.text().then((msg) => {
+        console.log(msg);
+      });
+      window.location.reload();
+    }
+  });
+});
+
+$("nav .right .data-control .list-modify").click(function () {
+  console.log("modify");
+});
+
+// 모달 켜기
+function modalOn() {
+  $(".modal-overlay").css("display", "flex");
+}
+
+//모달 켜짐 여부
+function isModalOn() {
+  return $(".modal-overlay").css("display") == "flex";
+}
+
+//모달 종료
+function modalOff() {
+  $(".modal-overlay").css("display", "none");
+}
+
+//닫기 버튼 클릭시 모달 종료
+const closeBtn = $(".material-icons.close-area");
+closeBtn.click((e) => {
+  modalOff();
+});
+
+//모달 외부 영역 클릭 시 모달 종료
+document.querySelector(".modal-overlay").addEventListener("click", (e) => {
+  const evTarget = e.target;
+  if (evTarget.classList.contains("modal-overlay")) {
+    modalOff();
+  }
+});
+
+//모달이 켜진 상태에서 esc키를 누를 경우 모달 종료
+window.addEventListener("keyup", (e) => {
+  if (isModalOn() && e.key === "Escape") {
+    modalOff();
+  }
+});
+
+//여행 목록 추가 모달 켜짐
 $(".travel-data-card .card-button .list-more").click(async function () {
+  //get요청 시 보낼 변수들
   const element = $(this).parent().parent(".place-info");
   const placeId = element
     .children(".hidden-data")
@@ -17,6 +76,8 @@ $(".travel-data-card .card-button .list-more").click(async function () {
     .children(".card-xy")
     .children(".y")
     .html();
+
+  //서버로 부터 정보를 가져옴
   const response = await fetch(
     "http://localhost:8080/list/info?id=" +
       placeId +
@@ -34,74 +95,21 @@ $(".travel-data-card .card-button .list-more").click(async function () {
   const data = await response.json();
   console.log(data);
 
-  $("nav .right .stored-data .memo").html(""); //메모 태그 아래 자식 요소 제거
+  $("#modal .stored-data .memo").html(""); //기존에 있던 메모 정보를 지움
 
-  $("nav .right .place-info .card-name").html(data["place_name"]);
-  $("nav .right .place-info .card-name").attr("href", data["place_url"]);
-  $("nav .right .place-info .card-address .value").html(
-    data["road_address_name"]
-  );
-  $("nav .right .place-info .card-category .value").html(data["category_name"]);
-  $("nav .right .place-info .card-phone .value").html(data["phone"]);
-  $("nav .right .place-info .hidden-data .card-xy .x").html(data["x"]);
-  $("nav .right .place-info .hidden-data .card-xy .x").html(data["x"]);
-  $("nav .right .place-info .hidden-data .card-place-id").html(data["id"]);
-  $("nav .right .stored-data .date").html(data["date"]);
+  $("#modal .place-info .card-name").html(data["place_name"]);
+  $("#modal .place-info .card-name").attr("href", data["place_url"]);
+  $("#modal .place-info .card-address .value").html(data["road_address_name"]);
+  $("#modal .place-info .card-category .value").html(data["category_name"]);
+  $("#modal .place-info .card-phone .value").html(data["phone"]);
+  $("#modal .place-info .hidden-data .card-xy .x").html(data["x"]);
+  $("#modal .place-info .hidden-data .card-xy .x").html(data["x"]);
+  $("#modal .place-info .hidden-data .card-place-id").html(data["id"]);
+  $("#modal .stored-data .date").html(data["date"]);
 
   const modifiedMemo = data["memo"].replace(/\n/g, "<br />");
   console.log(modifiedMemo);
-  $("nav .right .stored-data .memo").prepend(modifiedMemo);
+  $("#modal .stored-data .memo").prepend(modifiedMemo);
 
-  $("nav .right").show();
+  modalOn($("#list-add-modal")); //모달 켜기
 });
-
-$(".material-icons.close-button").click(function () {
-  $(".right").hide();
-});
-
-$("nav .right .data-control .list-delete").click(function () {
-  const id = $("nav .right .place-info .hidden-data .card-place-id").html();
-  fetch("http://localhost:8080/list?id=" + id, {
-    method: "DELETE",
-  }).then(() => {
-    window.location.reload();
-  });
-});
-
-$("nav .right .data-control .list-modify").click(function () {
-  console.log("modify");
-});
-
-// //여행 리스트 일부 삭제
-// $(".nav__list-item .delete-button").click(function (e) {
-//   fetch("http://localhost:8080/list?id=" + $(this).attr("id"), {
-//     method: "DELETE",
-//   }).then(() => {
-//     window.location.reload();
-//   });
-// });
-
-// $(".nav__list-item .more-button").click(function (e) {
-//   const aTag = $(this).siblings()[0];
-//   const url = new URL(aTag.href).searchParams;
-//   fetch("http://localhost:8080/list/info", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       id: url.get("id"),
-//       name: url.get("name"),
-//       y: url.get("y"),
-//       x: url.get("x"),
-//     }),
-//   });
-// });
-
-// $(".list__header-button-delete").click(function (e) {
-//   fetch("http://localhost:8080/list/all", {
-//     method: "DELETE",
-//   }).then(() => {
-//     window.location.reload();
-//   });
-// });

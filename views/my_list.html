@@ -13,6 +13,46 @@
     <title>여행지 목록</title>
   </head>
   <body>
+    <div id="modal" class="modal-overlay" style="display: none">
+      <div class="modal-window">
+        <span class="material-icons close-area"> close </span>
+        <div class="content">
+          <div class="place-info">
+            <h1>여행지 정보</h1>
+            <span class="card-name"></span>
+            <div class="card-address">
+              <span class="material-icons"> place </span>
+              <span class="value"></span>
+            </div>
+            <div class="card-category">
+              <span class="material-icons"> restaurant </span>
+              <span class="value"></span>
+            </div>
+            <div class="card-phone">
+              <span class="material-icons"> call </span>
+              <span class="value"></span>
+            </div>
+            <div class="hidden-data">
+              <div class="card-xy">
+                <span class="x"></span>
+                <span class="y"></span>
+              </div>
+              <span class="card-place-id"></span>
+            </div>
+          </div>
+          <div class="stored-data">
+            <h2>방문 날짜</h2>
+            <span class="date"></span>
+            <h2>메모</h2>
+            <span class="memo"></span>
+          </div>
+          <div class="data-control">
+            <button class="list-delete">삭제</button>
+            <button class="list-modify">수정</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <nav>
       <div class="left">
         <h1 class="title">여행 일정</h1>
