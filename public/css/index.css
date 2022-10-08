@@ -24,7 +24,13 @@ body {
   width: 1000px;
   height: 800px;
   position: relative;
+  padding: 20px;
 }
+
+/* #list-add-modal .modal-window .img {
+  width: 1000px;
+  height: 300px;
+} */
 
 .close-area {
   display: inline;
@@ -113,7 +119,7 @@ header a {
   font-size: 40px;
 }
 
-.inner__right {
+.inner__right .login-form {
   display: flex;
   position: relative;
   top: 16px;
@@ -123,7 +129,9 @@ header a {
   margin: 0 5px;
 }
 
-.inner__right #get-started {
+.inner__right .highlight-button {
+  position: relative;
+  top: -10px;
   background-color: #86a8e7;
   padding: 10px 10px 9px 10px;
   border-radius: 10px;
