@@ -71,47 +71,40 @@
     >
       <div class="modal-window">
         <span class="material-icons close-area"> close </span>
-        <div class="content">1234</div>
+        <div class="content">
+          <form
+            action="/place/destination"
+            method="get"
+            id="destination-input-form"
+          >
+            <div class="search-box">
+              <input
+                type="text"
+                class="search-txt"
+                name="query"
+                placeholder="여행 목적지를 입력하세요"
+              />
+              <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-    <!-- <button class="destination-change">목적지변경</button> -->
     <header>
       <div class="header__inner">
         <div class="inner__left">
-          <div class="destination-input">
-            {% set is_set = isSet %} {% if is_set %}
-            <form
-              action="/search/destination"
-              method="get"
-              class="destination-input-form"
-            >
-              <div class="search-box">
-                <input
-                  type="text"
-                  class="search-txt"
-                  name="query"
-                  placeholder="여행 목적지를 입력하세요"
-                />
-                <button type="submit" class="search-btn">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </form>
-            {% else %}
-            <div class="my-destination">
-              <span class="material-icons"> my_location </span>
-              <span class="value" onclick="changeDestination()"
-                >여행 목적지 - {{destination}}</span
-              >
-            </div>
-            {% endif %}
+          <div id="my-destination">
+            <span class="material-icons"> my_location </span>
+            <span class="value">여행 목적지 - {{destination}}</span>
           </div>
         </div>
         <div class="inner__center">
           <div class="logo">Go Travel</div>
         </div>
         <div class="inner__right">
-          <div class="login-form">
+          <div id="login-form">
             {% if user_nick %}
             <div class="user-name">{{user_nick}}</div>
             <input id="my-id" type="hidden" value="{{user.id}}" />
@@ -188,16 +181,14 @@
       <div class="nav__search-result-container">
         {% for place in place_list %}
         <div class="search-result-card" id="{{loop.index}}">
-          <a class="card-name" href="{{place.place_url}}"
-            >{{place.place_name}}</a
-          >
+          <a class="card-name" href="">{{place.name}}</a>
           <div class="card-address">
             <span class="material-icons"> place </span>
-            <span class="value">{{place.road_address_name}}</span>
+            <span class="value">{{place.roadAddress}}</span>
           </div>
           <div class="card-category">
             <span class="material-icons"> restaurant </span>
-            <span class="value">{{place.category_name}}</span>
+            <span class="value">{{place.category}}</span>
           </div>
           <div class="hidden-data">
             <div class="card-xy">
@@ -205,7 +196,7 @@
               <span class="y">{{place.y}}</span>
             </div>
             <span class="card-phone">{{place.phone}}</span>
-            <span class="card-place-id">{{place.id}}</span>
+            <span class="card-place-id">{{place.placeId}}</span>
           </div>
           <div class="card-button">
             <button class="list-add">여행목록에 추가</button>
