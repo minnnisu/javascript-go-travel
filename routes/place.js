@@ -39,4 +39,13 @@ router.get("/info", async (req, res, next) => {
   }
 });
 
+router.get("/destination", async (req, res, next) => {
+  const keyword = req.query.query;
+  const address = await api.searchAddress(keyword);
+  res.cookie("destinationName", address["documents"][0]["address_name"], {
+    maxAge: 60000 * 60,
+  });
+  res.redirect("/");
+});
+
 module.exports = router;

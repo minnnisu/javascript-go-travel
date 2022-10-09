@@ -8,18 +8,18 @@ const router = express.Router();
 
 //회원가입
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
-  const { email, nick, password } = req.body;
+  const { email, nick, password, userName } = req.body;
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
       //이메일(아이디)이 존재 할 경우
-      // return res.redirect("/join?error=exist");
       return res.send("이미 존재하는 아이디입니다.");
     }
     const hash = await bcrypt.hash(password, 12); //hash(패스워드, salt횟수)
     await User.create({
       email,
       nick,
+      userName,
       password: hash,
     });
     return res.redirect("/");

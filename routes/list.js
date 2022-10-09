@@ -1,19 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const api = require("../module/api");
-const List = require("../models/list");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const listCurd = require("../module/list_curd");
 const moment = require("moment");
 
-const divideCategory = (category) => {
-  const splited_category = category.split(" > ");
-  if (splited_category.length < 3) {
-    return splited_category[1];
-  } else {
-    return splited_category[1] + " > " + splited_category[2];
-  }
-};
+// const divideCategory = (category) => {
+//   const splited_category = category.split(" > ");
+//   if (splited_category.length < 3) {
+//     return splited_category[1];
+//   } else {
+//     return splited_category[1] + " > " + splited_category[2];
+//   }
+// };
 
 //여행지 관리 페이지
 router.get("/", isLoggedIn, async (req, res) => {
