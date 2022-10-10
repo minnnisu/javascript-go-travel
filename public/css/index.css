@@ -61,7 +61,15 @@ header a {
   top: 25px;
 }
 
-#destination-input-form .search-box {
+.inner__left .destination-input {
+  display: flex;
+}
+
+.inner__left .destination-input > * {
+  margin: 0 5px;
+}
+
+.inner__left .destination-input .search-box {
   padding: 10px;
   position: relative;
   width: 240px;
@@ -70,8 +78,8 @@ header a {
   border-radius: 20px;
 }
 
-#destination-input-form .search-btn {
-  all: unset;
+.inner__left .destination-input .search-btn {
+  all: unset; /* 버튼 모양 제거 */
   float: right;
   width: 30px;
   height: 30px;
@@ -81,7 +89,7 @@ header a {
   color: black;
 }
 
-#destination-input-form .search-txt {
+.inner__left .destination-input .search-txt {
   display: flex;
   padding: 0;
   width: 0px;
@@ -94,14 +102,14 @@ header a {
   width: 210px;
 }
 
-#my-destination {
+.inner__left .my-destination {
   width: 262px;
   position: relative;
   top: 13px;
   display: flex;
 }
 
-#my-destination * {
+.inner__left .my-destination * {
   display: inline-block;
   margin: 0 5px;
 }
@@ -111,7 +119,7 @@ header a {
   font-size: 40px;
 }
 
-#login-form {
+.inner__right .login-form {
   display: flex;
   position: relative;
   top: 16px;

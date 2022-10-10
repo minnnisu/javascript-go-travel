@@ -5,44 +5,25 @@ const headers = {
   Authorization: "KakaoAK " + process.env.KAKAO_REST_API,
 };
 
-//주소 검색하기
-async function searchAddress(cityName) {
+async function getAddressByLatLng(y, x) {
   try {
     const params = {
-      query: cityName,
+      x: x,
+      y: y,
     };
-    const response = await axios.get(
-      "https://dapi.kakao.com//v2/local/search/address",
+
+    const result = await axios.get(
+      "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json",
       {
         params,
         headers,
       }
     );
-    return response.data;
+    return result.data["documents"][0];
   } catch (error) {
-    new Error(error);
+    throw new Error("잘못된 주소입니다.");
   }
 }
-
-// async function searchAddressByLatLng(y, x) {
-//   try {
-//     const params = {
-//       x: x,
-//       y: y,
-//     };
-
-//     const result = await axios.get(
-//       "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json",
-//       {
-//         params,
-//         headers,
-//       }
-//     );
-//     return result.data["documents"][0];
-//   } catch (error) {
-//     throw new Error("잘못된 주소입니다.");
-//   }
-// }
 
 //location ID와 같은 장소 검색하여 반환하는 함수
 async function getInfoByLocation(placeID, query, y, x) {
@@ -120,4 +101,20 @@ async function getBlog(query, y, x) {
   }
 }
 
-module.exports = { getInfoByLocation, getBlog, searchAddress };
+async function getImage(query) {
+  try {
+    const params = {
+      query: query,
+    };
+
+    const result = await axios.get("https://dapi.kakao.com/v2/search/image", {
+      params,
+      headers,
+    });
+    return result.data["documents"];
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+module.exports = { getInfoByLocation, getBlog, getImage };

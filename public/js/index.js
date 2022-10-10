@@ -7,20 +7,31 @@ window.onresize = function () {
   window.location.reload();
 };
 
-//여행 목적지 변경 모달 켜짐
+const IsSearchResultNull = () => {
+  if ($(".nav__search-result-container").children().length == 1) {
+    fetch("http://localhost:8080/search/place?query=음식점").then(
+      (response) => {
+        if (!response.ok) {
+          response.text().then((msg) => alert(msg));
+        } else {
+          window.location.reload();
+        }
+      }
+    );
+  }
+};
 
-$("#my-destination").click(function () {
-  modalOn($("#destination-input-modal")); //모달 켜기
-
-  // fetch("http://localhost:8080/set/destination?query=true").then(
-  //   (response) => {
-  //     if (!response.ok) {
-  //       response.text().then((msg) => alert(msg));
-  //     }
-  //     window.location.reload();
-  //   }
-  // );
-});
+//여행 목적지 변경
+const changeDestination = () => {
+  fetch("http://localhost:8080/search/destination?query=true").then(
+    (response) => {
+      if (!response.ok) {
+        response.text().then((msg) => alert(msg));
+      }
+      window.location.reload();
+    }
+  );
+};
 
 //태그 토글
 $(".tag-show").click(function (e) {
@@ -57,7 +68,93 @@ $(".page-container a").click(function (e) {
     });
 });
 
-//
+//지표에 표시할 중심좌표
+const centerLatLng = {
+  x: Number($(".search-result-card .card-xy").children(".x").html()),
+  y: Number($(".search-result-card .card-xy").children(".y").html()),
+};
+
+// 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+const makeOverListener = (map, marker, infowindow) => {
+  return function () {
+    infowindow.open(map, marker);
+  };
+};
+
+// 인포윈도우를 닫는 클로저를 만드는 함수입니다
+const makeOutListener = (infowindow) => {
+  return function () {
+    infowindow.close();
+  };
+};
+
+var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+  mapOption = {
+    center: new kakao.maps.LatLng(centerLatLng.y, centerLatLng.x), // 지도의 중심좌표
+    level: 3, // 지도의 확대 레벨
+  };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+// 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다.
+const positions = [];
+
+$(".search-result-card").each(function (index) {
+  const LatLng = $(this).children(".hidden-data").children(".card-xy");
+  const x = Number(LatLng.children(".x").html());
+  const y = Number(LatLng.children(".y").html());
+  positions.push({
+    content: "<div>" + $(this).children(".card-name").html() + "</div>",
+    latlng: new kakao.maps.LatLng(y, x),
+  });
+});
+
+for (var i = 0; i < positions.length; i++) {
+  // 마커를 생성합니다
+  var marker = new kakao.maps.Marker({
+    map: map, // 마커를 표시할 지도
+    position: positions[i].latlng, // 마커의 위치
+  });
+
+  // 마커에 표시할 인포윈도우를 생성합니다
+  var infowindow = new kakao.maps.InfoWindow({
+    content: positions[i].content, // 인포윈도우에 표시할 내용
+  });
+
+  // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+  // 이벤트 리스너로는 클로저를 만들어 등록합니다
+  // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+  kakao.maps.event.addListener(
+    marker,
+    "mouseover",
+    makeOverListener(map, marker, infowindow)
+  );
+  kakao.maps.event.addListener(marker, "mouseout", makeOutListener(infowindow));
+}
+
+let prevInfoWindow = null;
+
+$(".card-button .loc-show").click(function (e) {
+  console.log(positions);
+  if (prevInfoWindow != null) {
+    prevInfoWindow.close();
+  }
+  const i = Number($(this).parents(".search-result-card").attr("id")) - 1;
+  var marker = new kakao.maps.Marker({
+    map: map, // 마커를 표시할 지도
+    position: positions[i].latlng, // 마커의 위치
+  });
+
+  // 마커에 표시할 인포윈도우를 생성합니다
+  var infowindow = new kakao.maps.InfoWindow({
+    content: positions[i].content, // 인포윈도우에 표시할 내용
+  });
+
+  prevInfoWindow = infowindow;
+
+  infowindow.open(map, marker);
+});
+
 // 모달 켜기
 function modalOn(modal) {
   modal.css("display", "flex");
@@ -151,6 +248,11 @@ $(".list-add").click(function () {
   modalOn($("#list-add-modal")); //모달 켜기
 });
 
+//여행 목적지 변경 모달 켜짐
+$(".destination-change").click(function () {
+  modalOn($("#destination-input-modal")); //모달 켜기
+});
+
 // 여행리스트에 추가
 $("#list-add-form .submit").click(function () {
   if (
@@ -191,102 +293,3 @@ $("#list-add-form .submit").click(function () {
     }
   });
 });
-
-//------------------------------------ 지도 관련 설정 ------------------------------------------------
-
-// if ($(".nav__search-result-container").children().length == 1) {
-//   fetch("http://localhost:8080/search/place?query=음식점").then((response) => {
-//     if (!response.ok) {
-//       response.text().then((msg) => alert(msg));
-//     } else {
-//       window.location.reload();
-//     }
-//   });
-// }
-
-//지표에 표시할 중심좌표
-// const centerLatLng = {
-//   x: Number($(".search-result-card .card-xy").children(".x").html()),
-//   y: Number($(".search-result-card .card-xy").children(".y").html()),
-// };
-
-// // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
-// const makeOverListener = (map, marker, infowindow) => {
-//   return function () {
-//     infowindow.open(map, marker);
-//   };
-// };
-
-// // 인포윈도우를 닫는 클로저를 만드는 함수입니다
-// const makeOutListener = (infowindow) => {
-//   return function () {
-//     infowindow.close();
-//   };
-// };
-
-// var mapContainer = document.getElementById("map"), // 지도를 표시할 div
-//   mapOption = {
-//     center: new kakao.maps.LatLng(centerLatLng.y, centerLatLng.x), // 지도의 중심좌표
-//     level: 3, // 지도의 확대 레벨
-//   };
-
-// var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-// // 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다.
-// const positions = [];
-
-// $(".search-result-card").each(function (index) {
-//   const LatLng = $(this).children(".hidden-data").children(".card-xy");
-//   const x = Number(LatLng.children(".x").html());
-//   const y = Number(LatLng.children(".y").html());
-//   positions.push({
-//     content: "<div>" + $(this).children(".card-name").html() + "</div>",
-//     latlng: new kakao.maps.LatLng(y, x),
-//   });
-// });
-
-// for (var i = 0; i < positions.length; i++) {
-//   // 마커를 생성합니다
-//   var marker = new kakao.maps.Marker({
-//     map: map, // 마커를 표시할 지도
-//     position: positions[i].latlng, // 마커의 위치
-//   });
-
-//   // 마커에 표시할 인포윈도우를 생성합니다
-//   var infowindow = new kakao.maps.InfoWindow({
-//     content: positions[i].content, // 인포윈도우에 표시할 내용
-//   });
-
-//   // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-//   // 이벤트 리스너로는 클로저를 만들어 등록합니다
-//   // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-//   kakao.maps.event.addListener(
-//     marker,
-//     "mouseover",
-//     makeOverListener(map, marker, infowindow)
-//   );
-//   kakao.maps.event.addListener(marker, "mouseout", makeOutListener(infowindow));
-// }
-
-// let prevInfoWindow = null;
-
-// $(".card-button .loc-show").click(function (e) {
-//   console.log(positions);
-//   if (prevInfoWindow != null) {
-//     prevInfoWindow.close();
-//   }
-//   const i = Number($(this).parents(".search-result-card").attr("id")) - 1;
-//   var marker = new kakao.maps.Marker({
-//     map: map, // 마커를 표시할 지도
-//     position: positions[i].latlng, // 마커의 위치
-//   });
-
-//   // 마커에 표시할 인포윈도우를 생성합니다
-//   var infowindow = new kakao.maps.InfoWindow({
-//     content: positions[i].content, // 인포윈도우에 표시할 내용
-//   });
-
-//   prevInfoWindow = infowindow;
-
-//   infowindow.open(map, marker);
-// });
