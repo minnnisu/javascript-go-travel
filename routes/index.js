@@ -2,27 +2,20 @@ const axios = require("axios");
 const express = require("express");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const listCurd = require("../module/list_curd");
-const List = require("../models/list");
 const router = express.Router();
 const api = require("../module/api");
 
 let placeList = null;
 let placeQuery = null;
 
-const divideCategory = (category) => {
-  //카테고리에서 필요한 부분만 추출
-  const splited_category = category.split(" > ");
-  if (splited_category.length < 3) {
-    return splited_category[1];
-  } else {
-    return splited_category[1] + " > " + splited_category[2];
-  }
-};
-
 //index페이지
 router.get("/", async (req, res) => {
   let nick = null;
-  let travelList = null;
+  let destination = {
+    name: req.cookies["DestinationName"],
+    x: req.cookies["DestinationX"],
+    y: req.cookies["DestinationY"],
+  };
   try {
     const loginData = req.user["dataValues"];
     nick = loginData["nick"]; //로그인한 상태일 경우 닉네임을 가져옴
@@ -31,103 +24,63 @@ router.get("/", async (req, res) => {
     console.log("로그인 전 입니다.");
   }
 
-  if (req.cookies["isSetDestination"] == undefined) {
-    res.render("index", {
-      isSet: true,
-      place_list: placeList,
-      user_nick: nick,
-      travel_list: travelList,
+  if (destination["name"] == undefined) {
+    const address = await api.getLatLngbyAddress("서울");
+    res.cookie("DestinationName", address["address_name"], {
+      maxAge: 60000 * 60,
     });
-  } else {
-    res.render("index", {
-      isSet: false,
-      destination: req.cookies["DestinationName"],
-      place_list: placeList,
-      user_nick: nick,
-      travel_list: travelList,
+    res.cookie("DestinationX", address["x"], {
+      maxAge: 60000 * 60,
     });
+    res.cookie("DestinationY", address["y"], {
+      maxAge: 60000 * 60,
+    });
+    destination["name"] = address["address_name"];
+    destination["x"] = address["x"];
+    destination["y"] = address["y"];
   }
-});
 
-//여행 목적지 설정
-router.get("/search/destination", (req, res, next) => {
-  const keyword = req.query.query;
-
-  if (keyword == "true") {
-    res.clearCookie("isSetDestination");
-    res.redirect("/");
-  } else {
-    const params = {
-      query: keyword,
-    };
-    const headers = {
-      Authorization: "KakaoAK " + process.env.KAKAO_REST_API,
-    };
-
-    axios
-      .get("https://dapi.kakao.com//v2/local/search/address", {
-        params,
-        headers,
-      })
-      .then((result) => {
-        const address = result.data["documents"][0]["address"];
-        res.cookie("isSetDestination", true, {
-          maxAge: 60000 * 60,
-        });
-        res.cookie("DestinationName", address["address_name"], {
-          maxAge: 60000 * 60,
-        });
-        res.cookie("DestinationX", address["x"], {
-          maxAge: 60000 * 60,
-        });
-        res.cookie("DestinationY", address["y"], {
-          maxAge: 60000 * 60,
-        });
-        res.redirect("/");
-        console.log(req.cookies["DestinationName"]);
-      })
-      .catch((err) => {
-        res.status(404).send("잘못된 주소입니다.");
-      });
+  if (placeList == null) {
+    res.cookie("placeQuery", "음식점", {
+      maxAge: 60000 * 60,
+    });
+    placeList = await api.getInfoByLocation(
+      "음식점",
+      destination["y"],
+      destination["x"]
+    );
   }
+
+  res.render("index", {
+    destination: destination["name"],
+    place_list: placeList,
+    user_nick: nick,
+  });
 });
 
 //키워드를 통한 특정 장소 검색
-router.get("/search/place", (req, res, next) => {
+router.get("/search/place", async (req, res, next) => {
   const page = req.query.page;
-  const keyword = req.query.query;
+  const query = req.query.query;
   //쿼리로 page만 보내는 경우
-  if (keyword != undefined) {
+  if (query != undefined) {
     res.cookie("placeQuery", req.query.query, {
       maxAge: 60000 * 60,
     });
     placeQuery = req.query.query;
   }
-  const params = {
-    query: placeQuery,
-    page: page,
-  };
-  const headers = {
-    Authorization: "KakaoAK " + process.env.KAKAO_REST_API,
-  };
-  axios
-    .get(
-      "https://dapi.kakao.com/v2/local/search/keyword.json?y=" +
-        req.cookies["DestinationY"] +
-        "&x=" +
-        req.cookies["DestinationX"],
-      { params, headers }
-    )
-    .then((result) => {
-      placeList = result.data["documents"];
-      placeList.forEach(async (element) => {
-        element["category_name"] = divideCategory(element["category_name"]);
-      });
-      res.redirect("/");
-    })
-    .catch((err) => {
-      next(err);
-    });
+  try {
+    const response = await api.getInfoByLocation(
+      placeQuery,
+      req.cookies["DestinationY"],
+      req.cookies["DestinationX"],
+      page
+    );
+    placeList = response;
+    res.redirect("/");
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/search/place/prev", (req, res) => {

@@ -7,31 +7,10 @@ window.onresize = function () {
   window.location.reload();
 };
 
-const IsSearchResultNull = () => {
-  if ($(".nav__search-result-container").children().length == 1) {
-    fetch("http://localhost:8080/search/place?query=음식점").then(
-      (response) => {
-        if (!response.ok) {
-          response.text().then((msg) => alert(msg));
-        } else {
-          window.location.reload();
-        }
-      }
-    );
-  }
-};
-
 //여행 목적지 변경
-const changeDestination = () => {
-  fetch("http://localhost:8080/search/destination?query=true").then(
-    (response) => {
-      if (!response.ok) {
-        response.text().then((msg) => alert(msg));
-      }
-      window.location.reload();
-    }
-  );
-};
+$(".my-destination").click(function () {
+  $("#destination-input-modal").show();
+});
 
 //태그 토글
 $(".tag-show").click(function (e) {

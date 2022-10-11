@@ -69,7 +69,7 @@ header a {
   margin: 0 5px;
 }
 
-.inner__left .destination-input .search-box {
+.search-box {
   padding: 10px;
   position: relative;
   width: 240px;
@@ -78,7 +78,7 @@ header a {
   border-radius: 20px;
 }
 
-.inner__left .destination-input .search-btn {
+.search-btn {
   all: unset; /* 버튼 모양 제거 */
   float: right;
   width: 30px;
@@ -89,7 +89,7 @@ header a {
   color: black;
 }
 
-.inner__left .destination-input .search-txt {
+.search-txt {
   display: flex;
   padding: 0;
   width: 0px;

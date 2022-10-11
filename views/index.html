@@ -71,40 +71,35 @@
     >
       <div class="modal-window">
         <span class="material-icons close-area"> close </span>
-        <div class="content">1234</div>
+        <div class="content">
+          <form
+            action="/place/destination"
+            method="get"
+            class="destination-input-form"
+          >
+            <div class="search-box">
+              <input
+                type="text"
+                class="search-txt"
+                name="query"
+                placeholder="여행 목적지를 입력하세요"
+              />
+              <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-    <!-- <button class="destination-change">목적지변경</button> -->
     <header>
       <div class="header__inner">
         <div class="inner__left">
           <div class="destination-input">
-            {% set is_set = isSet %} {% if is_set %}
-            <form
-              action="/search/destination"
-              method="get"
-              class="destination-input-form"
-            >
-              <div class="search-box">
-                <input
-                  type="text"
-                  class="search-txt"
-                  name="query"
-                  placeholder="여행 목적지를 입력하세요"
-                />
-                <button type="submit" class="search-btn">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </form>
-            {% else %}
             <div class="my-destination">
               <span class="material-icons"> my_location </span>
-              <span class="value" onclick="changeDestination()"
-                >여행 목적지 - {{destination}}</span
-              >
+              <span class="value">여행 목적지 - {{destination}}</span>
             </div>
-            {% endif %}
           </div>
         </div>
         <div class="inner__center">

@@ -1,32 +1,41 @@
 const axios = require("axios");
-
-//좌표로 주소 찾는 함수
+require("dotenv").config();
 const headers = {
   Authorization: "KakaoAK " + process.env.KAKAO_REST_API,
 };
 
-async function getAddressByLatLng(y, x) {
-  try {
-    const params = {
-      x: x,
-      y: y,
-    };
+const divideCategory = (category) => {
+  //카테고리에서 필요한 부분만 추출
+  const splited_category = category.split(" > ");
+  if (splited_category.length < 3) {
+    return splited_category[1];
+  } else {
+    return splited_category[1] + " > " + splited_category[2];
+  }
+};
 
-    const result = await axios.get(
-      "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json",
+//지명으로 좌표 찾는 함수
+module.exports.getLatLngbyAddress = async (query) => {
+  const params = {
+    query: query,
+  };
+
+  try {
+    const response = await axios.get(
+      "https://dapi.kakao.com//v2/local/search/address",
       {
         params,
         headers,
       }
     );
-    return result.data["documents"][0];
+    const address = response.data["documents"][0]["address"];
+    return address;
   } catch (error) {
-    throw new Error("잘못된 주소입니다.");
+    throw new Error(error);
   }
-}
+};
 
-//location ID와 같은 장소 검색하여 반환하는 함수
-async function getInfoByLocation(placeID, query, y, x) {
+module.exports.getOneInfoByLocation = async (placeID, query, y, x) => {
   let placeInfo = null;
 
   try {
@@ -40,12 +49,13 @@ async function getInfoByLocation(placeID, query, y, x) {
         x: x,
         y: y,
       };
-      const result = await axios.get(
+      const response = await axios.get(
         "https://dapi.kakao.com/v2/local/search/keyword.json",
         { params, headers }
       );
-      result.data["documents"].forEach((element) => {
+      response.data["documents"].forEach((element) => {
         if (element["id"] == placeID) {
+          element["category_name"] = divideCategory(element["category_name"]);
           placeInfo = element;
         }
       });
@@ -58,9 +68,34 @@ async function getInfoByLocation(placeID, query, y, x) {
   } catch (error) {
     throw new Error(error);
   }
-}
+};
+
+//location ID와 같은 장소 검색하여 반환하는 함수
+module.exports.getInfoByLocation = async (query, y, x, page) => {
+  try {
+    const params = {
+      query: query,
+      page: page,
+      x: x,
+      y: y,
+    };
+
+    const response = await axios.get(
+      "https://dapi.kakao.com/v2/local/search/keyword.json",
+      { params, headers }
+    );
+    const placeList = response.data["documents"];
+    placeList.forEach((element) => {
+      element["category_name"] = divideCategory(element["category_name"]);
+    });
+
+    return placeList;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 //장소와 관련된 블로그 정보를 반환하는 함수
-async function getBlog(query, y, x) {
+module.exports.getBlog = async (query, y, x) => {
   let blog_arr = []; //페이지별 결과를 담는 리스트
 
   try {
@@ -77,12 +112,12 @@ async function getBlog(query, y, x) {
         page: page,
       };
 
-      const result = await axios.get(
+      const response = await axios.get(
         encodeURI("https://dapi.kakao.com/v2/search/blog.json"),
         { params, headers }
       );
 
-      blog_arr = blog_arr.concat(result.data["documents"]); //기존의 검색결과와 합치기
+      blog_arr = blog_arr.concat(response.data["documents"]); //기존의 검색결과와 합치기
     }
 
     //정규표현식을 이용하여 블로그 내용 내 html태그 제거
@@ -99,22 +134,41 @@ async function getBlog(query, y, x) {
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
-async function getImage(query) {
-  try {
-    const params = {
-      query: query,
-    };
+// const getImage = async(query) => {
+//   try {
+//     const params = {
+//       query: query,
+//     };
 
-    const result = await axios.get("https://dapi.kakao.com/v2/search/image", {
-      params,
-      headers,
-    });
-    return result.data["documents"];
-  } catch (error) {
-    throw new Error(error);
-  }
-}
+//     const response = await axios.get("https://dapi.kakao.com/v2/search/image", {
+//       params,
+//       headers,
+//     });
+//     return response.data["documents"];
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// }
 
-module.exports = { getInfoByLocation, getBlog, getImage };
+// //좌표로 주소 찾는 함수
+// async function getAddressByLatLng(y, x) {
+//   try {
+//     const params = {
+//       x: x,
+//       y: y,
+//     };
+
+//     const response = await axios.get(
+//       "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json",
+//       {
+//         params,
+//         headers,
+//       }
+//     );
+//     return response.data["documents"][0];
+//   } catch (error) {
+//     throw new Error("잘못된 주소입니다.");
+//   }
+// }

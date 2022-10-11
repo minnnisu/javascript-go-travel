@@ -16,41 +16,47 @@ const divideCategory = (category) => {
 };
 
 //여행지 관리 페이지
-router.get("/", isLoggedIn, async (req, res) => {
-  let orderedDate = null;
-  const data = await listCurd.getTravelList(req.user["dataValues"]["id"]);
-  if (data.length) {
-    //저장된 데이터가 있을 경우
-    for (let idx = 0; idx < data.length; idx++) {
-      //kakao api를 이용하여 데이터를 추가적으로 불러옴
-      const element = data[idx];
-      const location_info = await api.getInfoByLocation(
-        element["placeId"],
-        element["name"],
-        Number(element["y"]),
-        Number(element["x"])
-      );
-      element["road_address_name"] = location_info["road_address_name"];
-      element["category_name"] = divideCategory(location_info["category_name"]);
-      element["phone"] = location_info["phone"];
-    }
-
-    orderedDate = data.sort((a, b) => moment(a.date) - moment(b.date)); //데이터를 날짜순으로 정렬함
-    let day = 1;
-    let targetDate = moment(data[0]["date"]).format("YY-MM-DD");
-
-    for (let idx = 0; idx < data.length; idx++) {
-      //여행 일차(1일차, 2일차, ...)를 추가함
-      const element = data[idx];
-      if (targetDate < moment(element["date"]).format("YY-MM-DD")) {
-        targetDate = moment(element["date"]).format("YY-MM-DD");
-        day++;
+router.get("/", isLoggedIn, async (req, res, next) => {
+  try {
+    let orderedDate = null;
+    const data = await listCurd.getTravelList(req.user["dataValues"]["id"]);
+    if (data.length) {
+      //저장된 데이터가 있을 경우
+      for (let idx = 0; idx < data.length; idx++) {
+        //kakao api를 이용하여 데이터를 추가적으로 불러옴
+        const element = data[idx];
+        const location_info = await api.getOneInfoByLocation(
+          element["placeId"],
+          element["name"],
+          Number(element["y"]),
+          Number(element["x"])
+        );
+        element["road_address_name"] = location_info["road_address_name"];
+        element["category_name"] = divideCategory(
+          location_info["category_name"]
+        );
+        element["phone"] = location_info["phone"];
       }
-      element["day"] = day;
-    }
-  }
 
-  res.render("my_list", { data: orderedDate });
+      orderedDate = data.sort((a, b) => moment(a.date) - moment(b.date)); //데이터를 날짜순으로 정렬함
+      let day = 1;
+      let targetDate = moment(data[0]["date"]).format("YY-MM-DD");
+
+      for (let idx = 0; idx < data.length; idx++) {
+        //여행 일차(1일차, 2일차, ...)를 추가함
+        const element = data[idx];
+        if (targetDate < moment(element["date"]).format("YY-MM-DD")) {
+          targetDate = moment(element["date"]).format("YY-MM-DD");
+          day++;
+        }
+        element["day"] = day;
+      }
+    }
+
+    res.render("my_list", { data: orderedDate });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // DB내 List 테이블에 데이터 추가
@@ -100,7 +106,7 @@ router.delete("/all", isLoggedIn, (req, res) => {
 
 //여행지 정보를 가져옴
 router.get("/info", isLoggedIn, async (req, res, next) => {
-  const location_info = await api.getInfoByLocation(
+  const location_info = await api.getOneInfoByLocation(
     req.query.id,
     req.query.name,
     req.query.y,

@@ -5,7 +5,7 @@ const api = require("../module/api");
 //장소 세부정보 페이지
 router.get("/", async (req, res, next) => {
   try {
-    const location_info = await api.getInfoByLocation(
+    const location_info = await api.getOneInfoByLocation(
       //여행지이름, 카테고리, 전화번호, 주소등의 정보를 받아옴
       req.query.id,
       req.query.name,
@@ -25,9 +25,25 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//여행 목적지 설정
+router.get("/destination", async (req, res, next) => {
+  const query = req.query.query;
+  const address = await api.getLatLngbyAddress(query);
+  res.cookie("DestinationName", address["address_name"], {
+    maxAge: 60000 * 60,
+  });
+  res.cookie("DestinationX", address["x"], {
+    maxAge: 60000 * 60,
+  });
+  res.cookie("DestinationY", address["y"], {
+    maxAge: 60000 * 60,
+  });
+  res.redirect("/");
+});
+
 router.get("/info", async (req, res, next) => {
   try {
-    const location_info = await api.getInfoByLocation(
+    const location_info = await api.getOneInfoByLocation(
       req.query.id,
       req.query.name,
       req.query.y,
