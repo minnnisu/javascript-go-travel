@@ -103,7 +103,7 @@
           </div>
         </div>
         <div class="inner__center">
-          <div class="logo">Go Travel</div>
+          <a class="#logo" href="/">Go Travel</a>
         </div>
         <div class="inner__right">
           <div class="login-form">
@@ -127,7 +127,7 @@
         <div class="place-input">
           <span class="subject">장소검색</span>
           <div class="place-input-container">
-            <form action="/search/place" method="get" class="place-input-form">
+            <form action="/place" method="get" class="place-input-form">
               <div class="search-box">
                 <input
                   type="text"
@@ -210,9 +210,9 @@
         {% endfor %}
         <div class="search-result-page">
           <div class="page-container">
-            <a>1</a>
-            <a>2</a>
-            <a>3</a>
+            <a href="/place?query={{place_query}}&page=1">1</a>
+            <a href="/place?query={{place_query}}&page=2">2</a>
+            <a href="/place?query={{place_query}}&page=3">3</a>
           </div>
         </div>
       </div>

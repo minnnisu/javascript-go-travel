@@ -3,7 +3,7 @@ const router = express.Router();
 const api = require("../module/api");
 const List = require("../models/list");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const listCurd = require("../module/list_curd");
+const DB = require("../module/db");
 const moment = require("moment");
 
 const divideCategory = (category) => {
@@ -19,7 +19,7 @@ const divideCategory = (category) => {
 router.get("/", isLoggedIn, async (req, res, next) => {
   try {
     let orderedDate = null;
-    const data = await listCurd.getTravelList(req.user["dataValues"]["id"]);
+    const data = await DB.getTravelList(req.user["dataValues"]["id"]);
     if (data.length) {
       //저장된 데이터가 있을 경우
       for (let idx = 0; idx < data.length; idx++) {
@@ -112,7 +112,7 @@ router.get("/info", isLoggedIn, async (req, res, next) => {
     req.query.y,
     req.query.x
   );
-  const data = await listCurd.getOneTravelPlace(
+  const data = await DB.getOneTravelPlace(
     req.user["dataValues"]["id"],
     req.query.id
   );

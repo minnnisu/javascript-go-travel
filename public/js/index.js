@@ -1,8 +1,9 @@
-//nav태그와 카카오지도 크기를 모니터 해상도로 맞게 설정
+//nav태그와 카카오지도 크기를 브라우저 해상도로 맞게 설정
 $(".nav__search-result-container").css("height", window.innerHeight - 218);
 $("#map").css("width", window.innerWidth - 400);
 $("#map").css("height", window.innerHeight - 100);
 
+//브라우저 사이즈를 조정할 때마다 새로고침
 window.onresize = function () {
   window.location.reload();
 };
@@ -21,30 +22,10 @@ $(".tag-show").click(function (e) {
   }
 });
 
-//태그 클릭 시 태그 내용의 검색결과를 보여줌
+//태그 클릭 시 검색 결과를 보여줌
 $(".nav__search-container .tag-set li").click(function (e) {
   const keyword = $(this).html();
-  fetch("http://localhost:8080/search/place?query=" + keyword).then(
-    (response) => {
-      if (!response.ok) {
-        response.text().then((msg) => alert(msg));
-      } else {
-        window.location.reload();
-      }
-    }
-  );
-});
-
-//검색결과 페이지 전환
-$(".page-container a").click(function (e) {
-  const page = $(this).html();
-  fetch("http://localhost:8080/search/place?page=" + page)
-    .then((result) => {
-      window.location.reload();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  location.href = "http://localhost:8080/place?query=" + keyword + "&page=1";
 });
 
 //지표에 표시할 중심좌표
