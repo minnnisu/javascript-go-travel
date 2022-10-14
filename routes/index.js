@@ -6,19 +6,21 @@ const router = express.Router();
 const api = require("../module/api");
 
 //index페이지
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   let nick = null;
   let destination = {
     name: req.cookies["DestinationName"],
     x: req.cookies["DestinationX"],
     y: req.cookies["DestinationY"],
   };
+  let placeList = null;
+
   try {
     const loginData = req.user["dataValues"];
     nick = loginData["nick"]; //로그인한 상태일 경우 닉네임을 가져옴
     travelList = await DB.getTravelList(loginData["id"]);
   } catch (error) {
-    console.log("로그인 전 입니다.");
+    console.log("로그인 전 입니다");
   }
 
   if (destination["name"] == undefined) {
@@ -37,11 +39,16 @@ router.get("/", async (req, res) => {
     destination["y"] = address["y"];
   }
 
-  const placeList = await api.getInfoByLocation(
-    "음식점",
-    destination["y"],
-    destination["x"]
-  );
+  try {
+    placeList = await api.getInfoByLocation(
+      "음식점",
+      destination["y"],
+      destination["x"]
+    );
+    placeList = await api.getImage(placeList);
+  } catch (error) {
+    next(error);
+  }
 
   res.render("index", {
     destination: destination["name"],

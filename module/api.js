@@ -1,4 +1,8 @@
 const axios = require("axios");
+const selenium = require("selenium-webdriver");
+const chrome = require("selenium-webdriver/chrome");
+const driver_options = new chrome.Options();
+driver_options.addArguments("--headless");
 require("dotenv").config();
 const headers = {
   Authorization: "KakaoAK " + process.env.KAKAO_REST_API,
@@ -136,22 +140,6 @@ module.exports.getBlog = async (query, y, x) => {
   }
 };
 
-// const getImage = async(query) => {
-//   try {
-//     const params = {
-//       query: query,
-//     };
-
-//     const response = await axios.get("https://dapi.kakao.com/v2/search/image", {
-//       params,
-//       headers,
-//     });
-//     return response.data["documents"];
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// }
-
 // //좌표로 주소 찾는 함수
 // async function getAddressByLatLng(y, x) {
 //   try {
@@ -172,3 +160,28 @@ module.exports.getBlog = async (query, y, x) => {
 //     throw new Error("잘못된 주소입니다.");
 //   }
 // }
+
+module.exports.getImage = async (places) => {
+  const driver = new selenium.Builder()
+    .forBrowser(selenium.Browser.CHROME)
+    .setChromeOptions(driver_options)
+    .build();
+
+  for (const place of places) {
+    try {
+      await driver.get(place.place_url);
+      await driver.wait(
+        selenium.until.elementLocated(selenium.By.css(".link_photo")),
+        1000
+      );
+      const imgUrl = await driver
+        .findElement(selenium.By.css(".link_photo"))
+        .getCssValue("background-image");
+      place["img_url"] = imgUrl;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  driver.quit();
+  return places;
+};

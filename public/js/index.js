@@ -3,10 +3,32 @@ $(".nav__search-result-container").css("height", window.innerHeight - 218);
 $("#map").css("width", window.innerWidth - 400);
 $("#map").css("height", window.innerHeight - 100);
 
-//브라우저 사이즈를 조정할 때마다 새로고침
+// 브라우저 사이즈를 조정할 때마다 새로고침
 window.onresize = function () {
   window.location.reload();
 };
+
+// $(document).ready(async function () {
+//   const placeIdList = [];
+//   for (let i = 0; i < 1; i++) {
+//     const url = $($(".search-result-card")[i])
+//       .children(".card-name")
+//       .attr("href");
+//     placeIdList.push(url.split("/")[3]);
+//   }
+//   for await (placeId of placeIdList) {
+//     await fetch(
+//       "http://localhost:8080/place/thumbnail?placeId=" + placeId
+//     ).then((response) => {
+//       if (!response.ok) {
+//         response.text().then((msg) => alert(msg));
+//       } else {
+//         const imgUrl = (await = response.text());
+//         console.log(imgUrl);
+//       }
+//     });
+//   }
+// });
 
 //여행 목적지 변경
 $(".my-destination").click(function () {
@@ -244,7 +266,7 @@ $("#list-add-form .submit").click(function () {
       time: $("#list-add-form input[name=time]").val(),
       memo: $("#list-add-form textarea[name=memo]").val(),
     }),
-  }).then(async (response) => {
+  }).then((response) => {
     if (!response.ok) {
       response.text().then((msg) => alert(msg));
     } else {

@@ -46,6 +46,16 @@ router.get("/", async (req, res, next) => {
       req.cookies["DestinationX"],
       page
     );
+
+    // for (let element of placeList) {
+    //   const imgUrl = await api.getImage("포항 카페" + element["place_name"]);
+    //   if (imgUrl[0] != undefined) {
+    //     element["img_url"] = imgUrl[0]["image_url"];
+    //   } else {
+    //     console.log("이미지가 없습니다");
+    //   }
+    // }
+
     res.render("index", {
       destination: req.cookies["DestinationName"],
       place_list: placeList,
@@ -82,6 +92,32 @@ router.get("/info", async (req, res, next) => {
       req.query.x
     );
     res.send(location_info);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/info", async (req, res, next) => {
+  try {
+    const location_info = await api.getOneInfoByLocation(
+      req.query.id,
+      req.query.name,
+      req.query.y,
+      req.query.x
+    );
+    res.send(location_info);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/thumbnail", async (req, res, next) => {
+  const url = "https://place.map.kakao.com/" + req.query.placeId;
+  try {
+    console.log(url);
+    const imgUrl = await api.getImage(url);
+    console.log(imgUrl);
+    res.send(imgUrl);
   } catch (error) {
     next(error);
   }

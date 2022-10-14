@@ -247,6 +247,7 @@ nav {
 }
 
 .nav__search-result-container .search-result-card {
+  position: relative;
   width: 380px;
   height: 130px;
   padding: 10px;
@@ -275,7 +276,28 @@ nav {
   top: -5px;
 }
 
-/* .nav__search-result-container .search-result-card . */
+.nav__search-result-container .search-result-card .img {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 120px;
+  height: 120px;
+  background-color: gray;
+}
+
+.nav__search-result-container .search-result-card .card-button {
+  margin: 5px 0 0 0;
+}
+
+.nav__search-result-container .search-result-card .card-button button {
+  background: #fff;
+  border: 0;
+  padding: 0;
+  font-size: 16px;
+  margin-right: 5px;
+  color: #2470a0;
+  font-weight: 700;
+}
 
 .nav__search-result-container .search-result-page {
   width: 100%;
