@@ -45,7 +45,7 @@ router.get("/", async (req, res, next) => {
       destination["y"],
       destination["x"]
     );
-    placeList = await api.getImage(placeList);
+    // placeList = await api.getImage(placeList);
   } catch (error) {
     next(error);
   }

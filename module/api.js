@@ -161,26 +161,24 @@ module.exports.getBlog = async (query, y, x) => {
 //   }
 // }
 
-module.exports.getImage = async (places) => {
+module.exports.getImage = async (url) => {
   const driver = new selenium.Builder()
     .forBrowser(selenium.Browser.CHROME)
     .setChromeOptions(driver_options)
     .build();
 
-  for (const place of places) {
-    try {
-      await driver.get(place.place_url);
-      await driver.wait(
-        selenium.until.elementLocated(selenium.By.css(".link_photo")),
-        1000
-      );
-      const imgUrl = await driver
-        .findElement(selenium.By.css(".link_photo"))
-        .getCssValue("background-image");
-      place["img_url"] = imgUrl;
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    await driver.get(url);
+    await driver.wait(
+      selenium.until.elementLocated(selenium.By.css(".link_photo")),
+      1000
+    );
+    const imgUrl = await driver
+      .findElement(selenium.By.css(".link_photo"))
+      .getCssValue("background-image");
+    return imgUrl;
+  } catch (error) {
+    console.log(error);
   }
   driver.quit();
   return places;

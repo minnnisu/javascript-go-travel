@@ -8,27 +8,27 @@ window.onresize = function () {
   window.location.reload();
 };
 
-// $(document).ready(async function () {
-//   const placeIdList = [];
-//   for (let i = 0; i < 1; i++) {
-//     const url = $($(".search-result-card")[i])
-//       .children(".card-name")
-//       .attr("href");
-//     placeIdList.push(url.split("/")[3]);
-//   }
-//   for await (placeId of placeIdList) {
-//     await fetch(
-//       "http://localhost:8080/place/thumbnail?placeId=" + placeId
-//     ).then((response) => {
-//       if (!response.ok) {
-//         response.text().then((msg) => alert(msg));
-//       } else {
-//         const imgUrl = (await = response.text());
-//         console.log(imgUrl);
-//       }
-//     });
-//   }
-// });
+$(document).ready(async function () {
+  const placeIdList = [];
+  for (let i = 0; i < 15; i++) {
+    const url = $($(".search-result-card")[i])
+      .children(".card-name")
+      .attr("href");
+    placeIdList.push(url.split("/")[3]);
+  }
+  for await (placeId of placeIdList) {
+    await fetch(
+      "http://localhost:8080/place/thumbnail?placeId=" + placeId
+    ).then(async (response) => {
+      if (!response.ok) {
+        response.text().then((msg) => alert(msg));
+      } else {
+        const imgUrl = await response.text();
+        console.log(imgUrl);
+      }
+    });
+  }
+});
 
 //여행 목적지 변경
 $(".my-destination").click(function () {
