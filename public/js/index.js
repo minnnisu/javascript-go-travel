@@ -8,27 +8,25 @@ window.onresize = function () {
   window.location.reload();
 };
 
-$(document).ready(async function () {
-  const placeIdList = [];
-  for (let i = 0; i < 15; i++) {
-    const url = $($(".search-result-card")[i])
-      .children(".card-name")
-      .attr("href");
-    placeIdList.push(url.split("/")[3]);
-  }
-  for await (placeId of placeIdList) {
-    await fetch(
-      "http://localhost:8080/place/thumbnail?placeId=" + placeId
-    ).then(async (response) => {
-      if (!response.ok) {
-        response.text().then((msg) => alert(msg));
-      } else {
-        const imgUrl = await response.text();
-        console.log(imgUrl);
-      }
-    });
-  }
-});
+// $(document).ready(async function () {
+//   const placeIdList = [];
+//   for await (const element of $(".search-result-card")) {
+//     const url = $(element).children(".card-name").attr("href");
+//     await fetch(
+//       "http://localhost:8080/place/thumbnail?placeId=" + url.split("/")[3]
+//     ).then(async (response) => {
+//       if (!response.ok) {
+//         response.text().then((msg) => console.log(msg));
+//       } else {
+//         const imgUrl = await response.text();
+//         $(element)
+//           .children(".card-img")
+//           .children("img")
+//           .attr("src", imgUrl.slice(5, -2));
+//       }
+//     });
+//   }
+// });
 
 //여행 목적지 변경
 $(".my-destination").click(function () {
@@ -69,6 +67,161 @@ const makeOutListener = (infowindow) => {
     infowindow.close();
   };
 };
+
+// 모달 켜기
+function modalOn(modal) {
+  modal.css("display", "flex");
+}
+
+//모달 켜짐 여부
+function isModalOn() {
+  return $(".modal-overlay").css("display") == "flex";
+}
+
+//모달 종료
+function modalOff() {
+  $(".modal-overlay").css("display", "none");
+}
+
+//닫기 버튼 클릭시 모달 종료
+const closeBtn = $(".material-icons.close-area");
+closeBtn.click((e) => {
+  modalOff();
+});
+
+//모달 외부 영역 클릭 시 모달 종료
+document.querySelector(".modal-overlay").addEventListener("click", (e) => {
+  const evTarget = e.target;
+  if (evTarget.classList.contains("modal-overlay")) {
+    modalOff();
+  }
+});
+
+//모달이 켜진 상태에서 esc키를 누를 경우 모달 종료
+window.addEventListener("keyup", (e) => {
+  if (isModalOn() && e.key === "Escape") {
+    modalOff();
+  }
+});
+
+//여행 목록 추가 모달 켜짐
+$(".list-add").click(async function () {
+  //클릭한 장소의 정보를 가져옴
+  const id = $(this).parents(".search-result-card").attr("id"); // 선택한 여행지의 id
+  const placeData = $(".nav__search-result-container")
+    .children(".search-result-card")
+    .eq(id - 1);
+  const name = placeData.children(".card-name").html(); // 이름
+  const link = placeData.children(".card-name").attr("href"); // Kakao Place 링크
+  const address = placeData.children(".card-address").children(".value").html(); // 주소
+  const category = placeData // 카테고리
+    .children(".card-category")
+    .children(".value")
+    .html();
+  const phone = placeData // 전화번호
+    .children(".hidden-data")
+    .children(".card-phone")
+    .html();
+  const placeId = placeData // 장소 아이디
+    .children(".hidden-data")
+    .children(".card-place-id")
+    .html();
+  const x = placeData // x 좌표
+    .children(".hidden-data")
+    .children(".card-xy")
+    .children(".x")
+    .html();
+  const y = placeData // y 좌표
+    .children(".hidden-data")
+    .children(".card-xy")
+    .children(".y")
+    .html();
+
+  //위 정보를 바탕으로 장소의 정보(place-info) 기입
+  const modalContent = $("#list-add-modal .content .place-info"); //여행 목록 추가 모달의 콘텐츠 노드를 가져옴
+  modalContent.children(".name").html(name);
+  // modalContent.children(".name").attr("href", link);
+  modalContent.children(".address").children(".value").html(address);
+  modalContent.children(".category").children(".value").html(category);
+  modalContent.children(".phone").children(".value").html(phone);
+  modalContent
+    .children(".hidden-data")
+    .children(".card-xy")
+    .children(".x")
+    .html(x);
+  modalContent
+    .children(".hidden-data")
+    .children(".card-xy")
+    .children(".y")
+    .html(y);
+  modalContent
+    .children(".hidden-data")
+    .children(".card-place-id")
+    .html(placeId);
+
+  //blog 정보를 가져옴
+  const params = {
+    x: x,
+    y: y,
+    query: name,
+  };
+  let query = Object.keys(params) // 쿼리할 내용을 조합
+    .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+    .join("&");
+  const url = "http://localhost:8080/place/blog?" + query;
+
+  fetch(url)
+    .then((respone) => respone.json())
+    .then((data) => console.log(data));
+
+  modalOn($("#list-add-modal")); //모달 켜기
+});
+
+//여행 목적지 변경 모달 켜짐
+$(".destination-change").click(function () {
+  modalOn($("#destination-input-modal")); //모달 켜기
+});
+
+// 여행리스트에 추가
+$("#list-add-form .submit").click(function () {
+  if (
+    $("#list-add-form input[name=date]").val() == "" ||
+    $("#list-add-form input[name=time]").val() == ""
+  ) {
+    return alert("여행기간이 선택하세요");
+  }
+
+  const placeId = $(
+    "#list-add-modal .place-info .hidden-data .card-place-id"
+  ).html();
+  const name = $("#list-add-modal .place-info .name").html();
+  const x = $("#list-add-modal .place-info .hidden-data .card-xy .x").html();
+  const y = $("#list-add-modal .place-info .hidden-data .card-xy .y").html();
+
+  // 데이터베이스에 사용자의 여행리스트 추가
+  fetch("http://localhost:8080/list", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: placeId,
+      name: name,
+      y: y,
+      x: x,
+      date: $("#list-add-form input[name=date]").val(),
+      time: $("#list-add-form input[name=time]").val(),
+      memo: $("#list-add-form textarea[name=memo]").val(),
+    }),
+  }).then((response) => {
+    if (!response.ok) {
+      response.text().then((msg) => alert(msg));
+    } else {
+      alert("리스트에 추가하였습니다");
+      window.location.reload();
+    }
+  });
+});
 
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
   mapOption = {
@@ -135,143 +288,4 @@ $(".card-button .loc-show").click(function (e) {
   prevInfoWindow = infowindow;
 
   infowindow.open(map, marker);
-});
-
-// 모달 켜기
-function modalOn(modal) {
-  modal.css("display", "flex");
-}
-
-//모달 켜짐 여부
-function isModalOn() {
-  return $(".modal-overlay").css("display") == "flex";
-}
-
-//모달 종료
-function modalOff() {
-  $(".modal-overlay").css("display", "none");
-}
-
-//닫기 버튼 클릭시 모달 종료
-const closeBtn = $(".material-icons.close-area");
-closeBtn.click((e) => {
-  modalOff();
-});
-
-//모달 외부 영역 클릭 시 모달 종료
-document.querySelector(".modal-overlay").addEventListener("click", (e) => {
-  const evTarget = e.target;
-  if (evTarget.classList.contains("modal-overlay")) {
-    modalOff();
-  }
-});
-
-//모달이 켜진 상태에서 esc키를 누를 경우 모달 종료
-window.addEventListener("keyup", (e) => {
-  if (isModalOn() && e.key === "Escape") {
-    modalOff();
-  }
-});
-
-//여행 목록 추가 모달 켜짐
-$(".list-add").click(function () {
-  const id = $(this).parents(".search-result-card").attr("id"); //선택한 여행지의 id
-  const placeData = $(".nav__search-result-container")
-    .children(".search-result-card")
-    .eq(id - 1);
-  const name = placeData.children(".card-name").html();
-  const link = placeData.children(".card-name").attr("href");
-  const address = placeData.children(".card-address").children(".value").html();
-  const category = placeData
-    .children(".card-category")
-    .children(".value")
-    .html();
-  const phone = placeData
-    .children(".hidden-data")
-    .children(".card-phone")
-    .html();
-  const placeId = placeData
-    .children(".hidden-data")
-    .children(".card-place-id")
-    .html();
-  const x = placeData
-    .children(".hidden-data")
-    .children(".card-xy")
-    .children(".x")
-    .html();
-  const y = placeData
-    .children(".hidden-data")
-    .children(".card-xy")
-    .children(".y")
-    .html();
-
-  const modalContent = $("#list-add-modal .content .place-info"); //여행 목록 추가 모달의 콘텐츠 노드를 가져옴
-
-  modalContent.children(".name").html(name);
-  modalContent.children(".name").attr("href", link);
-  modalContent.children(".address").children(".value").html(address);
-  modalContent.children(".category").children(".value").html(category);
-  modalContent.children(".phone").children(".value").html(phone);
-  modalContent
-    .children(".hidden-data")
-    .children(".card-xy")
-    .children(".x")
-    .html(x);
-  modalContent
-    .children(".hidden-data")
-    .children(".card-xy")
-    .children(".y")
-    .html(y);
-  modalContent
-    .children(".hidden-data")
-    .children(".card-place-id")
-    .html(placeId);
-
-  modalOn($("#list-add-modal")); //모달 켜기
-});
-
-//여행 목적지 변경 모달 켜짐
-$(".destination-change").click(function () {
-  modalOn($("#destination-input-modal")); //모달 켜기
-});
-
-// 여행리스트에 추가
-$("#list-add-form .submit").click(function () {
-  if (
-    $("#list-add-form input[name=date]").val() == "" ||
-    $("#list-add-form input[name=time]").val() == ""
-  ) {
-    return alert("여행기간이 선택하세요");
-  }
-
-  const placeId = $(
-    "#list-add-modal .place-info .hidden-data .card-place-id"
-  ).html();
-  const name = $("#list-add-modal .place-info .name").html();
-  const x = $("#list-add-modal .place-info .hidden-data .card-xy .x").html();
-  const y = $("#list-add-modal .place-info .hidden-data .card-xy .y").html();
-
-  // 데이터베이스에 사용자의 여행리스트 추가
-  fetch("http://localhost:8080/list", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: placeId,
-      name: name,
-      y: y,
-      x: x,
-      date: $("#list-add-form input[name=date]").val(),
-      time: $("#list-add-form input[name=time]").val(),
-      memo: $("#list-add-form textarea[name=memo]").val(),
-    }),
-  }).then((response) => {
-    if (!response.ok) {
-      response.text().then((msg) => alert(msg));
-    } else {
-      alert("리스트에 추가하였습니다");
-      window.location.reload();
-    }
-  });
 });

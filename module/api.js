@@ -103,12 +103,12 @@ module.exports.getBlog = async (query, y, x) => {
   let blog_arr = []; //페이지별 결과를 담는 리스트
 
   try {
-    const addressInfo = await getAddressByLatLng(y, x); //좌표에 해당하는 주소를 받아옴
-
+    const addressInfo = await this.getAddressByLatLng(y, x); //좌표에 해당하는 주소를 받아옴
+    //시군구 추출
     const region =
       addressInfo["region_1depth_name"] +
       " " +
-      addressInfo["region_2depth_name"]; //시군구 추출
+      addressInfo["region_2depth_name"];
 
     for (let page = 1; page <= 3; page++) {
       const params = {
@@ -140,26 +140,26 @@ module.exports.getBlog = async (query, y, x) => {
   }
 };
 
-// //좌표로 주소 찾는 함수
-// async function getAddressByLatLng(y, x) {
-//   try {
-//     const params = {
-//       x: x,
-//       y: y,
-//     };
+//좌표로 주소 찾는 함수
+module.exports.getAddressByLatLng = async (y, x) => {
+  try {
+    const params = {
+      x: x,
+      y: y,
+    };
 
-//     const response = await axios.get(
-//       "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json",
-//       {
-//         params,
-//         headers,
-//       }
-//     );
-//     return response.data["documents"][0];
-//   } catch (error) {
-//     throw new Error("잘못된 주소입니다.");
-//   }
-// }
+    const response = await axios.get(
+      "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json",
+      {
+        params,
+        headers,
+      }
+    );
+    return response.data["documents"][0];
+  } catch (error) {
+    throw new Error("잘못된 주소입니다.");
+  }
+};
 
 module.exports.getImage = async (url) => {
   const driver = new selenium.Builder()

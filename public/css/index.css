@@ -21,16 +21,122 @@ body {
 
 .modal-window {
   background: #fff;
-  width: 1000px;
-  height: 800px;
+  width: 900px;
+  height: 900px;
   position: relative;
-  padding: 20px;
 }
 
-/* #list-add-modal .modal-window .img {
-  width: 1000px;
-  height: 300px;
-} */
+#list-add-modal .img-slider {
+  width: 900px;
+  height: 400px;
+  background-color: #86a8e7;
+}
+
+#list-add-modal .content {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+#list-add-modal .content .title {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgb(181, 181, 181);
+}
+
+#list-add-modal .content .place-info {
+  font-size: 17px;
+  margin: 10px 5px 20px 5px;
+}
+
+#list-add-modal .content .place-info .material-icons {
+  position: relative;
+  top: 5px;
+}
+
+#list-add-modal .content .place-info .name {
+  display: block;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #000;
+}
+
+#list-add-modal .content .blog-info {
+  margin-top: 10px;
+}
+
+#list-add-modal .content .blog-card {
+  display: flex;
+  margin: 5px;
+}
+
+#list-add-modal .content .blog-card .img {
+  width: 150px;
+  height: 150px;
+  background-color: gray;
+  margin-right: 10px;
+}
+
+#list-add-modal .content .blog-card .info {
+  width: 400px;
+}
+
+#list-add-modal .content .blog-card .info .subject {
+  display: block;
+  margin-bottom: 7px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#list-add-modal .content .blog-card .info .summary {
+  display: block;
+}
+
+#list-add-modal .content .reservation {
+  margin-left: 10px;
+}
+
+#list-add-form {
+  margin: 10px 5px 20px 5px;
+}
+
+#list-add-form .memo {
+  margin-top: 20px;
+}
+
+#list-add-form .memo input {
+  width: 300px;
+  height: 200px;
+  border: 1px solid silver;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+#list-add-form .submit {
+  margin-top: 20px;
+  width: 300px;
+  height: 35px;
+  color: #fff;
+  background-color: #86a8e7;
+  border: 0;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+#list-add-form span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 700;
+}
 
 .close-area {
   display: inline;
@@ -276,7 +382,16 @@ nav {
   top: -5px;
 }
 
-.nav__search-result-container .search-result-card .img {
+.nav__search-result-container .search-result-card .card-img {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 120px;
+  height: 120px;
+  background-color: gray;
+}
+
+.nav__search-result-container .search-result-card .card-img {
   position: absolute;
   top: 5px;
   right: 10px;

@@ -86,20 +86,7 @@ router.get("/destination", async (req, res, next) => {
 router.get("/info", async (req, res, next) => {
   try {
     const location_info = await api.getOneInfoByLocation(
-      req.query.id,
-      req.query.name,
-      req.query.y,
-      req.query.x
-    );
-    res.send(location_info);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get("/info", async (req, res, next) => {
-  try {
-    const location_info = await api.getOneInfoByLocation(
+      //요청받은 하나의 장소에 대한 정보를 가져옴
       req.query.id,
       req.query.name,
       req.query.y,
@@ -114,10 +101,18 @@ router.get("/info", async (req, res, next) => {
 router.get("/thumbnail", async (req, res, next) => {
   const url = "https://place.map.kakao.com/" + req.query.placeId;
   try {
-    console.log(url);
     const imgUrl = await api.getImage(url);
-    console.log(imgUrl);
     res.send(imgUrl);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/blog", async (req, res, next) => {
+  try {
+    const { query, y, x } = req.query;
+    const blogData = await api.getBlog(query, y, x); //type: object
+    res.json(blogData);
   } catch (error) {
     next(error);
   }
