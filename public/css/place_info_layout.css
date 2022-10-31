@@ -1,0 +1,118 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+section {
+  width: 1100px;
+  margin: 0 auto;
+}
+
+.img-slider {
+  width: 1100px;
+  height: 400px;
+  background-color: #86a8e7;
+}
+
+.content {
+  margin: 0 5px 0 5px;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inner .inner_left {
+  width: 780px;
+}
+
+.content .title {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgb(181, 181, 181);
+  margin: 15px 0 10px 0;
+}
+
+.content .place-info .name {
+  display: block;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #000;
+}
+
+.content .place-info .material-icons {
+  position: relative;
+  top: 5px;
+}
+
+#map {
+  width: 780px;
+  height: 350px;
+  margin-top: 10px;
+  border: 1px solid rgb(186, 185, 185);
+}
+
+.blog-card {
+  display: flex;
+  margin: 5px;
+}
+
+.blog-card .info {
+  margin-left: 10px;
+}
+
+.blog-card .info .subject {
+  display: block;
+  margin-bottom: 7px;
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.blog-card .info .summary {
+  display: block;
+}
+
+.reservation {
+  margin-left: 10px;
+}
+
+#list-add-form .memo {
+  margin-top: 20px;
+}
+
+#list-add-form .memo input {
+  width: 300px;
+  height: 200px;
+  border: 1px solid silver;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+#list-add-form .submit {
+  margin-top: 20px;
+  width: 300px;
+  height: 35px;
+  color: #fff;
+  background-color: #86a8e7;
+  border: 0;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+#list-add-form span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 700;
+}

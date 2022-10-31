@@ -24,77 +24,6 @@
     <title>GO TRAVEL</title>
   </head>
   <body>
-    <div id="list-add-modal" class="modal-overlay" style="display: none">
-      <div class="modal-window">
-        <span class="material-icons close-area"> close </span>
-        <div class="img-slider">
-          <div class="img"></div>
-          <div class="img"></div>
-          <div class="img"></div>
-          <div class="img"></div>
-          <div class="img"></div>
-        </div>
-        <div class="content">
-          <div class="info">
-            <span class="title">Place Info</span>
-            <div class="place-info">
-              <a class="name">포항 HEYAN</a>
-              <div class="address">
-                <span class="material-icons"> place </span>
-                <span class="value">경상북도 포항시 해안대로 11길 290</span>
-              </div>
-              <div class="category">
-                <span class="material-icons"> restaurant </span>
-                <span class="value"> 카페 </span>
-              </div>
-              <div class="phone">
-                <span class="material-icons"> call </span>
-                <span class="value">053-1234-5678</span>
-              </div>
-              <div class="hidden-data">
-                <div class="card-xy">
-                  <span class="x">{{place.x}}</span>
-                  <span class="y">{{place.y}}</span>
-                </div>
-                <span class="card-place-id">{{place.id}}</span>
-              </div>
-            </div>
-            <span class="title">Blog Info</span>
-            <div class="blog-info">
-              <div class="blog-card">
-                <div class="img"></div>
-                <div class="info">
-                  <a href="#" class="subject">카페 분위기 맛집</a>
-                  <span class="summary"
-                    >여긴 테이크아웃으로라도 하나씩 사 오게 되더라 포항 카페
-                    헤이안 주차 포항 영일대 요트 선착장 쪽에 위치한 베이커리
-                    카페, 헤이안 주말에 가면 사람 왕 많아서 웨이팅 해야 할 때도
-                    있는데 나 작년 클쓰마쓰에...</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="reservation">
-            <span class="title">Reservation</span>
-            <div id="list-add-form">
-              <div class="period">
-                <span>날짜 및 시간</span>
-                <div class="date-time">
-                  <input type="date" name="date" />
-                  <input type="time" name="time" />
-                </div>
-              </div>
-              <div class="memo">
-                <span>메모</span>
-                <input type="text" name="memo" />
-              </div>
-              <button class="submit">추가</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <div
       id="destination-input-modal"
       class="modal-overlay"
@@ -214,7 +143,9 @@
       <div class="nav__search-result-container">
         {% for place in place_list %}
         <div class="search-result-card" id="{{loop.index}}">
-          <a class="card-name" href="{{place.place_url}}"
+          <a
+            class="card-name"
+            href="/place/info/add?query={{place.place_name}}&placeId={{place.id}}&x={{place.x}}&y={{place.y}}"
             >{{place.place_name}}</a
           >
           <div class="card-address">
@@ -234,7 +165,6 @@
             <span class="card-place-id">{{place.id}}</span>
           </div>
           <div class="card-button">
-            <button class="list-add">추가</button>
             <button class="loc-show">위치보기</button>
           </div>
           <div class="card-img">

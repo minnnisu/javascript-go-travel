@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="#" />
+    <title>여행지 정보</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link rel="stylesheet" href="/css/place_info_layout.css" />
+  </head>
+  <body>
+    <section>
+      <div class="img-slider">
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+        <div class="img"></div>
+      </div>
+      <div class="content">
+        <div class="inner">
+          <div class="inner_left">
+            <span class="title">Place Info</span>
+            <div class="place-info">
+              <a class="name">{{place.place_name}}</a>
+              <div class="address">
+                <span class="material-icons"> place </span>
+                <span class="value">{{place.road_address_name}}</span>
+              </div>
+              <div class="category">
+                <span class="material-icons"> restaurant </span>
+                <span class="value">{{place.category_name}}</span>
+              </div>
+              <div class="phone">
+                <span class="material-icons"> call </span>
+                <span class="value">{{place.phone}}</span>
+              </div>
+              <!-- <div class="hidden-data">
+                <div class="card-xy">
+                  <span class="x">{{place.x}}</span>
+                  <span class="y">{{place.y}}</span>
+                </div>
+                <span class="card-place-id">{{place.id}}</span>
+              </div> -->
+              <div id="map"></div>
+            </div>
+          </div>
+          <div class="inner_right">
+            {% block user_list_form %} {% endblock %}
+          </div>
+        </div>
+        <div class="blog-info">
+          <span class="title">Blog Info</span>
+          {% for item in blog %}
+          <div class="blog-card">
+            <div class="thumbnail">
+              <img src="{{item.thumbnail}}" width="100px" height="100px" />
+            </div>
+            <div class="info">
+              <a href="{{item.url}}" class="subject">{{item.title}}</a>
+              <span class="summary">{{item.contents}}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </body>
+  <script
+    type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5876e9e1e3262449c9f8c3f4b4ae3161"
+  ></script>
+  <script src="/js/jquery_v3.6.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/js/place_info_layout.js"></script>
+</html>

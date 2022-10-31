@@ -1,0 +1,19 @@
+{% extends "place_info_layout.html" %} {% block user_list_form %}
+<div class="reservation">
+  <span class="title">Reservation</span>
+  <div id="list-add-form">
+    <div class="period">
+      <span>날짜 및 시간</span>
+      <div class="date-time">
+        <input type="date" name="date" />
+        <input type="time" name="time" />
+      </div>
+    </div>
+    <div class="memo">
+      <span>메모</span>
+      <input type="text" name="memo" />
+    </div>
+    <button class="submit">추가</button>
+  </div>
+</div>
+{% endblock %}
