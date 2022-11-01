@@ -50,11 +50,17 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 
+  const headerButton = {
+    url: "/list",
+    value: "리스트",
+  };
+
   res.render("index", {
     destination: destination["name"],
     place_list: placeList,
     user_nick: nick,
     place_query: "음식점",
+    header_button: headerButton,
   });
 });
 

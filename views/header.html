@@ -1,0 +1,30 @@
+<header>
+  <div class="header__inner">
+    <div class="inner__left">
+      <div class="destination-input">
+        <div class="my-destination">
+          <span class="material-icons"> my_location </span>
+          <span class="value">여행 목적지 - {{destination}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="inner__center">
+      <a class="#logo" href="/">Go Travel</a>
+    </div>
+    <div class="inner__right">
+      <div class="login-form">
+        {% if user_nick %}
+        <div class="user-name">{{user_nick}}</div>
+        <input id="my-id" type="hidden" value="{{user.id}}" />
+        <a id="logout" href="/auth/logout">로그아웃</a>
+        <a id="list" class="highlight-button" href="{{header_button.url}}"
+          >{{header_button.value}}</a
+        >
+        {% else %}
+        <a id="login" href="/login">로그인</a>
+        <a id="get-started" class="highlight-button" href="/join">시작하기</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>
