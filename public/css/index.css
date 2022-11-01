@@ -3,6 +3,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: "Nanum Gothic", sans-serif;
 }
 
 .modal-overlay {
@@ -20,7 +21,7 @@ body {
 }
 
 .modal-window {
-  background: #fff;
+  background: #fafafa;
   width: 900px;
   height: 900px;
   position: relative;
@@ -35,10 +36,10 @@ body {
 }
 
 header {
-  font-size: 20px;
   font-weight: 700;
   width: 100%;
   height: 100px;
+  background-color: #fafafa;
 }
 
 header a {
@@ -129,31 +130,34 @@ header a {
   background-color: #86a8e7;
   padding: 10px 10px 9px 10px;
   border-radius: 10px;
-  color: white;
+  color: rgba(255, 255, 255, 0.818);
 }
 
 nav {
+  margin: 10px;
   width: 400px;
-  background-color: #86a8e7;
-  z-index: 1;
+  z-index: 2;
+  position: relative;
+  background-color: #fafafa;
+  border: 1px solid rgb(181, 181, 181);
 }
 
 .nav__search-container {
   width: 100%;
-  font-size: 15px;
   padding: 10px 10px 0 10px;
   box-sizing: border-box;
 }
 
 .nav__search-container .subject {
-  font-size: 20px;
   display: inline-block;
   margin: 10px 5px;
   font-weight: 700;
 }
 
 .nav__search-container .place-input {
-  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(181, 181, 181);
+  position: relative;
 }
 
 .nav__search-container .place-input .place-input-container {
@@ -209,8 +213,15 @@ nav {
   width: 210px;
 }
 
-.nav__search-container .place-tag.hide {
+.nav__search-container .place-tag {
+  width: 400px;
+  position: absolute;
+  background-color: #fafafa;
   display: none;
+  top: -1px;
+  left: 400px;
+  border: 1px solid rgb(181, 181, 181);
+  padding: 10px;
 }
 
 .nav__search-container .tag-set {
@@ -223,21 +234,16 @@ nav {
 .nav__search-container .tag-set li {
   list-style: none;
   margin: 1px;
-  border: 2px solid black;
+  border: 1.5px solid black;
   border-radius: 7px;
   padding: 5px;
-  font-weight: 700;
   cursor: pointer;
 }
 
 .nav__search-result-container {
-  padding: 10px;
+  padding: 0 10px 10px 10px;
   box-sizing: border-box;
   overflow: scroll;
-}
-
-.nav__search-result-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
 }
 
 .nav__search-result-container .search-result-card {
@@ -245,10 +251,9 @@ nav {
   width: 380px;
   height: 130px;
   padding: 10px;
-  margin-bottom: 10px;
-  background-color: #fff;
-  border-radius: 10px;
+  /* margin-bottom: 10px; */
   box-sizing: border-box;
+  border-bottom: 1px solid rgb(181, 181, 181);
 }
 
 .nav__search-result-container .search-result-card .card-name {
@@ -256,7 +261,6 @@ nav {
   text-decoration: none;
   color: black;
   margin: 7px 0;
-  font-size: 20px;
   font-weight: 700;
 }
 
@@ -279,30 +283,22 @@ nav {
   background-color: gray;
 }
 
-.nav__search-result-container .search-result-card .card-img {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  width: 120px;
-  height: 120px;
-  background-color: gray;
-}
-
 .nav__search-result-container .search-result-card .card-button {
   margin: 5px 0 0 0;
 }
 
 .nav__search-result-container .search-result-card .card-button button {
-  background: #fff;
+  background: #fafafa;
   border: 0;
   padding: 0;
-  font-size: 16px;
   margin-right: 5px;
+  font-size: 16px;
   color: #2470a0;
   font-weight: 700;
 }
 
 .nav__search-result-container .search-result-page {
+  padding-top: 10px;
   width: 100%;
 }
 
@@ -314,20 +310,28 @@ nav {
 .nav__search-result-container .search-result-page .page-container a {
   width: 25px;
   height: 25px;
-  color: black;
-  text-align: center;
+  position: relative;
+  color: #f4f5f6;
   text-decoration: none;
-  background-color: cornsilk;
+  background-color: rgb(41, 40, 40);
   border-radius: 5px;
   display: inline-block;
   cursor: pointer;
+}
+
+.page-container span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 section {
   position: relative;
   position: absolute;
   top: 100px;
-  left: 400px;
+  z-index: 0;
+  /* left: 420px; */
 }
 
 #map {

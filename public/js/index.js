@@ -1,6 +1,8 @@
 //nav태그와 카카오지도 크기를 브라우저 해상도로 맞게 설정
-$(".nav__search-result-container").css("height", window.innerHeight - 218);
-$("#map").css("width", window.innerWidth - 400);
+// $(".nav__search-result-container").css("height", window.innerHeight - 218);
+// $("#map").css("width", window.innerWidth - 400);
+$(".nav__search-result-container").css("height", window.innerHeight - 238);
+$("#map").css("width", window.innerWidth);
 $("#map").css("height", window.innerHeight - 100);
 
 // 브라우저 사이즈를 조정할 때마다 새로고침
@@ -35,11 +37,7 @@ $(".my-destination").click(function () {
 
 //태그 토글
 $(".tag-show").click(function (e) {
-  if ($(".place-tag").hasClass("hide") === true) {
-    $(".place-tag").removeClass("hide");
-  } else {
-    $(".place-tag").addClass("hide");
-  }
+  $(".place-tag").toggle();
 });
 
 //태그 클릭 시 검색 결과를 보여줌

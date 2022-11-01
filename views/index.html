@@ -19,6 +19,7 @@
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
     />
+
     <link rel="stylesheet" href="css/index.css" />
 
     <title>GO TRAVEL</title>
@@ -106,7 +107,7 @@
             </div>
           </div>
         </div>
-        <div class="place-tag hide">
+        <div class="place-tag">
           <div class="meal">
             <span class="subject">식사</span>
             <ul class="tag-set">
@@ -174,9 +175,9 @@
         {% endfor %}
         <div class="search-result-page">
           <div class="page-container">
-            <a href="/place?query={{place_query}}&page=1">1</a>
-            <a href="/place?query={{place_query}}&page=2">2</a>
-            <a href="/place?query={{place_query}}&page=3">3</a>
+            <a href="/place?query={{place_query}}&page=1"><span>1</span></a>
+            <a href="/place?query={{place_query}}&page=2"><span>2</span></a>
+            <a href="/place?query={{place_query}}&page=3"><span>3</span></a>
           </div>
         </div>
       </div>
