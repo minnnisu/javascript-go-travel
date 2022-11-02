@@ -246,6 +246,10 @@ nav {
   overflow: scroll;
 }
 
+.nav__search-result-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
 .nav__search-result-container .search-result-card {
   position: relative;
   width: 380px;

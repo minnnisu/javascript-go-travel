@@ -117,7 +117,7 @@
         <div class="search-result-card" id="{{loop.index}}">
           <a
             class="card-name"
-            href="/place/info/add?query={{place.place_name}}&placeId={{place.id}}&x={{place.x}}&y={{place.y}}"
+            href="/place/info?query={{place.place_name}}&placeId={{place.id}}&x={{place.x}}&y={{place.y}}&type=add"
             >{{place.place_name}}</a
           >
           <div class="card-address">
@@ -162,9 +162,7 @@
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5876e9e1e3262449c9f8c3f4b4ae3161"
   ></script>
   <script src="/js/jquery_v3.6.0.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/index.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
     window.onload = () => {
       if (new URL(location.href).searchParams.get("loginError")) {
