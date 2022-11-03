@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const api = require("../module/api");
+const db = require("../module/db");
+const { isLoggedIn } = require("./middlewares");
 
 //키워드를 통한 특정 장소 검색
 router.get("/", async (req, res, next) => {
@@ -23,15 +25,6 @@ router.get("/", async (req, res, next) => {
       req.cookies["DestinationX"],
       page
     );
-
-    // for (let element of placeList) {
-    //   const imgUrl = await api.getImage("포항 카페" + element["place_name"]);
-    //   if (imgUrl[0] != undefined) {
-    //     element["img_url"] = imgUrl[0]["image_url"];
-    //   } else {
-    //     console.log("이미지가 없습니다");
-    //   }
-    // }
 
     res.render("index", {
       destination: req.cookies["DestinationName"],
@@ -71,22 +64,38 @@ router.get("/info", async (req, res, next) => {
       req.query.x
     );
 
-    console.log(location_info);
     const blog = await api.getBlog(req.query.query, req.query.y, req.query.x); //여행지와 관련된 블로그 정보를 가져옴
-    console.log(blog);
-    if (req.query.type == "add") {
-      res.render("place_info_add", {
-        place: location_info,
-        blog: blog,
-      });
-    } else {
-      res.render("place_info_modify", {
-        place: location_info,
-        blog: blog,
-      });
-    }
+    res.render("place_info_add", {
+      place: location_info,
+      blog: blog,
+    });
   } catch (err) {
-    // next(err);
+    next(new Error(err.message));
+  }
+});
+
+router.get("/info/modify", isLoggedIn, async (req, res, next) => {
+  try {
+    const location_info = await api.getOneInfoByLocation(
+      //여행지이름, 카테고리, 전화번호, 주소등의 정보를 받아옴
+      req.query.placeId,
+      req.query.query,
+      req.query.y,
+      req.query.x
+    );
+
+    const blog = await api.getBlog(req.query.query, req.query.y, req.query.x); //여행지와 관련된 블로그 정보를 가져옴
+    const userData = await db.getOneTravelPlace(
+      req.user["dataValues"]["id"],
+      req.query.placeId
+    );
+
+    res.render("place_info_modify", {
+      place: location_info,
+      blog: blog,
+      user_data: userData,
+    });
+  } catch (err) {
     next(new Error(err.message));
   }
 });

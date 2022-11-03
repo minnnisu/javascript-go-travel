@@ -25,6 +25,7 @@
     <nav>
       <div class="nav__top-container">
         <span class="subject">여행일정</span>
+        <button id="date-all-delete">모두 삭제</button>
       </div>
       <div class="nav__user-planner-container">
         {% set day = 0 %} {% for place in data %} {% if day != place.day %} {%
@@ -34,10 +35,14 @@
         <div class="user-planner-card" id="{{loop.index}}">
           <div class="place-info">
             <a
-              href="/place/info?query={{place.name}}&placeId={{place.placeId}}&x={{place.x}}&y={{place.y}}&type=modify"
+              href="/place/info/modify?query={{place.name}}&placeId={{place.placeId}}&x={{place.x}}&y={{place.y}}"
               class="card-name"
               >{{place.name}}</a
             >
+            <div class="item card-date">
+              <span class="material-icons"> calendar_month </span>
+              <span class="value">{{place.date}}</span>
+            </div>
             <div class="item card-address">
               <span class="material-icons"> place </span>
               <span class="value">{{place.road_address_name}}</span>

@@ -3,8 +3,9 @@ const selenium = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
 const driver_options = new chrome.Options();
 /*
-chrome driver 사용법
-1. 
+chrome driver 사용법(mac os기준)
+1. 현재 크롬 브라우저에 맞는 버전의 chrome driver 설치
+2. finder에서 chromedriver파일을 ctrl+클릭으로 실행
  */
 driver_options.addArguments("--headless");
 require("dotenv").config();

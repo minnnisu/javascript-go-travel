@@ -85,20 +85,21 @@ section {
   margin-left: 10px;
 }
 
-#list-add-form .memo {
+.inner_right .reservation .memo {
   margin-top: 20px;
 }
 
-#list-add-form .memo input {
+.inner_right .reservation .memo textarea {
   width: 300px;
   height: 200px;
   border: 1px solid silver;
   padding: 5px;
   box-sizing: border-box;
   border-radius: 5px;
+  resize: none;
 }
 
-#list-add-form .submit {
+.inner_right .reservation .submit {
   margin-top: 20px;
   width: 300px;
   height: 35px;
@@ -110,9 +111,17 @@ section {
   font-size: 18px;
 }
 
-#list-add-form span {
+.inner_right .reservation .sub-title {
   display: block;
   margin-bottom: 5px;
   font-size: 18px;
   font-weight: 700;
+}
+
+#list-modify-form {
+  display: none;
+}
+
+.hidden-data {
+  display: none;
 }

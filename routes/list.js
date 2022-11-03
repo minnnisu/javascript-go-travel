@@ -129,43 +129,74 @@ router.post("/", isLoggedIn, (req, res) => {
   });
 });
 
+router.patch("/", isLoggedIn, (req, res) => {
+  const data = req.body;
+  List.update(
+    { date: data["date"] + " " + data["time"], memo: data["memo"] },
+    {
+      where: {
+        userId: req.user["dataValues"]["id"],
+        placeId: data["id"],
+        name: data["name"],
+      },
+    }
+  )
+    .then(() => {
+      res.send("Patch Success");
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
 // DB내 List 테이블에서 특정 데이터 삭제
-router.delete("/", isLoggedIn, (req, res) => {
-  console.log(1);
+router.delete("/", isLoggedIn, (req, res, next) => {
   List.destroy({
-    where: { userId: req.user["dataValues"]["id"], placeId: req.query.id },
-  }).then(() => {
-    res.send("Delete Success");
-  });
+    where: { userId: req.user["dataValues"]["id"], placeId: req.query.placeId },
+  })
+    .then(() => {
+      res.send("Delete Success");
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 // DB내 List 테이블의 모든 데이터 삭제
 router.delete("/all", isLoggedIn, (req, res) => {
   List.destroy({
     where: { userId: req.user["dataValues"]["id"] },
-  }).then(() => {
-    res.send("Delete Success");
-  });
+  })
+    .then(() => {
+      res.send("Delete Success");
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 //여행지 정보를 가져옴
 router.get("/info", isLoggedIn, async (req, res, next) => {
-  const location_info = await api.getOneInfoByLocation(
-    req.query.id,
-    req.query.name,
-    req.query.y,
-    req.query.x
-  );
-  const data = await DB.getOneTravelPlace(
-    req.user["dataValues"]["id"],
-    req.query.id
-  );
-  location_info["category_name"] = divideCategory(
-    location_info["category_name"]
-  );
-  location_info["date"] = data["date"];
-  location_info["memo"] = data["memo"];
-  res.json(location_info);
+  try {
+    const location_info = await api.getOneInfoByLocation(
+      req.query.id,
+      req.query.name,
+      req.query.y,
+      req.query.x
+    );
+    const data = await DB.getOneTravelPlace(
+      req.user["dataValues"]["id"],
+      req.query.id
+    );
+    location_info["category_name"] = divideCategory(
+      location_info["category_name"]
+    );
+    location_info["date"] = data["date"];
+    location_info["memo"] = data["memo"];
+    res.json(location_info);
+  } catch (error) {
+    next(err);
+  }
 });
 
 module.exports = router;
