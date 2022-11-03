@@ -2,6 +2,10 @@ const axios = require("axios");
 const selenium = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
 const driver_options = new chrome.Options();
+/*
+chrome driver 사용법
+1. 
+ */
 driver_options.addArguments("--headless");
 require("dotenv").config();
 const headers = {
@@ -33,6 +37,8 @@ module.exports.getLatLngbyAddress = async (query) => {
       }
     );
     const address = response.data["documents"][0]["address"];
+    console.log(address);
+
     return address;
   } catch (error) {
     throw new Error(error);
@@ -162,12 +168,11 @@ module.exports.getAddressByLatLng = async (y, x) => {
 };
 
 module.exports.getImage = async (url) => {
-  const driver = new selenium.Builder()
-    .forBrowser(selenium.Browser.CHROME)
-    .setChromeOptions(driver_options)
-    .build();
-
   try {
+    const driver = new selenium.Builder()
+      .forBrowser(selenium.Browser.CHROME)
+      .setChromeOptions(driver_options)
+      .build();
     await driver.get(url);
     await driver.wait(
       selenium.until.elementLocated(selenium.By.css(".link_photo")),

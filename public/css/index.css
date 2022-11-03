@@ -149,6 +149,7 @@ nav {
 }
 
 .nav__search-container .subject {
+  font-size: 19px;
   display: inline-block;
   margin: 10px 5px;
   font-weight: 700;
@@ -251,21 +252,27 @@ nav {
 }
 
 .nav__search-result-container .search-result-card {
+  display: flex;
   position: relative;
   width: 380px;
-  height: 130px;
   padding: 10px;
-  /* margin-bottom: 10px; */
   box-sizing: border-box;
   border-bottom: 1px solid rgb(181, 181, 181);
 }
 
 .nav__search-result-container .search-result-card .card-name {
+  width: 230px;
   display: inline-block;
   text-decoration: none;
   color: black;
-  margin: 7px 0;
+  margin: 0 0 10px 0;
   font-weight: 700;
+  white-space: normal;
+}
+
+.nav__search-result-container .search-result-card .item {
+  margin: 0 5px 5px 0;
+  display: flex;
 }
 
 .nav__search-result-container .search-result-card .material-icons {
@@ -273,15 +280,14 @@ nav {
 }
 
 .nav__search-result-container .search-result-card .value {
+  width: 210px;
   position: relative;
   display: inline-block;
-  top: -5px;
+  white-space: normal;
+  margin-left: 5px;
 }
 
 .nav__search-result-container .search-result-card .card-img {
-  position: absolute;
-  top: 5px;
-  right: 10px;
   width: 120px;
   height: 120px;
   background-color: gray;
@@ -295,10 +301,11 @@ nav {
   background: #fafafa;
   border: 0;
   padding: 0;
-  margin-right: 5px;
   font-size: 16px;
   color: #2470a0;
   font-weight: 700;
+  position: absolute;
+  bottom: 10px;
 }
 
 .nav__search-result-container .search-result-page {

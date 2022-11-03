@@ -1,3 +1,27 @@
+<div id="destination-input-modal" class="modal-overlay" style="display: none">
+  <div class="modal-window">
+    <span class="material-icons close-area"> close </span>
+    <div class="content">
+      <form
+        action="/place/destination"
+        method="get"
+        class="destination-input-form"
+      >
+        <div class="search-box">
+          <input
+            type="text"
+            class="search-txt"
+            name="query"
+            placeholder="여행 목적지를 입력하세요"
+          />
+          <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <header>
   <div class="header__inner">
     <div class="inner__left">
@@ -22,7 +46,7 @@
         >
         {% else %}
         <a id="login" href="/login">로그인</a>
-        <a id="get-started" class="highlight-button" href="/join">시작하기</a>
+        <a id="get-started" href="/join">회원가입</a>
         {% endif %}
       </div>
     </div>

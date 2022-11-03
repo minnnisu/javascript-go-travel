@@ -60,7 +60,8 @@ router.get("/destination", async (req, res, next) => {
   res.redirect("/");
 });
 
-router.get("/info/add", async (req, res, next) => {
+router.get("/info", async (req, res, next) => {
+  console.log(req.query.placeId, req.query.query, req.query.y, req.query.x);
   try {
     const location_info = await api.getOneInfoByLocation(
       //여행지이름, 카테고리, 전화번호, 주소등의 정보를 받아옴
@@ -70,12 +71,20 @@ router.get("/info/add", async (req, res, next) => {
       req.query.x
     );
 
+    console.log(location_info);
     const blog = await api.getBlog(req.query.query, req.query.y, req.query.x); //여행지와 관련된 블로그 정보를 가져옴
-
-    res.render("place_info_add", {
-      place: location_info,
-      blog: blog,
-    });
+    console.log(blog);
+    if (req.query.type == "add") {
+      res.render("place_info_add", {
+        place: location_info,
+        blog: blog,
+      });
+    } else {
+      res.render("place_info_modify", {
+        place: location_info,
+        blog: blog,
+      });
+    }
   } catch (err) {
     // next(err);
     next(new Error(err.message));
@@ -83,6 +92,7 @@ router.get("/info/add", async (req, res, next) => {
 });
 
 router.get("/thumbnail", async (req, res, next) => {
+  console.log(req.query.placeId);
   const url = "https://place.map.kakao.com/" + req.query.placeId;
   try {
     const imgUrl = await api.getImage(url);

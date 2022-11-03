@@ -25,34 +25,6 @@
     <title>GO TRAVEL</title>
   </head>
   <body>
-    <div
-      id="destination-input-modal"
-      class="modal-overlay"
-      style="display: none"
-    >
-      <div class="modal-window">
-        <span class="material-icons close-area"> close </span>
-        <div class="content">
-          <form
-            action="/place/destination"
-            method="get"
-            class="destination-input-form"
-          >
-            <div class="search-box">
-              <input
-                type="text"
-                class="search-txt"
-                name="query"
-                placeholder="여행 목적지를 입력하세요"
-              />
-              <button type="submit" class="search-btn">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
     {% include "header.html" %}
     <nav>
       <div class="nav__search-container">
@@ -115,29 +87,31 @@
       <div class="nav__search-result-container">
         {% for place in place_list %}
         <div class="search-result-card" id="{{loop.index}}">
-          <a
-            class="card-name"
-            href="/place/info?query={{place.place_name}}&placeId={{place.id}}&x={{place.x}}&y={{place.y}}&type=add"
-            >{{place.place_name}}</a
-          >
-          <div class="card-address">
-            <span class="material-icons"> place </span>
-            <span class="value">{{place.road_address_name}}</span>
-          </div>
-          <div class="card-category">
-            <span class="material-icons"> restaurant </span>
-            <span class="value">{{place.category_name}}</span>
-          </div>
-          <div class="hidden-data">
-            <div class="card-xy">
-              <span class="x">{{place.x}}</span>
-              <span class="y">{{place.y}}</span>
+          <div class="info">
+            <a
+              class="card-name"
+              href="/place/info?query={{place.place_name}}&placeId={{place.id}}&x={{place.x}}&y={{place.y}}&type=add"
+              >{{place.place_name}}</a
+            >
+            <div class="item card-address">
+              <span class="material-icons"> place </span>
+              <span class="value">{{place.road_address_name}}</span>
             </div>
-            <span class="card-phone">{{place.phone}}</span>
-            <span class="card-place-id">{{place.id}}</span>
-          </div>
-          <div class="card-button">
-            <button class="loc-show">위치보기</button>
+            <div class="item card-category">
+              <span class="material-icons"> restaurant </span>
+              <span class="value">{{place.category_name}}</span>
+            </div>
+            <div class="hidden-data">
+              <div class="card-xy">
+                <span class="x">{{place.x}}</span>
+                <span class="y">{{place.y}}</span>
+              </div>
+              <span class="card-phone">{{place.phone}}</span>
+              <span class="card-place-id">{{place.id}}</span>
+            </div>
+            <div class="card-button">
+              <button class="loc-show">위치보기</button>
+            </div>
           </div>
           <div class="card-img">
             <img alt="사진" width="120" height="120" />

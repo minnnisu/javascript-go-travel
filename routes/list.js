@@ -17,6 +17,45 @@ const divideCategory = (category) => {
 
 //여행지 관리 페이지
 router.get("/", isLoggedIn, async (req, res, next) => {
+  // header
+  let nick = null;
+  let destination = {
+    name: req.cookies["DestinationName"],
+    x: req.cookies["DestinationX"],
+    y: req.cookies["DestinationY"],
+  };
+  let placeList = null;
+
+  try {
+    const loginData = req.user["dataValues"];
+    nick = loginData["nick"]; //로그인한 상태일 경우 닉네임을 가져옴
+    travelList = await DB.getTravelList(loginData["id"]);
+  } catch (error) {
+    console.log("로그인 전 입니다");
+  }
+
+  if (destination["name"] == undefined) {
+    const address = await api.getLatLngbyAddress("서울");
+    res.cookie("DestinationName", address["address_name"], {
+      maxAge: 60000 * 60,
+    });
+    res.cookie("DestinationX", address["x"], {
+      maxAge: 60000 * 60,
+    });
+    res.cookie("DestinationY", address["y"], {
+      maxAge: 60000 * 60,
+    });
+    destination["name"] = address["address_name"];
+    destination["x"] = address["x"];
+    destination["y"] = address["y"];
+  }
+
+  const headerButton = {
+    url: "/",
+    value: "홈",
+  };
+
+  // body
   try {
     let orderedDate = null;
     const data = await DB.getTravelList(req.user["dataValues"]["id"]);
@@ -53,7 +92,12 @@ router.get("/", isLoggedIn, async (req, res, next) => {
       }
     }
 
-    res.render("my_list", { data: orderedDate });
+    res.render("user_planner", {
+      data: orderedDate,
+      destination: destination["name"],
+      user_nick: nick,
+      header_button: headerButton,
+    });
   } catch (error) {
     next(error);
   }
