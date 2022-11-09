@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { By } = require("selenium-webdriver");
 const selenium = require("selenium-webdriver");
 const chrome = require("selenium-webdriver/chrome");
 const driver_options = new chrome.Options();
@@ -176,16 +177,100 @@ module.exports.getImage = async (url) => {
       .build();
     await driver.get(url);
     await driver.wait(
+      //해당 클래스가 나타날 때까지 최대 2초동안 기다림
       selenium.until.elementLocated(selenium.By.css(".link_photo")),
-      1000
+      2000
     );
-    const imgUrl = await driver
+    const imgUrl = await driver //이미지의 링크를 가져옴
       .findElement(selenium.By.css(".link_photo"))
       .getCssValue("background-image");
+    driver.quit();
     return imgUrl;
   } catch (error) {
     console.log(error);
   }
-  driver.quit();
-  return places;
+};
+
+module.exports.getLargeImage = async (url) => {
+  const images = [];
+  try {
+    const driver = new selenium.Builder()
+      .forBrowser(selenium.Browser.CHROME)
+      .setChromeOptions(driver_options)
+      .build();
+    await driver.get(url);
+    await driver.wait(
+      //해당 클래스가 나타날 때까지 최대 2초동안 기다림
+      selenium.until.elementLocated(selenium.By.css(".link_photo")),
+      2000
+    );
+
+    await driver.findElement(selenium.By.css(".link_photo")).click();
+
+    await driver.wait(
+      //해당 클래스가 나타날 때까지 최대 2초동안 기다림
+      selenium.until.elementLocated(
+        selenium.By.css(
+          "#photoViewer > div.layer_body > div.view_photo > div.view_image > img"
+        )
+      ),
+      2000
+    );
+    for (const i of [2, 3, 4, 5, 6]) {
+      const imgUrl = await driver
+        .findElement(
+          selenium.By.css(
+            "#photoViewer > div.layer_body > div.view_photo > div.view_image > img"
+          )
+        )
+        .getAttribute("src");
+
+      images.push(imgUrl);
+      await driver //이미지 모달을 열기 위해 클릭
+        .findElement(
+          By.css(
+            "#photoViewer > div.layer_body > div.item_photo > div > ul > li:nth-child(" +
+              i +
+              ") > a > span"
+          )
+        )
+        .click();
+    }
+
+    // await driver.wait(
+    //   selenium.until.elementLocated(
+    //     selenium.By.xpath('//*[@id="mArticle"]/div[3]/div[2]/ul/li[1]/a'),
+    //     2000
+    //   )
+    // );
+    // await driver //이미지 모달을 열기 위해 클릭
+    //   .findElement(By.xpath('//*[@id="mArticle"]/div[3]/div[2]/ul/li[1]/a'))
+    //   .click();
+
+    // await driver.wait(
+    //   selenium.until.elementLocated(
+    //     selenium.By.xpath('//*[@id="photoViewer"]/div[2]/div[1]/div[1]/img'),
+    //     2000
+    //   )
+    // );
+    // for (const i of [2, 3, 4, 5, 6]) {
+    //   const imgUrl = await driver
+    //     .findElement(
+    //       selenium.By.xpath('//*[@id="photoViewer"]/div[2]/div[1]/div[1]/img')
+    //     )
+    //     .getAttribute("src");
+    //   images.push(imgUrl);
+    //   await driver //이미지 모달을 열기 위해 클릭
+    //     .findElement(
+    //       By.xpath(
+    //         '//*[@id="photoViewer"]/div[2]/div[2]/div/ul/li[' + i + "]/a/span"
+    //       )
+    //     )
+    //     .click();
+    // }
+    driver.quit();
+    return images;
+  } catch (error) {
+    console.log(error);
+  }
 };

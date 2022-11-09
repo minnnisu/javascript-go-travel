@@ -21,6 +21,25 @@ var marker = new kakao.maps.Marker({
 // 마커가 지도 위에 표시되도록 설정합니다
 marker.setMap(map);
 
+//슬라이드 이미지 설정
+$(document).ready(async function () {
+  const placeId = $(".hidden-data").children(".card-place-id").html();
+  await fetch("http://localhost:8080/place/img?placeId=" + placeId).then(
+    async (response) => {
+      if (!response.ok) {
+        response.text().then((msg) => console.log(msg));
+      } else {
+        const imgUrl = await response.json();
+        console.log(imgUrl);
+        for (let i = 0; i < 5; i++) {
+          const childrenTag = $("<img src=" + imgUrl[i] + "></img>");
+          $(".slide_item.item" + (i + 1)).append(childrenTag);
+        }
+      }
+    }
+  );
+});
+
 $("#view-modify").click(function (e) {
   $("#list-modify-form .memo textarea[name=memo]").val(
     $("#user-data-form .memo .value").html()

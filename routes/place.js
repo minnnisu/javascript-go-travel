@@ -53,8 +53,8 @@ router.get("/destination", async (req, res, next) => {
   res.redirect("/");
 });
 
+//여행지 정보를 가져옴
 router.get("/info", async (req, res, next) => {
-  console.log(req.query.placeId, req.query.query, req.query.y, req.query.x);
   try {
     const location_info = await api.getOneInfoByLocation(
       //여행지이름, 카테고리, 전화번호, 주소등의 정보를 받아옴
@@ -106,6 +106,16 @@ router.get("/thumbnail", async (req, res, next) => {
   try {
     const imgUrl = await api.getImage(url);
     res.send(imgUrl);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/img", async (req, res, next) => {
+  const url = "https://place.map.kakao.com/" + req.query.placeId;
+  try {
+    const imgData = await api.getLargeImage(url);
+    res.send(imgData);
   } catch (error) {
     next(error);
   }
