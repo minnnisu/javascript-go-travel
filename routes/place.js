@@ -107,7 +107,7 @@ router.get("/thumbnail", async (req, res, next) => {
     const imgUrl = await api.getImage(url);
     res.send(imgUrl);
   } catch (error) {
-    next(error);
+    res.status(404).send(error);
   }
 });
 
@@ -117,7 +117,7 @@ router.get("/img", async (req, res, next) => {
     const imgData = await api.getLargeImage(url);
     res.send(imgData);
   } catch (error) {
-    next(error);
+    res.status(404).send(error);
   }
 });
 
@@ -127,7 +127,7 @@ router.get("/blog", async (req, res, next) => {
     const blogData = await api.getBlog(query, y, x); //type: object
     res.json(blogData);
   } catch (error) {
-    next(error);
+    res.status(404).send(error);
   }
 });
 

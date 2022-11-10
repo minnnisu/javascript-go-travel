@@ -26,6 +26,7 @@ section {
 
   /* slide drag를 위해 DOM요소가 드래그로 선택되는것을 방지 */
   user-select: none;
+  margin-top: 10px;
 }
 .slide_item {
   /* layout */
@@ -74,9 +75,9 @@ section {
   right: 10px;
 }
 
-.slide_item {
+/* .slide_item {
   background-color: cornflowerblue;
-}
+} */
 
 /* 페이지네이션 스타일 */
 ul,
@@ -228,4 +229,23 @@ li {
 
 .hidden-data {
   display: none;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
+.err-image-box {
+  width: 210px;
+  height: 210px;
+}
+
+.err-image-box img {
+  display: block;
+  margin: 0 auto;
+}
+
+.err-image-box .err-message {
+  display: block;
+  text-align: center;
 }

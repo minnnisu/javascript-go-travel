@@ -10,20 +10,14 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
     <link rel="stylesheet" href="/css/place_info_layout.css" />
   </head>
   <body>
     <section>
-      <div class="slide slide_wrap">
-        <div class="slide_item item1"></div>
-        <div class="slide_item item2"></div>
-        <div class="slide_item item3"></div>
-        <div class="slide_item item4"></div>
-        <div class="slide_item item5"></div>
-        <div class="slide_prev_button slide_button">◀</div>
-        <div class="slide_next_button slide_button">▶</div>
-        <ul class="slide_pagination"></ul>
-      </div>
       <div class="content">
         <div class="inner">
           <div class="inner_left">
@@ -55,6 +49,17 @@
           <div class="inner_right">
             {% block user_list_form %} {% endblock %}
           </div>
+        </div>
+        <span class="title">Place Image</span>
+        <div class="slide slide_wrap">
+          <div class="slide_item item1"></div>
+          <div class="slide_item item2"></div>
+          <div class="slide_item item3"></div>
+          <div class="slide_item item4"></div>
+          <div class="slide_item item5"></div>
+          <div class="slide_prev_button slide_button">◀</div>
+          <div class="slide_next_button slide_button">▶</div>
+          <ul class="slide_pagination"></ul>
         </div>
         <div class="blog-info">
           <span class="title">Blog Info</span>

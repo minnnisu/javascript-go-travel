@@ -165,7 +165,7 @@ module.exports.getAddressByLatLng = async (y, x) => {
     );
     return response.data["documents"][0];
   } catch (error) {
-    throw new Error("잘못된 주소입니다.");
+    throw new Error(error);
   }
 };
 
@@ -187,7 +187,7 @@ module.exports.getImage = async (url) => {
     driver.quit();
     return imgUrl;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
@@ -236,41 +236,9 @@ module.exports.getLargeImage = async (url) => {
         )
         .click();
     }
-
-    // await driver.wait(
-    //   selenium.until.elementLocated(
-    //     selenium.By.xpath('//*[@id="mArticle"]/div[3]/div[2]/ul/li[1]/a'),
-    //     2000
-    //   )
-    // );
-    // await driver //이미지 모달을 열기 위해 클릭
-    //   .findElement(By.xpath('//*[@id="mArticle"]/div[3]/div[2]/ul/li[1]/a'))
-    //   .click();
-
-    // await driver.wait(
-    //   selenium.until.elementLocated(
-    //     selenium.By.xpath('//*[@id="photoViewer"]/div[2]/div[1]/div[1]/img'),
-    //     2000
-    //   )
-    // );
-    // for (const i of [2, 3, 4, 5, 6]) {
-    //   const imgUrl = await driver
-    //     .findElement(
-    //       selenium.By.xpath('//*[@id="photoViewer"]/div[2]/div[1]/div[1]/img')
-    //     )
-    //     .getAttribute("src");
-    //   images.push(imgUrl);
-    //   await driver //이미지 모달을 열기 위해 클릭
-    //     .findElement(
-    //       By.xpath(
-    //         '//*[@id="photoViewer"]/div[2]/div[2]/div/ul/li[' + i + "]/a/span"
-    //       )
-    //     )
-    //     .click();
-    // }
     driver.quit();
     return images;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };

@@ -28,11 +28,16 @@ $(document).ready(async function () {
     async (response) => {
       if (!response.ok) {
         response.text().then((msg) => console.log(msg));
-      } else {
-        const imgUrl = await response.json();
-        console.log(imgUrl);
         for (let i = 0; i < 5; i++) {
-          const childrenTag = $("<img src=" + imgUrl[i] + "></img>");
+          const errMessageTag = $(
+            '<div class="err-image-box"><img src="/image/err-img.png" width=180 height=180></img><span class="err-message">이미지가 없습니다</span></div>'
+          );
+          $(".slide_item.item" + (i + 1)).append(errMessageTag);
+        }
+      } else {
+        const imgData = await response.json();
+        for (let i = 0; i < imgData.length; i++) {
+          const childrenTag = $("<img src=" + imgData[i] + "></img>");
           $(".slide_item.item" + (i + 1)).append(childrenTag);
         }
       }
