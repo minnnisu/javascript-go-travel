@@ -80,10 +80,11 @@ $(document).ready(async function () {
         response.text().then((msg) => console.log(msg));
       } else {
         const imgUrl = await response.text();
-        $(element)
-          .children(".card-img")
-          .children("img")
-          .attr("src", imgUrl.slice(5, -2));
+        const imgTag = $(
+          '<img width="120" height="120" onerror="this.remove ? this.remove() : this.removeNode();"/>' //이미지 태그 생성(이미지가 없을 경우 DOM삭제)
+        );
+        imgTag.attr("src", imgUrl.slice(5, -2));
+        $(element).children(".card-img").append(imgTag);
       }
     });
   }
