@@ -64,8 +64,32 @@ $("#date-all-delete").click(function (e) {
   });
 });
 
-//지도의 중심좌표 객체
+$(document).ready(async function () {
+  const placeIdList = [];
+  for await (const element of $(".user-planner-card")) {
+    const placeId = $(element)
+      .children(".place-info")
+      .children(".hidden-data")
+      .children(".card-place-id")
+      .html();
 
+    await fetch(
+      "http://localhost:8080/place/thumbnail?placeId=" + placeId
+    ).then(async (response) => {
+      if (!response.ok) {
+        response.text().then((msg) => console.log(msg));
+      } else {
+        const imgUrl = await response.text();
+        $(element)
+          .children(".card-img")
+          .children("img")
+          .attr("src", imgUrl.slice(5, -2));
+      }
+    });
+  }
+});
+
+//지도의 중심좌표 객체
 if ($(".user-planner-card").length < 1) {
   var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
