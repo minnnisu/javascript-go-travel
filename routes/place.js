@@ -55,6 +55,43 @@ router.get("/destination", async (req, res, next) => {
 
 //여행지 정보를 가져옴
 router.get("/info", async (req, res, next) => {
+  let nick = null;
+  let destination = {
+    name: req.cookies["DestinationName"],
+    x: req.cookies["DestinationX"],
+    y: req.cookies["DestinationY"],
+  };
+  let placeList = null;
+
+  try {
+    const loginData = req.user["dataValues"];
+    nick = loginData["nick"]; //로그인한 상태일 경우 닉네임을 가져옴
+    travelList = await DB.getTravelList(loginData["id"]);
+  } catch (error) {
+    console.log("로그인 전 입니다");
+  }
+
+  if (destination["name"] == undefined) {
+    const address = await api.getLatLngbyAddress("서울");
+    res.cookie("DestinationName", address["address_name"], {
+      maxAge: 60000 * 60,
+    });
+    res.cookie("DestinationX", address["x"], {
+      maxAge: 60000 * 60,
+    });
+    res.cookie("DestinationY", address["y"], {
+      maxAge: 60000 * 60,
+    });
+    destination["name"] = address["address_name"];
+    destination["x"] = address["x"];
+    destination["y"] = address["y"];
+  }
+
+  const headerButton = {
+    url: "/list",
+    value: "리스트",
+  };
+
   try {
     const location_info = await api.getOneInfoByLocation(
       //여행지이름, 카테고리, 전화번호, 주소등의 정보를 받아옴
@@ -68,6 +105,9 @@ router.get("/info", async (req, res, next) => {
     res.render("place_info_add", {
       place: location_info,
       blog: blog,
+      destination: destination["name"],
+      user_nick: nick,
+      header_button: headerButton,
     });
   } catch (err) {
     next(new Error(err.message));
@@ -75,6 +115,43 @@ router.get("/info", async (req, res, next) => {
 });
 
 router.get("/info/modify", isLoggedIn, async (req, res, next) => {
+  let nick = null;
+  let destination = {
+    name: req.cookies["DestinationName"],
+    x: req.cookies["DestinationX"],
+    y: req.cookies["DestinationY"],
+  };
+  let placeList = null;
+
+  try {
+    const loginData = req.user["dataValues"];
+    nick = loginData["nick"]; //로그인한 상태일 경우 닉네임을 가져옴
+    travelList = await DB.getTravelList(loginData["id"]);
+  } catch (error) {
+    console.log("로그인 전 입니다");
+  }
+
+  if (destination["name"] == undefined) {
+    const address = await api.getLatLngbyAddress("서울");
+    res.cookie("DestinationName", address["address_name"], {
+      maxAge: 60000 * 60,
+    });
+    res.cookie("DestinationX", address["x"], {
+      maxAge: 60000 * 60,
+    });
+    res.cookie("DestinationY", address["y"], {
+      maxAge: 60000 * 60,
+    });
+    destination["name"] = address["address_name"];
+    destination["x"] = address["x"];
+    destination["y"] = address["y"];
+  }
+
+  const headerButton = {
+    url: "/list",
+    value: "리스트",
+  };
+
   try {
     const location_info = await api.getOneInfoByLocation(
       //여행지이름, 카테고리, 전화번호, 주소등의 정보를 받아옴
@@ -94,6 +171,9 @@ router.get("/info/modify", isLoggedIn, async (req, res, next) => {
       place: location_info,
       blog: blog,
       user_data: userData,
+      destination: destination["name"],
+      user_nick: nick,
+      header_button: headerButton,
     });
   } catch (err) {
     next(new Error(err.message));

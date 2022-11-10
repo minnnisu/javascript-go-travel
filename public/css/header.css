@@ -1,0 +1,157 @@
+header {
+  position: relative;
+  font-weight: 700;
+  width: 100%;
+  height: 100px;
+  background-color: #fafafa;
+}
+
+header a {
+  text-decoration: none;
+  color: black;
+}
+
+.header__inner {
+  width: 1100px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.inner__left {
+  position: relative;
+  width: 500px;
+  height: 100%;
+}
+
+.inner__left .my-destination {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 500px;
+  height: 24px;
+}
+
+.inner__left .my-destination .material-icons {
+  font-size: 24px;
+}
+
+.inner__left .my-destination .value {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.inner__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Caveat", cursive;
+  font-size: 40px;
+}
+
+.inner__right {
+  position: relative;
+  width: 300px;
+  height: 100%;
+}
+
+.inner__right .login-form {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  transform: translate(0, -50%);
+}
+
+.inner__right .login-form * {
+  margin-right: 10px;
+}
+
+.inner__right .login-form .wrap {
+  position: relative;
+  top: 10px;
+  width: 115px;
+  height: 16px;
+}
+
+.inner__right .login-form .wrap * {
+  margin-right: 10px;
+}
+
+.inner__right .highlight-button {
+  background-color: #86a8e7;
+  padding: 10px 10px 9px 10px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.818);
+}
+
+.modal-overlay {
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.modal-window {
+  background: #fafafa;
+  width: 900px;
+  height: 900px;
+  position: relative;
+}
+
+.close-area {
+  display: inline;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.search-box {
+  padding: 10px;
+  position: relative;
+  width: 240px;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.search-btn {
+  all: unset; /* 버튼 모양 제거 */
+  float: right;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+
+.search-txt {
+  display: flex;
+  padding: 0;
+  width: 0px;
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  font-size: 1rem;
+  line-height: 30px;
+  width: 210px;
+}

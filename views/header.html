@@ -38,9 +38,11 @@
     <div class="inner__right">
       <div class="login-form">
         {% if user_nick %}
-        <div class="user-name">{{user_nick}}</div>
-        <input id="my-id" type="hidden" value="{{user.id}}" />
-        <a id="logout" href="/auth/logout">로그아웃</a>
+        <div class="wrap">
+          <span class="user-name">{{user_nick}}</span>
+          <input id="my-id" type="hidden" value="{{user.id}}" />
+          <a id="logout" href="/auth/logout">로그아웃</a>
+        </div>
         <a id="list" class="highlight-button" href="{{header_button.url}}"
           >{{header_button.value}}</a
         >

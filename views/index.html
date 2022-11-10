@@ -20,8 +20,8 @@
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
     />
 
-    <link rel="stylesheet" href="css/index.css" />
-
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/index.css" />
     <title>GO TRAVEL</title>
   </head>
   <body>
@@ -137,11 +137,5 @@
   ></script>
   <script src="/js/jquery_v3.6.0.js"></script>
   <script src="/js/index.js"></script>
-  <script>
-    window.onload = () => {
-      if (new URL(location.href).searchParams.get("loginError")) {
-        alert(new URL(location.href).searchParams.get("loginError"));
-      }
-    };
-  </script>
+  <script src="/js/header.js"></script>
 </html>
