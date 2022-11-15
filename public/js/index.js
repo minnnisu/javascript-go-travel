@@ -96,11 +96,11 @@ $(".search-result-card").each(function (index) {
 
   // 마커에 표시할 인포윈도우를 생성합니다
   var infowindow = new kakao.maps.InfoWindow({
+    // 인포윈도우에 표시할 내용
     content:
       "<div>" +
       $(this).children(".info").children(".card-name").html() +
       "</div>",
-    // 인포윈도우에 표시할 내용
   });
 
   $(this)
