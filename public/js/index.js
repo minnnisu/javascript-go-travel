@@ -8,6 +8,7 @@ window.onresize = function () {
   window.location.reload();
 };
 
+//장소의 썸네일을 응답받아 보여줌
 $(document).ready(async function () {
   const placeIdList = [];
   for await (const element of $(".search-result-card")) {

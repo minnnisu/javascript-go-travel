@@ -10,6 +10,7 @@ $("nav .right .data-control .list-modify").click(function () {
   console.log("modify");
 });
 
+// 모든 여행 목록 삭제
 $("#date-all-delete").click(function (e) {
   fetch("http://localhost:8080/list/all", {
     method: "DELETE",
@@ -23,6 +24,7 @@ $("#date-all-delete").click(function (e) {
   });
 });
 
+// 여행 목록의 썸네일을 불러옴
 $(document).ready(async function () {
   const placeIdList = [];
   for await (const element of $(".user-planner-card")) {

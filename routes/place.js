@@ -4,7 +4,7 @@ const api = require("../module/api");
 const db = require("../module/db");
 const { isLoggedIn } = require("./middlewares");
 
-//키워드를 통한 특정 장소 검색
+//메인페이지에서 특정 장소를 검색하였거나 페이지를 이동했을 경우
 router.get("/", async (req, res, next) => {
   let nick = null;
   const page = req.query.page;
@@ -26,11 +26,17 @@ router.get("/", async (req, res, next) => {
       page
     );
 
+    const headerButton = {
+      url: "/list",
+      value: "리스트",
+    };
+
     res.render("index", {
       destination: req.cookies["DestinationName"],
       place_list: placeList,
       user_nick: nick,
       place_query: query,
+      header_button: headerButton,
     });
   } catch (error) {
     next(error);
@@ -53,7 +59,7 @@ router.get("/destination", async (req, res, next) => {
   res.redirect("/");
 });
 
-//여행지 정보를 가져옴
+//여행지 정보 페이지
 router.get("/info", async (req, res, next) => {
   let nick = null;
   let destination = {
@@ -114,6 +120,7 @@ router.get("/info", async (req, res, next) => {
   }
 });
 
+//여행 목록 수정 페이지
 router.get("/info/modify", isLoggedIn, async (req, res, next) => {
   let nick = null;
   let destination = {
@@ -180,6 +187,7 @@ router.get("/info/modify", isLoggedIn, async (req, res, next) => {
   }
 });
 
+//장소의 썸네일 정보 전송
 router.get("/thumbnail", async (req, res, next) => {
   console.log(req.query.placeId);
   const url = "https://place.map.kakao.com/" + req.query.placeId;
@@ -191,6 +199,7 @@ router.get("/thumbnail", async (req, res, next) => {
   }
 });
 
+//장소의 이미지 정보 전송
 router.get("/img", async (req, res, next) => {
   const url = "https://place.map.kakao.com/" + req.query.placeId;
   try {
@@ -201,6 +210,7 @@ router.get("/img", async (req, res, next) => {
   }
 });
 
+//장소의 블로그 정보 전송
 router.get("/blog", async (req, res, next) => {
   try {
     const { query, y, x } = req.query;

@@ -92,6 +92,7 @@ $("#data-create").click(function () {
   });
 });
 
+//여행 목록 수정
 $("#data-modify").click(function () {
   if (
     $("#list-modify-form input[name=date]").val() == "" ||
@@ -126,6 +127,7 @@ $("#data-modify").click(function () {
   });
 });
 
+//여행 목록에서 삭제
 $("#data-delete").click(function (e) {
   const placeId = $(".place-info .hidden-data .card-place-id").html();
   fetch("http://localhost:8080/list?placeId=" + placeId, {

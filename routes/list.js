@@ -6,6 +6,7 @@ const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const DB = require("../module/db");
 const moment = require("moment");
 
+//카테고리 간소화
 const divideCategory = (category) => {
   const splited_category = category.split(" > ");
   if (splited_category.length < 3) {
@@ -55,10 +56,9 @@ router.get("/", isLoggedIn, async (req, res, next) => {
     value: "홈",
   };
 
-  // body
   try {
     let orderedDate = null;
-    const data = await DB.getTravelList(req.user["dataValues"]["id"]);
+    const data = await DB.getTravelList(req.user["dataValues"]["id"]); //사용자가 저장한 여행지를 불러옴
     if (data.length) {
       //저장된 데이터가 있을 경우
       for (let idx = 0; idx < data.length; idx++) {
@@ -129,6 +129,7 @@ router.post("/", isLoggedIn, (req, res) => {
   });
 });
 
+// DB내 List 테이블의 데이터 수정
 router.patch("/", isLoggedIn, (req, res) => {
   const data = req.body;
   List.update(
